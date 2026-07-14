@@ -1,0 +1,117 @@
+record:
+  name: Record URL
+  description: Record any web page to video or screenshot via DashSnap. Provide a full URL.
+  fields:
+    url:
+      name: URL
+      description: Full URL to capture, e.g. https://grafana.example.com/d/xyz or https://www.infoshare.it.
+      required: true
+      example: https://www.infoshare.it
+      selector:
+        text:
+    target:
+      name: Target
+      description: Named target from DashSnap config (e.g. "infoshare", "grafana"). Defaults to first configured target.
+      required: false
+      example: infoshare
+      selector:
+        text:
+    seconds:
+      name: Duration (seconds)
+      description: Video length. Ignored when format is png.
+      required: false
+      default: 30
+      selector:
+        number:
+          min: 1
+          max: 600
+          unit_of_measurement: seconds
+    format:
+      name: Format
+      description: webm video or a single png screenshot.
+      required: false
+      default: webm
+      selector:
+        select:
+          options:
+            - webm
+            - png
+    viewport_width:
+      name: Viewport width
+      description: Render width in pixels.
+      required: false
+      default: 1920
+      selector:
+        number:
+          min: 320
+          max: 3840
+          unit_of_measurement: px
+    viewport_height:
+      name: Viewport height
+      description: Render height in pixels.
+      required: false
+      default: 1080
+      selector:
+        number:
+          min: 240
+          max: 2160
+          unit_of_measurement: px
+
+record_ha:
+  name: Record HA dashboard
+  description: Record a Home Assistant page to video or screenshot. Provide a path — the HA base URL is applied automatically from the target config.
+  fields:
+    path:
+      name: Page path
+      description: HA route to capture, e.g. /lovelace/0, /entity-availability-test/entity-availability-test, /history.
+      required: true
+      example: /lovelace/0
+      selector:
+        text:
+    target:
+      name: Target
+      description: Named HA target from DashSnap config (e.g. "ha"). Defaults to first configured target.
+      required: false
+      example: ha
+      selector:
+        text:
+    seconds:
+      name: Duration (seconds)
+      description: Video length. Ignored when format is png.
+      required: false
+      default: 30
+      selector:
+        number:
+          min: 1
+          max: 600
+          unit_of_measurement: seconds
+    format:
+      name: Format
+      description: webm video or a single png screenshot.
+      required: false
+      default: webm
+      selector:
+        select:
+          options:
+            - webm
+            - png
+    viewport_width:
+      name: Viewport width
+      description: Render width in pixels.
+      required: false
+      default: 1920
+      selector:
+        number:
+          min: 320
+          max: 3840
+          unit_of_measurement: px
+    viewport_height:
+      name: Viewport height
+      description: Render height in pixels.
+      required: false
+      default: 1080
+      selector:
+        number:
+          min: 240
+          max: 2160
+          unit_of_measurement: px

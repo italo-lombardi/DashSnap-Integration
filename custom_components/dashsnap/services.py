@@ -5,7 +5,6 @@ from __future__ import annotations
 from urllib.parse import urlencode
 
 import voluptuous as vol
-
 from homeassistant.core import HomeAssistant, ServiceCall, SupportsResponse
 from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers import config_validation as cv
@@ -19,7 +18,6 @@ from .const import (
     ATTR_URL,
     ATTR_VIEWPORT_HEIGHT,
     ATTR_VIEWPORT_WIDTH,
-    CONF_TARGETS,
     DEFAULT_FORMAT,
     DEFAULT_SECONDS,
     DEFAULT_VIEWPORT_HEIGHT,
@@ -95,12 +93,18 @@ def async_register_services(hass: HomeAssistant) -> None:
         return await _call_app(hass, "/record/ha", params)
 
     hass.services.async_register(
-        DOMAIN, SERVICE_RECORD, handle_record,
-        schema=RECORD_SCHEMA, supports_response=SupportsResponse.OPTIONAL,
+        DOMAIN,
+        SERVICE_RECORD,
+        handle_record,
+        schema=RECORD_SCHEMA,
+        supports_response=SupportsResponse.OPTIONAL,
     )
     hass.services.async_register(
-        DOMAIN, SERVICE_RECORD_HA, handle_record_ha,
-        schema=RECORD_HA_SCHEMA, supports_response=SupportsResponse.OPTIONAL,
+        DOMAIN,
+        SERVICE_RECORD_HA,
+        handle_record_ha,
+        schema=RECORD_HA_SCHEMA,
+        supports_response=SupportsResponse.OPTIONAL,
     )
 
 

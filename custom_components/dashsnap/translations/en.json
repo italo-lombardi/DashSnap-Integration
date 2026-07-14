@@ -3,14 +3,14 @@
     "step": {
       "user": {
         "title": "DashSnap",
-        "description": "DashSnap base URL is auto-detected when possible and pre-filled below — confirm or edit it. Examples: http://dashsnap:8099 (compose container), http://host.docker.internal:8099 (host-published), http://addon_XXXX_dashsnap:8099 (HA add-on), or an IP like http://192.168.1.50:8099.",
+        "description": "DashSnap base URL is auto-detected when possible and pre-filled below — confirm or edit it. Examples.",
         "data": {
           "base_url": "DashSnap base URL"
         }
       }
     },
     "error": {
-      "invalid_url": "Enter a full URL starting with http:// or https:// (e.g. http://dashsnap:8099).",
+      "invalid_url": "Enter a full URL with a valid scheme (http or https), host, and port.",
       "cannot_connect": "Could not reach DashSnap at that URL. Check the host/port and that DashSnap is running.",
       "app_unhealthy": "Reached DashSnap, but /health failed — verify DashSnap's targets configuration."
     },
@@ -22,14 +22,14 @@
     "step": {
       "init": {
         "title": "DashSnap",
-        "description": "Change the DashSnap base URL if autodetection picked the wrong one. It is validated and health-checked before saving. Examples: http://dashsnap:8099 (compose container), http://host.docker.internal:8099 (host-published), http://addon_XXXX_dashsnap:8099 (HA add-on), or an IP like http://192.168.1.50:8099.",
+        "description": "Change the DashSnap base URL if autodetection picked the wrong one. It is validated and health-checked before saving. Examples.",
         "data": {
           "base_url": "DashSnap base URL"
         }
       }
     },
     "error": {
-      "invalid_url": "Enter a full URL starting with http:// or https:// (e.g. http://dashsnap:8099).",
+      "invalid_url": "Enter a full URL with a valid scheme (http or https), host, and port.",
       "cannot_connect": "Could not reach DashSnap at that URL. Check the host/port and that DashSnap is running.",
       "app_unhealthy": "Reached DashSnap, but /health failed — verify DashSnap's targets configuration."
     }
@@ -39,24 +39,60 @@
       "name": "Record URL",
       "description": "Record any web page to video or screenshot via DashSnap. Provide a full URL.",
       "fields": {
-        "url": { "name": "URL", "description": "Full URL to capture, e.g. https://grafana.example.com/d/xyz." },
-        "target": { "name": "Target", "description": "Named target from DashSnap config (e.g. \"infoshare\"). Defaults to first configured target." },
-        "seconds": { "name": "Duration (seconds)", "description": "Video length. Ignored when format is png." },
-        "format": { "name": "Format", "description": "webm video or a single png screenshot." },
-        "viewport_width": { "name": "Viewport width", "description": "Render width in pixels." },
-        "viewport_height": { "name": "Viewport height", "description": "Render height in pixels." }
+        "url": {
+          "name": "URL",
+          "description": "Full URL to capture."
+        },
+        "target": {
+          "name": "Target",
+          "description": "Named target from DashSnap config (e.g. \"infoshare\"). Defaults to first configured target."
+        },
+        "seconds": {
+          "name": "Duration (seconds)",
+          "description": "Video length. Ignored when format is png."
+        },
+        "format": {
+          "name": "Format",
+          "description": "webm video or a single png screenshot."
+        },
+        "viewport_width": {
+          "name": "Viewport width",
+          "description": "Render width in pixels."
+        },
+        "viewport_height": {
+          "name": "Viewport height",
+          "description": "Render height in pixels."
+        }
       }
     },
     "record_ha": {
       "name": "Record HA dashboard",
       "description": "Record a Home Assistant page. Provide a path — the HA base URL is applied automatically from the target config.",
       "fields": {
-        "path": { "name": "Page path", "description": "HA route to capture, e.g. /lovelace/0 or /entity-availability-test/entity-availability-test." },
-        "target": { "name": "Target", "description": "Named HA target from DashSnap config (e.g. \"ha\"). Defaults to first configured target." },
-        "seconds": { "name": "Duration (seconds)", "description": "Video length. Ignored when format is png." },
-        "format": { "name": "Format", "description": "webm video or a single png screenshot." },
-        "viewport_width": { "name": "Viewport width", "description": "Render width in pixels." },
-        "viewport_height": { "name": "Viewport height", "description": "Render height in pixels." }
+        "path": {
+          "name": "Page path",
+          "description": "HA route to capture, e.g. /lovelace/0 or /entity-availability-test/entity-availability-test."
+        },
+        "target": {
+          "name": "Target",
+          "description": "Named HA target from DashSnap config (e.g. \"ha\"). Defaults to first configured target."
+        },
+        "seconds": {
+          "name": "Duration (seconds)",
+          "description": "Video length. Ignored when format is png."
+        },
+        "format": {
+          "name": "Format",
+          "description": "webm video or a single png screenshot."
+        },
+        "viewport_width": {
+          "name": "Viewport width",
+          "description": "Render width in pixels."
+        },
+        "viewport_height": {
+          "name": "Viewport height",
+          "description": "Render height in pixels."
+        }
       }
     }
   }

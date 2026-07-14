@@ -3,14 +3,14 @@
     "step": {
       "user": {
         "title": "DashSnap",
-        "description": "L'URL de base de DashSnap est détectée automatiquement si possible et pré-remplie ci-dessous — confirmez-la ou modifiez-la. Exemples : http://dashsnap:8099 (conteneur compose), http://host.docker.internal:8099 (publié sur l'hôte), http://addon_XXXX_dashsnap:8099 (module complémentaire HA), ou une IP comme http://192.168.1.50:8099.",
+        "description": "L'URL de base de DashSnap est détectée automatiquement si possible et pré-remplie ci-dessous — confirmez-la ou modifiez-la..",
         "data": {
           "base_url": "URL de base DashSnap"
         }
       }
     },
     "error": {
-      "invalid_url": "Saisissez une URL complète commençant par http:// ou https:// (ex. http://dashsnap:8099).",
+      "invalid_url": "Entrez une URL complète avec un schéma valide (http ou https), un hôte et un port.",
       "cannot_connect": "Impossible d'atteindre DashSnap à cette URL. Vérifiez l'hôte/port et que DashSnap est en cours d'exécution.",
       "app_unhealthy": "DashSnap a été atteint, mais /health a échoué — vérifiez la configuration des cibles de DashSnap."
     },
@@ -22,14 +22,14 @@
     "step": {
       "init": {
         "title": "DashSnap",
-        "description": "Modifiez l'URL de base de DashSnap si la détection automatique a sélectionné la mauvaise. Elle est validée et vérifiée avant l'enregistrement. Exemples : http://dashsnap:8099 (conteneur compose), http://host.docker.internal:8099 (publié sur l'hôte), http://addon_XXXX_dashsnap:8099 (module complémentaire HA), ou une IP comme http://192.168.1.50:8099.",
+        "description": "Modifiez l'URL de base de DashSnap si la détection automatique a sélectionné la mauvaise. Elle est validée et vérifiée avant l'enregistrement..",
         "data": {
           "base_url": "URL de base DashSnap"
         }
       }
     },
     "error": {
-      "invalid_url": "Saisissez une URL complète commençant par http:// ou https:// (ex. http://dashsnap:8099).",
+      "invalid_url": "Entrez une URL complète avec un schéma valide (http ou https), un hôte et un port.",
       "cannot_connect": "Impossible d'atteindre DashSnap à cette URL. Vérifiez l'hôte/port et que DashSnap est en cours d'exécution.",
       "app_unhealthy": "DashSnap a été atteint, mais /health a échoué — vérifiez la configuration des cibles de DashSnap."
     }
@@ -39,24 +39,60 @@
       "name": "Enregistrer une URL",
       "description": "Enregistrez n'importe quelle page web en vidéo ou en capture d'écran via DashSnap. Fournissez une URL complète.",
       "fields": {
-        "url": { "name": "URL", "description": "URL complète à capturer, ex. https://grafana.example.com/d/xyz." },
-        "target": { "name": "Cible", "description": "Cible nommée dans la configuration DashSnap (ex. \"infoshare\"). Par défaut, la première cible configurée." },
-        "seconds": { "name": "Durée (secondes)", "description": "Durée de la vidéo. Ignoré lorsque le format est png." },
-        "format": { "name": "Format", "description": "Vidéo webm ou une seule capture d'écran png." },
-        "viewport_width": { "name": "Largeur de la fenêtre", "description": "Largeur de rendu en pixels." },
-        "viewport_height": { "name": "Hauteur de la fenêtre", "description": "Hauteur de rendu en pixels." }
+        "url": {
+          "name": "URL",
+          "description": "URL complète à capturer, ex."
+        },
+        "target": {
+          "name": "Cible",
+          "description": "Cible nommée dans la configuration DashSnap (ex. \"infoshare\"). Par défaut, la première cible configurée."
+        },
+        "seconds": {
+          "name": "Durée (secondes)",
+          "description": "Durée de la vidéo. Ignoré lorsque le format est png."
+        },
+        "format": {
+          "name": "Format",
+          "description": "Vidéo webm ou une seule capture d'écran png."
+        },
+        "viewport_width": {
+          "name": "Largeur de la fenêtre",
+          "description": "Largeur de rendu en pixels."
+        },
+        "viewport_height": {
+          "name": "Hauteur de la fenêtre",
+          "description": "Hauteur de rendu en pixels."
+        }
       }
     },
     "record_ha": {
       "name": "Enregistrer un tableau de bord HA",
       "description": "Enregistrez une page Home Assistant. Fournissez un chemin — l'URL de base HA est appliquée automatiquement depuis la configuration de la cible.",
       "fields": {
-        "path": { "name": "Chemin de la page", "description": "Route HA à capturer, ex. /lovelace/0 ou /entity-availability-test/entity-availability-test." },
-        "target": { "name": "Cible", "description": "Cible HA nommée dans la configuration DashSnap (ex. \"ha\"). Par défaut, la première cible configurée." },
-        "seconds": { "name": "Durée (secondes)", "description": "Durée de la vidéo. Ignoré lorsque le format est png." },
-        "format": { "name": "Format", "description": "Vidéo webm ou une seule capture d'écran png." },
-        "viewport_width": { "name": "Largeur de la fenêtre", "description": "Largeur de rendu en pixels." },
-        "viewport_height": { "name": "Hauteur de la fenêtre", "description": "Hauteur de rendu en pixels." }
+        "path": {
+          "name": "Chemin de la page",
+          "description": "Route HA à capturer, ex. /lovelace/0 ou /entity-availability-test/entity-availability-test."
+        },
+        "target": {
+          "name": "Cible",
+          "description": "Cible HA nommée dans la configuration DashSnap (ex. \"ha\"). Par défaut, la première cible configurée."
+        },
+        "seconds": {
+          "name": "Durée (secondes)",
+          "description": "Durée de la vidéo. Ignoré lorsque le format est png."
+        },
+        "format": {
+          "name": "Format",
+          "description": "Vidéo webm ou une seule capture d'écran png."
+        },
+        "viewport_width": {
+          "name": "Largeur de la fenêtre",
+          "description": "Largeur de rendu en pixels."
+        },
+        "viewport_height": {
+          "name": "Hauteur de la fenêtre",
+          "description": "Hauteur de rendu en pixels."
+        }
       }
     }
   }

@@ -3,14 +3,14 @@
     "step": {
       "user": {
         "title": "DashSnap",
-        "description": "De basis-URL van DashSnap wordt indien mogelijk automatisch gedetecteerd en hieronder ingevuld — bevestig of bewerk deze. Voorbeelden: http://dashsnap:8099 (compose-container), http://host.docker.internal:8099 (host-gepubliceerd), http://addon_XXXX_dashsnap:8099 (HA-add-on), of een IP zoals http://192.168.1.50:8099.",
+        "description": "De basis-URL van DashSnap wordt indien mogelijk automatisch gedetecteerd en hieronder ingevuld — bevestig of bewerk deze..",
         "data": {
           "base_url": "DashSnap basis-URL"
         }
       }
     },
     "error": {
-      "invalid_url": "Voer een volledige URL in die begint met http:// of https:// (bijv. http://dashsnap:8099).",
+      "invalid_url": "Voer een volledige URL in met een geldig schema (http of https), host en poort.",
       "cannot_connect": "DashSnap was niet bereikbaar op die URL. Controleer de host/poort en of DashSnap actief is.",
       "app_unhealthy": "DashSnap was bereikbaar, maar /health mislukte — controleer de doelconfiguratie van DashSnap."
     },
@@ -22,14 +22,14 @@
     "step": {
       "init": {
         "title": "DashSnap",
-        "description": "Wijzig de basis-URL van DashSnap als automatische detectie de verkeerde heeft gekozen. Deze wordt gevalideerd en gecontroleerd voor het opslaan. Voorbeelden: http://dashsnap:8099 (compose-container), http://host.docker.internal:8099 (host-gepubliceerd), http://addon_XXXX_dashsnap:8099 (HA-add-on), of een IP zoals http://192.168.1.50:8099.",
+        "description": "Wijzig de basis-URL van DashSnap als automatische detectie de verkeerde heeft gekozen. Deze wordt gevalideerd en gecontroleerd voor het opslaan..",
         "data": {
           "base_url": "DashSnap basis-URL"
         }
       }
     },
     "error": {
-      "invalid_url": "Voer een volledige URL in die begint met http:// of https:// (bijv. http://dashsnap:8099).",
+      "invalid_url": "Voer een volledige URL in met een geldig schema (http of https), host en poort.",
       "cannot_connect": "DashSnap was niet bereikbaar op die URL. Controleer de host/poort en of DashSnap actief is.",
       "app_unhealthy": "DashSnap was bereikbaar, maar /health mislukte — controleer de doelconfiguratie van DashSnap."
     }
@@ -39,24 +39,60 @@
       "name": "URL opnemen",
       "description": "Neem een willekeurige webpagina op als video of schermafbeelding via DashSnap. Geef een volledige URL op.",
       "fields": {
-        "url": { "name": "URL", "description": "Volledige te captureren URL, bijv. https://grafana.example.com/d/xyz." },
-        "target": { "name": "Doel", "description": "Benoemd doel uit de DashSnap-configuratie (bijv. \"infoshare\"). Standaard is het eerste geconfigureerde doel." },
-        "seconds": { "name": "Duur (seconden)", "description": "Videolengte. Wordt genegeerd wanneer het formaat png is." },
-        "format": { "name": "Formaat", "description": "webm-video of een enkele png-schermafbeelding." },
-        "viewport_width": { "name": "Viewportbreedte", "description": "Renderbreedte in pixels." },
-        "viewport_height": { "name": "Viewporthoogte", "description": "Renderhoogte in pixels." }
+        "url": {
+          "name": "URL",
+          "description": "Volledige te captureren URL, bijv."
+        },
+        "target": {
+          "name": "Doel",
+          "description": "Benoemd doel uit de DashSnap-configuratie (bijv. \"infoshare\"). Standaard is het eerste geconfigureerde doel."
+        },
+        "seconds": {
+          "name": "Duur (seconden)",
+          "description": "Videolengte. Wordt genegeerd wanneer het formaat png is."
+        },
+        "format": {
+          "name": "Formaat",
+          "description": "webm-video of een enkele png-schermafbeelding."
+        },
+        "viewport_width": {
+          "name": "Viewportbreedte",
+          "description": "Renderbreedte in pixels."
+        },
+        "viewport_height": {
+          "name": "Viewporthoogte",
+          "description": "Renderhoogte in pixels."
+        }
       }
     },
     "record_ha": {
       "name": "HA-dashboard opnemen",
       "description": "Neem een Home Assistant-pagina op. Geef een pad op — de HA basis-URL wordt automatisch toegepast vanuit de doelconfiguratie.",
       "fields": {
-        "path": { "name": "Paginapad", "description": "Te captureren HA-route, bijv. /lovelace/0 of /entity-availability-test/entity-availability-test." },
-        "target": { "name": "Doel", "description": "Benoemd HA-doel uit de DashSnap-configuratie (bijv. \"ha\"). Standaard is het eerste geconfigureerde doel." },
-        "seconds": { "name": "Duur (seconden)", "description": "Videolengte. Wordt genegeerd wanneer het formaat png is." },
-        "format": { "name": "Formaat", "description": "webm-video of een enkele png-schermafbeelding." },
-        "viewport_width": { "name": "Viewportbreedte", "description": "Renderbreedte in pixels." },
-        "viewport_height": { "name": "Viewporthoogte", "description": "Renderhoogte in pixels." }
+        "path": {
+          "name": "Paginapad",
+          "description": "Te captureren HA-route, bijv. /lovelace/0 of /entity-availability-test/entity-availability-test."
+        },
+        "target": {
+          "name": "Doel",
+          "description": "Benoemd HA-doel uit de DashSnap-configuratie (bijv. \"ha\"). Standaard is het eerste geconfigureerde doel."
+        },
+        "seconds": {
+          "name": "Duur (seconden)",
+          "description": "Videolengte. Wordt genegeerd wanneer het formaat png is."
+        },
+        "format": {
+          "name": "Formaat",
+          "description": "webm-video of een enkele png-schermafbeelding."
+        },
+        "viewport_width": {
+          "name": "Viewportbreedte",
+          "description": "Renderbreedte in pixels."
+        },
+        "viewport_height": {
+          "name": "Viewporthoogte",
+          "description": "Renderhoogte in pixels."
+        }
       }
     }
   }

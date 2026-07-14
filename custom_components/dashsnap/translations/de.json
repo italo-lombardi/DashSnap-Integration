@@ -3,14 +3,14 @@
     "step": {
       "user": {
         "title": "DashSnap",
-        "description": "Die DashSnap-Basis-URL wird wenn möglich automatisch erkannt und unten vorausgefüllt — bestätigen oder bearbeiten Sie sie. Beispiele: http://dashsnap:8099 (Compose-Container), http://host.docker.internal:8099 (Host-veröffentlicht), http://addon_XXXX_dashsnap:8099 (HA-Addon), oder eine IP wie http://192.168.1.50:8099.",
+        "description": "Die DashSnap-Basis-URL wird wenn möglich automatisch erkannt und unten vorausgefüllt — bestätigen oder bearbeiten Sie sie..",
         "data": {
           "base_url": "DashSnap-Basis-URL"
         }
       }
     },
     "error": {
-      "invalid_url": "Geben Sie eine vollständige URL ein, die mit http:// oder https:// beginnt (z. B. http://dashsnap:8099).",
+      "invalid_url": "Geben Sie eine vollständige URL mit gültigem Schema (http oder https), Host und Port ein.",
       "cannot_connect": "DashSnap war unter dieser URL nicht erreichbar. Überprüfen Sie Host/Port und ob DashSnap läuft.",
       "app_unhealthy": "DashSnap wurde erreicht, aber /health schlug fehl — überprüfen Sie die Zielkonfiguration von DashSnap."
     },
@@ -22,14 +22,14 @@
     "step": {
       "init": {
         "title": "DashSnap",
-        "description": "Ändern Sie die DashSnap-Basis-URL, wenn die automatische Erkennung die falsche gewählt hat. Sie wird vor dem Speichern validiert und auf Gesundheit geprüft. Beispiele: http://dashsnap:8099 (Compose-Container), http://host.docker.internal:8099 (Host-veröffentlicht), http://addon_XXXX_dashsnap:8099 (HA-Addon), oder eine IP wie http://192.168.1.50:8099.",
+        "description": "Ändern Sie die DashSnap-Basis-URL, wenn die automatische Erkennung die falsche gewählt hat. Sie wird vor dem Speichern validiert und auf Gesundheit geprüft..",
         "data": {
           "base_url": "DashSnap-Basis-URL"
         }
       }
     },
     "error": {
-      "invalid_url": "Geben Sie eine vollständige URL ein, die mit http:// oder https:// beginnt (z. B. http://dashsnap:8099).",
+      "invalid_url": "Geben Sie eine vollständige URL mit gültigem Schema (http oder https), Host und Port ein.",
       "cannot_connect": "DashSnap war unter dieser URL nicht erreichbar. Überprüfen Sie Host/Port und ob DashSnap läuft.",
       "app_unhealthy": "DashSnap wurde erreicht, aber /health schlug fehl — überprüfen Sie die Zielkonfiguration von DashSnap."
     }
@@ -39,24 +39,60 @@
       "name": "URL aufnehmen",
       "description": "Beliebige Webseite über DashSnap als Video oder Screenshot aufnehmen. Geben Sie eine vollständige URL an.",
       "fields": {
-        "url": { "name": "URL", "description": "Vollständige aufzunehmende URL, z. B. https://grafana.example.com/d/xyz." },
-        "target": { "name": "Ziel", "description": "Benanntes Ziel aus der DashSnap-Konfiguration (z. B. \"infoshare\"). Standard ist das erste konfigurierte Ziel." },
-        "seconds": { "name": "Dauer (Sekunden)", "description": "Videolänge. Wird ignoriert, wenn das Format png ist." },
-        "format": { "name": "Format", "description": "webm-Video oder ein einzelner png-Screenshot." },
-        "viewport_width": { "name": "Anzeigebreite", "description": "Darstellungsbreite in Pixeln." },
-        "viewport_height": { "name": "Anzeigehöhe", "description": "Darstellungshöhe in Pixeln." }
+        "url": {
+          "name": "URL",
+          "description": "Vollständige aufzunehmende URL, z. B."
+        },
+        "target": {
+          "name": "Ziel",
+          "description": "Benanntes Ziel aus der DashSnap-Konfiguration (z. B. \"infoshare\"). Standard ist das erste konfigurierte Ziel."
+        },
+        "seconds": {
+          "name": "Dauer (Sekunden)",
+          "description": "Videolänge. Wird ignoriert, wenn das Format png ist."
+        },
+        "format": {
+          "name": "Format",
+          "description": "webm-Video oder ein einzelner png-Screenshot."
+        },
+        "viewport_width": {
+          "name": "Anzeigebreite",
+          "description": "Darstellungsbreite in Pixeln."
+        },
+        "viewport_height": {
+          "name": "Anzeigehöhe",
+          "description": "Darstellungshöhe in Pixeln."
+        }
       }
     },
     "record_ha": {
       "name": "HA-Dashboard aufnehmen",
       "description": "Eine Home-Assistant-Seite aufnehmen. Geben Sie einen Pfad an — die HA-Basis-URL wird automatisch aus der Zielkonfiguration übernommen.",
       "fields": {
-        "path": { "name": "Seitenpfad", "description": "Aufzunehmende HA-Route, z. B. /lovelace/0 oder /entity-availability-test/entity-availability-test." },
-        "target": { "name": "Ziel", "description": "Benanntes HA-Ziel aus der DashSnap-Konfiguration (z. B. \"ha\"). Standard ist das erste konfigurierte Ziel." },
-        "seconds": { "name": "Dauer (Sekunden)", "description": "Videolänge. Wird ignoriert, wenn das Format png ist." },
-        "format": { "name": "Format", "description": "webm-Video oder ein einzelner png-Screenshot." },
-        "viewport_width": { "name": "Anzeigebreite", "description": "Darstellungsbreite in Pixeln." },
-        "viewport_height": { "name": "Anzeigehöhe", "description": "Darstellungshöhe in Pixeln." }
+        "path": {
+          "name": "Seitenpfad",
+          "description": "Aufzunehmende HA-Route, z. B. /lovelace/0 oder /entity-availability-test/entity-availability-test."
+        },
+        "target": {
+          "name": "Ziel",
+          "description": "Benanntes HA-Ziel aus der DashSnap-Konfiguration (z. B. \"ha\"). Standard ist das erste konfigurierte Ziel."
+        },
+        "seconds": {
+          "name": "Dauer (Sekunden)",
+          "description": "Videolänge. Wird ignoriert, wenn das Format png ist."
+        },
+        "format": {
+          "name": "Format",
+          "description": "webm-Video oder ein einzelner png-Screenshot."
+        },
+        "viewport_width": {
+          "name": "Anzeigebreite",
+          "description": "Darstellungsbreite in Pixeln."
+        },
+        "viewport_height": {
+          "name": "Anzeigehöhe",
+          "description": "Darstellungshöhe in Pixeln."
+        }
       }
     }
   }

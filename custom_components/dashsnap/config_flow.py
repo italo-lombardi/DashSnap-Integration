@@ -12,7 +12,7 @@ from homeassistant.config_entries import (
     ConfigFlowResult,
     OptionsFlow,
 )
-from homeassistant.core import callback
+from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .const import CONF_BASE_URL, CONF_TARGETS, DEFAULT_BASE_URL, DOMAIN, HEALTH_TIMEOUT
@@ -27,7 +27,9 @@ _PROBE_URLS = [
 PROBE_TIMEOUT = 3
 
 
-async def _health(hass, base_url: str, timeout: int = HEALTH_TIMEOUT) -> tuple[bool, str]:
+async def _health(
+    hass: HomeAssistant, base_url: str, timeout: int = HEALTH_TIMEOUT
+) -> tuple[bool, str]:
     if not base_url.startswith(("http://", "https://")):
         return False, "invalid_url"
     session = async_get_clientsession(hass)
@@ -41,7 +43,7 @@ async def _health(hass, base_url: str, timeout: int = HEALTH_TIMEOUT) -> tuple[b
     return False, "app_unhealthy"
 
 
-async def _fetch_targets(hass, base_url: str) -> list[dict]:
+async def _fetch_targets(hass: HomeAssistant, base_url: str) -> list[dict]:
     session = async_get_clientsession(hass)
     try:
         async with session.get(f"{base_url.rstrip('/')}/targets", timeout=HEALTH_TIMEOUT) as r:

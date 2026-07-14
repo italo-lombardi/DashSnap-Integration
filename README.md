@@ -2,6 +2,7 @@
 
 <a href="https://github.com/italo-lombardi/DashSnap-Integration/releases"><img src="https://img.shields.io/github/v/release/italo-lombardi/DashSnap-Integration" alt="GitHub Release"></a>
 <a href="https://github.com/hacs/integration"><img src="https://img.shields.io/badge/HACS-Custom-41BDF5.svg" alt="HACS Custom"></a>
+<a href="https://github.com/italo-lombardi/DashSnap-Integration"><img src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fanalytics.home-assistant.io%2Fcustom_integrations.json&query=%24.dashsnap.total&label=installs&color=41BDF5" alt="HACS Installs"></a>
 <a href="https://www.home-assistant.io/"><img src="https://img.shields.io/badge/Home%20Assistant-2024.1%2B-blue.svg" alt="Home Assistant"></a>
 <a href="https://github.com/italo-lombardi/DashSnap-Integration/blob/main/LICENSE"><img src="https://img.shields.io/github/license/italo-lombardi/DashSnap-Integration?logo=gnu&logoColor=white" alt="License"></a>
 <img src="https://img.shields.io/badge/coverage-100%25-brightgreen" alt="Test Coverage">

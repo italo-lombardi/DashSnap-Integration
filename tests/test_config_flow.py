@@ -30,17 +30,6 @@ def _ok_resp(json_data: dict):
     return cm
 
 
-def _error_resp(status: int = 401):
-    """Non-2xx response context manager."""
-    resp = AsyncMock()
-    resp.status = status
-    resp.json = AsyncMock(return_value={})
-    cm = MagicMock()
-    cm.__aenter__ = AsyncMock(return_value=resp)
-    cm.__aexit__ = AsyncMock(return_value=False)
-    return cm
-
-
 def _raising_cm(exc=None):
     """Context manager that raises on __aenter__."""
     if exc is None:
@@ -436,3 +425,20 @@ async def test_options_flow_cannot_connect(hass: HomeAssistant, mock_config_entr
         )
     assert result["type"] == FlowResultType.FORM
     assert result["errors"]["base"] == "cannot_connect"
+
+
+async def test_options_flow_app_unhealthy(hass: HomeAssistant, mock_config_entry: MockConfigEntry):
+    mock_config_entry.add_to_hass(hass)
+    with patch("custom_components.dashsnap.services.async_register_services"):
+        await hass.config_entries.async_setup(mock_config_entry.entry_id)
+
+    result = await hass.config_entries.options.async_init(mock_config_entry.entry_id)
+    with patch(
+        "custom_components.dashsnap.config_flow.async_get_clientsession",
+        return_value=_session_health_unhealthy(),
+    ):
+        result = await hass.config_entries.options.async_configure(
+            result["flow_id"], {CONF_BASE_URL: _GOOD_URL}
+        )
+    assert result["type"] == FlowResultType.FORM
+    assert result["errors"]["base"] == "app_unhealthy"

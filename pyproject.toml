@@ -13,6 +13,7 @@ testpaths = ["tests"]
 [tool.coverage.run]
 source = ["custom_components/dashsnap"]
 omit = ["tests/*"]
+branch = true
 
 [tool.coverage.report]
 fail_under = 100

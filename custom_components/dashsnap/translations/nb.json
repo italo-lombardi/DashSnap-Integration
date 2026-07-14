@@ -3,7 +3,7 @@
     "step": {
       "user": {
         "title": "DashSnap",
-        "description": "DashSnap basis-URL oppdages automatisk når det er mulig og er forhåndsutfylt nedenfor — bekreft eller rediger den..",
+        "description": "DashSnap-basis-URL-en oppdages automatisk hvis mulig og fylles ut nedenfor — bekreft eller rediger den. Angi vert og port for den kjørende DashSnap-instansen.",
         "data": {
           "base_url": "DashSnap basis-URL"
         }
@@ -22,7 +22,7 @@
     "step": {
       "init": {
         "title": "DashSnap",
-        "description": "Endre DashSnap basis-URL hvis automatisk oppdaging valgte feil. Den valideres og helsesjekkes før lagring..",
+        "description": "Endre DashSnap-basis-URL-en hvis autodeteksjon valgte feil. Den valideres og helsesjekkes før lagring.",
         "data": {
           "base_url": "DashSnap basis-URL"
         }
@@ -41,7 +41,7 @@
       "fields": {
         "url": {
           "name": "URL",
-          "description": "Full URL som skal tas opp, f.eks."
+          "description": "Full URL til siden som skal tas opp (må starte med http eller https)."
         },
         "target": {
           "name": "Mål",

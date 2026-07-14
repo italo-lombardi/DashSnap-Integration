@@ -3,7 +3,7 @@
     "step": {
       "user": {
         "title": "DashSnap",
-        "description": "DashSnaps bas-URL detekteras automatiskt när det är möjligt och fylls i nedan — bekräfta eller redigera den..",
+        "description": "DashSnap-bas-URL:en identifieras automatiskt om möjligt och fylls i nedan — bekräfta eller redigera den. Ange värd och port där DashSnap körs.",
         "data": {
           "base_url": "DashSnap bas-URL"
         }
@@ -22,7 +22,7 @@
     "step": {
       "init": {
         "title": "DashSnap",
-        "description": "Ändra DashSnaps bas-URL om automatisk detektering valde fel. Den valideras och hälsokontrolleras innan sparning..",
+        "description": "Ändra DashSnap-bas-URL:en om autoidentifiering valde fel. Den valideras och hälsokontrolleras innan den sparas.",
         "data": {
           "base_url": "DashSnap bas-URL"
         }
@@ -41,7 +41,7 @@
       "fields": {
         "url": {
           "name": "URL",
-          "description": "Fullständig URL att fånga, t.ex."
+          "description": "Fullständig URL för sidan som ska spelas in (måste börja med http eller https)."
         },
         "target": {
           "name": "Mål",

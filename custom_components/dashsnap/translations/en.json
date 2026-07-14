@@ -3,7 +3,7 @@
     "step": {
       "user": {
         "title": "DashSnap",
-        "description": "DashSnap base URL is auto-detected when possible and pre-filled below — confirm or edit it. Examples.",
+        "description": "DashSnap base URL is auto-detected when possible and pre-filled below — confirm or edit it. Enter the host and port where DashSnap is running.",
         "data": {
           "base_url": "DashSnap base URL"
         }
@@ -22,7 +22,7 @@
     "step": {
       "init": {
         "title": "DashSnap",
-        "description": "Change the DashSnap base URL if autodetection picked the wrong one. It is validated and health-checked before saving. Examples.",
+        "description": "Change the DashSnap base URL if autodetection picked the wrong one. It is validated and health-checked before saving.",
         "data": {
           "base_url": "DashSnap base URL"
         }
@@ -41,7 +41,7 @@
       "fields": {
         "url": {
           "name": "URL",
-          "description": "Full URL to capture."
+          "description": "Full URL of the page to capture (must start with http or https)."
         },
         "target": {
           "name": "Target",

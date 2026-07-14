@@ -15,7 +15,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     targets = entry.options.get(CONF_TARGETS, entry.data.get(CONF_TARGETS, []))
     hass.data[DOMAIN][entry.entry_id] = {"base_url": base_url, "targets": targets}
     entry.async_on_unload(entry.add_update_listener(_async_update_listener))
-    async_register_services(hass)
+    async_register_services(hass)  # guard inside services.py prevents double-registration
     return True
 
 

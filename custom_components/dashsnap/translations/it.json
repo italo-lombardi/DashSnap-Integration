@@ -3,7 +3,7 @@
     "step": {
       "user": {
         "title": "DashSnap",
-        "description": "L'URL base di DashSnap viene rilevato automaticamente quando possibile e precompilato di seguito — confermarlo o modificarlo..",
+        "description": "L'URL base di DashSnap viene rilevato automaticamente quando possibile e precompilato di seguito — confermarlo o modificarlo. Inserire host e porta dell'istanza DashSnap in esecuzione.",
         "data": {
           "base_url": "URL base DashSnap"
         }
@@ -22,7 +22,7 @@
     "step": {
       "init": {
         "title": "DashSnap",
-        "description": "Modificare l'URL base di DashSnap se il rilevamento automatico ha selezionato quello errato. Viene validato e controllato prima del salvataggio..",
+        "description": "Modificare l'URL base di DashSnap se il rilevamento automatico ha selezionato quello errato. Viene validato e controllato prima del salvataggio.",
         "data": {
           "base_url": "URL base DashSnap"
         }

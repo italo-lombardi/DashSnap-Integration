@@ -3,7 +3,7 @@
     "step": {
       "user": {
         "title": "DashSnap",
-        "description": "De basis-URL van DashSnap wordt indien mogelijk automatisch gedetecteerd en hieronder ingevuld — bevestig of bewerk deze..",
+        "description": "De DashSnap-basis-URL wordt indien mogelijk automatisch gedetecteerd en hieronder ingevuld — bevestig of bewerk hem. Voer de host en poort in waarop DashSnap actief is.",
         "data": {
           "base_url": "DashSnap basis-URL"
         }
@@ -22,7 +22,7 @@
     "step": {
       "init": {
         "title": "DashSnap",
-        "description": "Wijzig de basis-URL van DashSnap als automatische detectie de verkeerde heeft gekozen. Deze wordt gevalideerd en gecontroleerd voor het opslaan..",
+        "description": "Wijzig de DashSnap-basis-URL als autodetectie de verkeerde heeft gekozen. Deze wordt gevalideerd en gecontroleerd voor opslaan.",
         "data": {
           "base_url": "DashSnap basis-URL"
         }
@@ -41,7 +41,7 @@
       "fields": {
         "url": {
           "name": "URL",
-          "description": "Volledige te captureren URL, bijv."
+          "description": "Volledige URL van de op te nemen pagina (moet beginnen met http of https)."
         },
         "target": {
           "name": "Doel",

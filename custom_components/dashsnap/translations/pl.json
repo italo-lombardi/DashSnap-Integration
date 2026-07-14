@@ -3,7 +3,7 @@
     "step": {
       "user": {
         "title": "DashSnap",
-        "description": "Podstawowy URL DashSnap jest wykrywany automatycznie, gdy to możliwe, i wstępnie wypełniony poniżej — potwierdź lub edytuj go..",
+        "description": "Bazowy adres URL DashSnap jest wykrywany automatycznie, jeśli to możliwe, i wstępnie wypełniany poniżej — potwierdź lub edytuj go. Wprowadź host i port, na którym działa DashSnap.",
         "data": {
           "base_url": "Podstawowy URL DashSnap"
         }
@@ -22,7 +22,7 @@
     "step": {
       "init": {
         "title": "DashSnap",
-        "description": "Zmień podstawowy URL DashSnap, jeśli automatyczne wykrywanie wybrało niewłaściwy. Zostanie on zwalidowany i sprawdzony przed zapisaniem..",
+        "description": "Zmień bazowy adres URL DashSnap, jeśli automatyczne wykrywanie wybrało niewłaściwy. Jest on weryfikowany i sprawdzany przed zapisaniem.",
         "data": {
           "base_url": "Podstawowy URL DashSnap"
         }
@@ -41,7 +41,7 @@
       "fields": {
         "url": {
           "name": "URL",
-          "description": "Pełny URL do przechwycenia, np."
+          "description": "Pełny adres URL strony do przechwycenia (musi zaczynać się od http lub https)."
         },
         "target": {
           "name": "Cel",

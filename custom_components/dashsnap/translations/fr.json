@@ -3,7 +3,7 @@
     "step": {
       "user": {
         "title": "DashSnap",
-        "description": "L'URL de base de DashSnap est détectée automatiquement si possible et pré-remplie ci-dessous — confirmez-la ou modifiez-la..",
+        "description": "L'URL de base de DashSnap est détectée automatiquement si possible et pré-remplie ci-dessous — confirmez-la ou modifiez-la. Indiquez l'hôte et le port où DashSnap est en cours d'exécution.",
         "data": {
           "base_url": "URL de base DashSnap"
         }
@@ -22,7 +22,7 @@
     "step": {
       "init": {
         "title": "DashSnap",
-        "description": "Modifiez l'URL de base de DashSnap si la détection automatique a sélectionné la mauvaise. Elle est validée et vérifiée avant l'enregistrement..",
+        "description": "Modifiez l'URL de base de DashSnap si la détection automatique a choisi la mauvaise. Elle est validée et son état vérifié avant d'être enregistrée.",
         "data": {
           "base_url": "URL de base DashSnap"
         }
@@ -41,7 +41,7 @@
       "fields": {
         "url": {
           "name": "URL",
-          "description": "URL complète à capturer, ex."
+          "description": "URL complète de la page à capturer (doit commencer par http ou https)."
         },
         "target": {
           "name": "Cible",

@@ -1,0 +1,63 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "DashSnap",
+        "description": "L'URL base di DashSnap viene rilevato automaticamente quando possibile e precompilato di seguito — confermarlo o modificarlo. Esempi: http://dashsnap:8099 (container compose), http://host.docker.internal:8099 (pubblicato sull'host), http://addon_XXXX_dashsnap:8099 (add-on HA), oppure un IP come http://192.168.1.50:8099.",
+        "data": {
+          "base_url": "URL base DashSnap"
+        }
+      }
+    },
+    "error": {
+      "invalid_url": "Inserire un URL completo che inizi con http:// o https:// (es. http://dashsnap:8099).",
+      "cannot_connect": "Impossibile raggiungere DashSnap a quell'URL. Verificare host/porta e che DashSnap sia in esecuzione.",
+      "app_unhealthy": "DashSnap è stato raggiunto, ma /health ha fallito — verificare la configurazione dei target di DashSnap."
+    },
+    "abort": {
+      "already_configured": "DashSnap è già configurato."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "DashSnap",
+        "description": "Modificare l'URL base di DashSnap se il rilevamento automatico ha selezionato quello errato. Viene validato e controllato prima del salvataggio. Esempi: http://dashsnap:8099 (container compose), http://host.docker.internal:8099 (pubblicato sull'host), http://addon_XXXX_dashsnap:8099 (add-on HA), oppure un IP come http://192.168.1.50:8099.",
+        "data": {
+          "base_url": "URL base DashSnap"
+        }
+      }
+    },
+    "error": {
+      "invalid_url": "Inserire un URL completo che inizi con http:// o https:// (es. http://dashsnap:8099).",
+      "cannot_connect": "Impossibile raggiungere DashSnap a quell'URL. Verificare host/porta e che DashSnap sia in esecuzione.",
+      "app_unhealthy": "DashSnap è stato raggiunto, ma /health ha fallito — verificare la configurazione dei target di DashSnap."
+    }
+  },
+  "services": {
+    "record": {
+      "name": "Registra URL",
+      "description": "Registra qualsiasi pagina web in video o screenshot tramite DashSnap. Fornire un URL completo.",
+      "fields": {
+        "url": { "name": "URL", "description": "URL completo da acquisire, es. https://grafana.example.com/d/xyz." },
+        "target": { "name": "Target", "description": "Target con nome dalla configurazione DashSnap (es. \"infoshare\"). Predefinito: primo target configurato." },
+        "seconds": { "name": "Durata (secondi)", "description": "Lunghezza del video. Ignorato quando il formato è png." },
+        "format": { "name": "Formato", "description": "Video webm o un singolo screenshot png." },
+        "viewport_width": { "name": "Larghezza viewport", "description": "Larghezza di rendering in pixel." },
+        "viewport_height": { "name": "Altezza viewport", "description": "Altezza di rendering in pixel." }
+      }
+    },
+    "record_ha": {
+      "name": "Registra dashboard HA",
+      "description": "Registra una pagina di Home Assistant. Fornire un percorso — l'URL base di HA viene applicato automaticamente dalla configurazione del target.",
+      "fields": {
+        "path": { "name": "Percorso pagina", "description": "Route HA da acquisire, es. /lovelace/0 o /entity-availability-test/entity-availability-test." },
+        "target": { "name": "Target", "description": "Target HA con nome dalla configurazione DashSnap (es. \"ha\"). Predefinito: primo target configurato." },
+        "seconds": { "name": "Durata (secondi)", "description": "Lunghezza del video. Ignorato quando il formato è png." },
+        "format": { "name": "Formato", "description": "Video webm o un singolo screenshot png." },
+        "viewport_width": { "name": "Larghezza viewport", "description": "Larghezza di rendering in pixel." },
+        "viewport_height": { "name": "Altezza viewport", "description": "Altezza di rendering in pixel." }
+      }
+    }
+  }
+}

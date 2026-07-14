@@ -1,0 +1,63 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "DashSnap",
+        "description": "Podstawowy URL DashSnap jest wykrywany automatycznie, gdy to możliwe, i wstępnie wypełniony poniżej — potwierdź lub edytuj go. Przykłady: http://dashsnap:8099 (kontener compose), http://host.docker.internal:8099 (opublikowany na hoście), http://addon_XXXX_dashsnap:8099 (dodatek HA), lub IP jak http://192.168.1.50:8099.",
+        "data": {
+          "base_url": "Podstawowy URL DashSnap"
+        }
+      }
+    },
+    "error": {
+      "invalid_url": "Podaj pełny URL zaczynający się od http:// lub https:// (np. http://dashsnap:8099).",
+      "cannot_connect": "Nie można było nawiązać połączenia z DashSnap pod tym adresem. Sprawdź host/port i czy DashSnap jest uruchomiony.",
+      "app_unhealthy": "Połączono z DashSnap, ale /health nie powiodło się — sprawdź konfigurację celów DashSnap."
+    },
+    "abort": {
+      "already_configured": "DashSnap jest już skonfigurowany."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "DashSnap",
+        "description": "Zmień podstawowy URL DashSnap, jeśli automatyczne wykrywanie wybrało niewłaściwy. Zostanie on zwalidowany i sprawdzony przed zapisaniem. Przykłady: http://dashsnap:8099 (kontener compose), http://host.docker.internal:8099 (opublikowany na hoście), http://addon_XXXX_dashsnap:8099 (dodatek HA), lub IP jak http://192.168.1.50:8099.",
+        "data": {
+          "base_url": "Podstawowy URL DashSnap"
+        }
+      }
+    },
+    "error": {
+      "invalid_url": "Podaj pełny URL zaczynający się od http:// lub https:// (np. http://dashsnap:8099).",
+      "cannot_connect": "Nie można było nawiązać połączenia z DashSnap pod tym adresem. Sprawdź host/port i czy DashSnap jest uruchomiony.",
+      "app_unhealthy": "Połączono z DashSnap, ale /health nie powiodło się — sprawdź konfigurację celów DashSnap."
+    }
+  },
+  "services": {
+    "record": {
+      "name": "Nagraj URL",
+      "description": "Nagraj dowolną stronę internetową jako wideo lub zrzut ekranu za pomocą DashSnap. Podaj pełny URL.",
+      "fields": {
+        "url": { "name": "URL", "description": "Pełny URL do przechwycenia, np. https://grafana.example.com/d/xyz." },
+        "target": { "name": "Cel", "description": "Nazwany cel z konfiguracji DashSnap (np. \"infoshare\"). Domyślnie pierwszy skonfigurowany cel." },
+        "seconds": { "name": "Czas trwania (sekundy)", "description": "Długość nagrania wideo. Ignorowane gdy format to png." },
+        "format": { "name": "Format", "description": "Wideo webm lub pojedynczy zrzut ekranu png." },
+        "viewport_width": { "name": "Szerokość widoku", "description": "Szerokość renderowania w pikselach." },
+        "viewport_height": { "name": "Wysokość widoku", "description": "Wysokość renderowania w pikselach." }
+      }
+    },
+    "record_ha": {
+      "name": "Nagraj panel HA",
+      "description": "Nagraj stronę Home Assistant. Podaj ścieżkę — podstawowy URL HA jest automatycznie stosowany z konfiguracji celu.",
+      "fields": {
+        "path": { "name": "Ścieżka strony", "description": "Trasa HA do przechwycenia, np. /lovelace/0 lub /entity-availability-test/entity-availability-test." },
+        "target": { "name": "Cel", "description": "Nazwany cel HA z konfiguracji DashSnap (np. \"ha\"). Domyślnie pierwszy skonfigurowany cel." },
+        "seconds": { "name": "Czas trwania (sekundy)", "description": "Długość nagrania wideo. Ignorowane gdy format to png." },
+        "format": { "name": "Format", "description": "Wideo webm lub pojedynczy zrzut ekranu png." },
+        "viewport_width": { "name": "Szerokość widoku", "description": "Szerokość renderowania w pikselach." },
+        "viewport_height": { "name": "Wysokość widoku", "description": "Wysokość renderowania w pikselach." }
+      }
+    }
+  }
+}

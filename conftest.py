@@ -1,7 +1,7 @@
 """Root conftest — makes custom_components importable."""
 
-import sys
 from pathlib import Path
+import sys
 
 project_root = Path(__file__).parent
 if str(project_root) not in sys.path:

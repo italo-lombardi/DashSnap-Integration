@@ -12,9 +12,9 @@ record:
     target:
       name: Target
       description: >-
-        Named target from your DashSnap configuration. Targets define the base URL and authentication
-        strategy for a destination (e.g. "ha" for Home Assistant, "grafana" for a Grafana instance,
-        "public" for unauthenticated pages). Defaults to the first configured target if omitted.
+        Named target from your DashSnap configuration. Targets define the authentication
+        strategy for a destination (e.g. "ha" for Home Assistant, "grafana" for a Grafana instance).
+        Defaults to the built-in "public" target (no authentication) if omitted.
         Check your DashSnap targets at GET /targets on the DashSnap API.
       required: false
       example: grafana
@@ -30,16 +30,6 @@ record:
           min: 1
           max: 600
           unit_of_measurement: seconds
-    format:
-      name: Format
-      description: webm video or a single png screenshot.
-      required: false
-      default: webm
-      selector:
-        select:
-          options:
-            - webm
-            - png
     delay:
       name: Delay (seconds)
       description: Wait this many seconds after the page loads before capturing. Useful for dashboards that take time to render data.
@@ -51,6 +41,16 @@ record:
           min: 0
           max: 60
           unit_of_measurement: seconds
+    format:
+      name: Format
+      description: webm video or a single png screenshot.
+      required: false
+      default: webm
+      selector:
+        select:
+          options:
+            - webm
+            - png
     viewport_width:
       name: Viewport width
       description: Render width in pixels.
@@ -88,9 +88,8 @@ record_ha:
     target:
       name: Target
       description: >-
-        Named target from your DashSnap configuration. Targets define the base URL and authentication
-        strategy for a destination (e.g. "ha" for Home Assistant, "grafana" for a Grafana instance).
-        Defaults to the first configured target if omitted.
+        Named ha_token target from your DashSnap configuration (e.g. "ha").
+        Must have a base_url and ha_token strategy. Defaults to the first configured ha_token target.
         Check your DashSnap targets at GET /targets on the DashSnap API.
       required: false
       example: ha
@@ -106,16 +105,6 @@ record_ha:
           min: 1
           max: 600
           unit_of_measurement: seconds
-    format:
-      name: Format
-      description: webm video or a single png screenshot.
-      required: false
-      default: webm
-      selector:
-        select:
-          options:
-            - webm
-            - png
     delay:
       name: Delay (seconds)
       description: Wait this many seconds after the page loads before capturing. Useful for dashboards that take time to render data.
@@ -127,6 +116,16 @@ record_ha:
           min: 0
           max: 60
           unit_of_measurement: seconds
+    format:
+      name: Format
+      description: webm video or a single png screenshot.
+      required: false
+      default: webm
+      selector:
+        select:
+          options:
+            - webm
+            - png
     viewport_width:
       name: Viewport width
       description: Render width in pixels.

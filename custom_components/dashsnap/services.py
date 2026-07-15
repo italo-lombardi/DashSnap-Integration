@@ -31,13 +31,15 @@ from .const import (
 )
 
 _COMMON = {
-    vol.Optional(ATTR_SECONDS, default=DEFAULT_SECONDS): vol.All(int, vol.Range(min=1, max=600)),
-    vol.Optional(ATTR_DELAY, default=0): vol.All(int, vol.Range(min=0, max=60)),
+    vol.Optional(ATTR_SECONDS, default=DEFAULT_SECONDS): vol.All(
+        vol.Coerce(int), vol.Range(min=1, max=600)
+    ),
+    vol.Optional(ATTR_DELAY, default=0): vol.All(vol.Coerce(int), vol.Range(min=0, max=60)),
     vol.Optional(ATTR_VIEWPORT_WIDTH, default=DEFAULT_VIEWPORT_WIDTH): vol.All(
-        int, vol.Range(min=320, max=3840)
+        vol.Coerce(int), vol.Range(min=320, max=3840)
     ),
     vol.Optional(ATTR_VIEWPORT_HEIGHT, default=DEFAULT_VIEWPORT_HEIGHT): vol.All(
-        int, vol.Range(min=240, max=2160)
+        vol.Coerce(int), vol.Range(min=240, max=2160)
     ),
     vol.Optional(ATTR_FORMAT, default=DEFAULT_FORMAT): vol.In(["webm", "png"]),
     vol.Optional(ATTR_TARGET): cv.string,

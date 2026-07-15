@@ -45,11 +45,15 @@
         },
         "target": {
           "name": "Mål",
-          "description": "Navngivet mål fra DashSnap-konfigurationen (f.eks. \"infoshare\"). Bruger som standard det første konfigurerede mål."
+          "description": "Navngivet mål fra DashSnap-konfigurationen. Bruger det indbyggede \"public\"-mål (ingen godkendelse) som standard."
         },
         "seconds": {
           "name": "Varighed (sekunder)",
           "description": "Videolængde. Ignoreres når format er png."
+        },
+        "delay": {
+          "name": "Forsinkelse (sekunder)",
+          "description": "Vent dette antal sekunder efter siden er indlæst, før optagelse starter."
         },
         "format": {
           "name": "Format",
@@ -71,7 +75,7 @@
       "fields": {
         "path": {
           "name": "Sidesti",
-          "description": "HA-rute der skal optages, f.eks. /lovelace/0 eller /entity-availability-test/entity-availability-test."
+          "description": "HA-rute der skal optages, f.eks. /lovelace/0 eller /history."
         },
         "target": {
           "name": "Mål",
@@ -80,6 +84,10 @@
         "seconds": {
           "name": "Varighed (sekunder)",
           "description": "Videolængde. Ignoreres når format er png."
+        },
+        "delay": {
+          "name": "Forsinkelse (sekunder)",
+          "description": "Vent dette antal sekunder efter siden er indlæst, før optagelse starter."
         },
         "format": {
           "name": "Format",

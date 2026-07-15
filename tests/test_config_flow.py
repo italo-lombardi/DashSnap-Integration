@@ -16,7 +16,6 @@ from custom_components.dashsnap.const import CONF_BASE_URL, DOMAIN
 # ---------------------------------------------------------------------------
 
 _GOOD_URL = "http://dashsnap:8099"
-_TARGETS = [{"name": "ha", "strategy": "ha_token"}]
 
 
 def _ok_resp(json_data: dict):
@@ -47,16 +46,15 @@ def _session_raises():
     return session
 
 
-def _session_health_ok_targets(targets=None):
+def _session_health_ok_targets():
     """Session: /health → ok=True, /targets → list, others → raises."""
-    targets = targets if targets is not None else _TARGETS
     session = MagicMock()
 
     def _get(url, **kwargs):
         if "/health" in url:
             return _ok_resp({"ok": True})
         if "/targets" in url:
-            return _ok_resp({"ok": True, "targets": targets})
+            return _ok_resp({"ok": True, "targets": [{"name": "ha", "strategy": "ha_token"}]})
         return _raising_cm()
 
     session.get = _get
@@ -244,7 +242,7 @@ async def test_autodetect_via_supervisor_addon(hass: HomeAssistant):
         if "/health" in url:
             return _ok_resp({"ok": True})
         if "/targets" in url:
-            return _ok_resp({"ok": True, "targets": _TARGETS})
+            return _ok_resp({"ok": True, "targets": [{"name": "ha", "strategy": "ha_token"}]})
         return _raising_cm()
 
     session.get = _get

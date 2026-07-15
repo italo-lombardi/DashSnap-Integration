@@ -45,11 +45,15 @@
         },
         "target": {
           "name": "Mål",
-          "description": "Namngivet mål från DashSnap-konfigurationen (t.ex. \"infoshare\"). Standard är det första konfigurerade målet."
+          "description": "Namngett mål från DashSnap-konfigurationen. Använder det inbyggda \"public\"-målet (ingen autentisering) som standard."
         },
         "seconds": {
           "name": "Varaktighet (sekunder)",
           "description": "Videolängd. Ignoreras när formatet är png."
+        },
+        "delay": {
+          "name": "Fördröjning (sekunder)",
+          "description": "Vänta detta antal sekunder efter att sidan laddats innan inspelning börjar."
         },
         "format": {
           "name": "Format",
@@ -71,7 +75,7 @@
       "fields": {
         "path": {
           "name": "Sidsökväg",
-          "description": "HA-rutt att fånga, t.ex. /lovelace/0 eller /entity-availability-test/entity-availability-test."
+          "description": "HA-rutt att fånga, t.ex. /lovelace/0 eller /history."
         },
         "target": {
           "name": "Mål",
@@ -80,6 +84,10 @@
         "seconds": {
           "name": "Varaktighet (sekunder)",
           "description": "Videolängd. Ignoreras när formatet är png."
+        },
+        "delay": {
+          "name": "Fördröjning (sekunder)",
+          "description": "Vänta detta antal sekunder efter att sidan laddats innan inspelning börjar."
         },
         "format": {
           "name": "Format",

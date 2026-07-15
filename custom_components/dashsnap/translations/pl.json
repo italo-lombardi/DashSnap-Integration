@@ -45,11 +45,15 @@
         },
         "target": {
           "name": "Cel",
-          "description": "Nazwany cel z konfiguracji DashSnap (np. \"infoshare\"). Domyślnie pierwszy skonfigurowany cel."
+          "description": "Nazwany cel z konfiguracji DashSnap. Domyślnie używa wbudowanego celu \"public\" (brak uwierzytelniania)."
         },
         "seconds": {
           "name": "Czas trwania (sekundy)",
           "description": "Długość nagrania wideo. Ignorowane gdy format to png."
+        },
+        "delay": {
+          "name": "Opóźnienie (sekundy)",
+          "description": "Odczekaj tyle sekund po załadowaniu strony przed przechwyceniem."
         },
         "format": {
           "name": "Format",
@@ -71,7 +75,7 @@
       "fields": {
         "path": {
           "name": "Ścieżka strony",
-          "description": "Trasa HA do przechwycenia, np. /lovelace/0 lub /entity-availability-test/entity-availability-test."
+          "description": "Trasa HA do przechwycenia, np. /lovelace/0 lub /history."
         },
         "target": {
           "name": "Cel",
@@ -80,6 +84,10 @@
         "seconds": {
           "name": "Czas trwania (sekundy)",
           "description": "Długość nagrania wideo. Ignorowane gdy format to png."
+        },
+        "delay": {
+          "name": "Opóźnienie (sekundy)",
+          "description": "Odczekaj tyle sekund po załadowaniu strony przed przechwyceniem."
         },
         "format": {
           "name": "Format",

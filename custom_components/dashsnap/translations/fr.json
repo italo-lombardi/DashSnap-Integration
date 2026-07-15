@@ -45,11 +45,15 @@
         },
         "target": {
           "name": "Cible",
-          "description": "Cible nommée dans la configuration DashSnap (ex. \"infoshare\"). Par défaut, la première cible configurée."
+          "description": "Cible nommée dans la configuration DashSnap. Par défaut, utilise la cible \"public\" intégrée (sans authentification)."
         },
         "seconds": {
           "name": "Durée (secondes)",
           "description": "Durée de la vidéo. Ignoré lorsque le format est png."
+        },
+        "delay": {
+          "name": "Délai (secondes)",
+          "description": "Attendre ce nombre de secondes après le chargement de la page avant de capturer."
         },
         "format": {
           "name": "Format",
@@ -71,7 +75,7 @@
       "fields": {
         "path": {
           "name": "Chemin de la page",
-          "description": "Route HA à capturer, ex. /lovelace/0 ou /entity-availability-test/entity-availability-test."
+          "description": "Route HA à capturer, ex. /lovelace/0 ou /history."
         },
         "target": {
           "name": "Cible",
@@ -80,6 +84,10 @@
         "seconds": {
           "name": "Durée (secondes)",
           "description": "Durée de la vidéo. Ignoré lorsque le format est png."
+        },
+        "delay": {
+          "name": "Délai (secondes)",
+          "description": "Attendre ce nombre de secondes après le chargement de la page avant de capturer."
         },
         "format": {
           "name": "Format",

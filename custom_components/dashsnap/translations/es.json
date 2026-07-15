@@ -45,11 +45,15 @@
         },
         "target": {
           "name": "Destino",
-          "description": "Destino con nombre de la configuración de DashSnap (p. ej. \"infoshare\"). Por defecto es el primer destino configurado."
+          "description": "Destino nombrado de la configuración de DashSnap. Por defecto usa el destino \"public\" integrado (sin autenticación)."
         },
         "seconds": {
           "name": "Duración (segundos)",
           "description": "Duración del vídeo. Se ignora cuando el formato es png."
+        },
+        "delay": {
+          "name": "Retraso (segundos)",
+          "description": "Espera este número de segundos tras cargar la página antes de capturar."
         },
         "format": {
           "name": "Formato",
@@ -71,7 +75,7 @@
       "fields": {
         "path": {
           "name": "Ruta de página",
-          "description": "Ruta de HA a capturar, p. ej. /lovelace/0 o /entity-availability-test/entity-availability-test."
+          "description": "Ruta de HA a capturar, p. ej. /lovelace/0 o /history."
         },
         "target": {
           "name": "Destino",
@@ -80,6 +84,10 @@
         "seconds": {
           "name": "Duración (segundos)",
           "description": "Duración del vídeo. Se ignora cuando el formato es png."
+        },
+        "delay": {
+          "name": "Retraso (segundos)",
+          "description": "Espera este número de segundos tras cargar la página antes de capturar."
         },
         "format": {
           "name": "Formato",

@@ -10,6 +10,7 @@ import pytest
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 
 from custom_components.dashsnap.const import (
+    ATTR_DELAY,
     ATTR_FORMAT,
     ATTR_PATH,
     ATTR_SECONDS,
@@ -158,6 +159,24 @@ async def test_handle_record_with_all_params(hass: HomeAssistant):
     assert "viewport_width=1280" in called_url
     assert "viewport_height=720" in called_url
     assert "format=png" in called_url
+
+
+async def test_handle_record_delay_param(hass: HomeAssistant):
+    await _setup_integration(hass)
+    with patch(
+        "custom_components.dashsnap.services.async_get_clientsession",
+        return_value=_patched_session(ok=True),
+    ) as mock_sess:
+        session = mock_sess.return_value
+        await hass.services.async_call(
+            DOMAIN,
+            SERVICE_RECORD,
+            {ATTR_URL: "https://example.com", ATTR_DELAY: 5},
+            blocking=True,
+            return_response=True,
+        )
+    called_url = session.post.call_args[0][0]
+    assert "delay=5" in called_url
 
 
 async def test_handle_record_no_target_param(hass: HomeAssistant):

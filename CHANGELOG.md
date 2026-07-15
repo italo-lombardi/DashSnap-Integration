@@ -2,6 +2,15 @@
 
 All notable changes to DashSnap Integration.
 
+## [0.0.2] - 2026-07-15
+
+### Fixed
+- `aiohttp.ClientTimeout` used for all HTTP calls — bare int timeout caused `ClientConnectionResetError` on recordings longer than the implicit default
+- Service field descriptions: removed personal site references, expanded `target` field to explain what targets are and how to find them
+
+### Changed
+- Removed `CONF_TARGETS` — target details are DashSnap's concern; integration only stores `base_url`. Services pass the `target` name directly through to DashSnap.
+
 ## [0.0.1] - 2026-07-14
 
 Initial release.

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from urllib.parse import urlencode
 
+import aiohttp
 from homeassistant.core import HomeAssistant, ServiceCall, SupportsResponse
 from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers import config_validation as cv
@@ -55,7 +56,7 @@ async def _call_app(hass: HomeAssistant, endpoint: str, params: dict) -> dict:
     session = async_get_clientsession(hass)
     url = f"{_base_url(hass)}{endpoint}?{urlencode(params)}"
     try:
-        async with session.post(url, timeout=RECORD_TIMEOUT) as resp:
+        async with session.post(url, timeout=aiohttp.ClientTimeout(total=RECORD_TIMEOUT)) as resp:
             data = await resp.json(content_type=None)
     except Exception as err:  # noqa: BLE001
         raise HomeAssistantError(f"Could not reach DashSnap: {err}") from err

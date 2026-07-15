@@ -4,16 +4,20 @@ record:
   fields:
     url:
       name: URL
-      description: Full URL to capture, e.g. https://grafana.example.com/d/xyz or https://www.infoshare.it.
+      description: Full URL of the page to capture, e.g. https://grafana.example.com/d/xyz or https://www.example.com.
       required: true
-      example: https://www.infoshare.it
+      example: https://grafana.example.com/d/xyz
       selector:
         text:
     target:
       name: Target
-      description: Named target from DashSnap config (e.g. "infoshare", "grafana"). Defaults to first configured target.
+      description: >-
+        Named target from your DashSnap configuration. Targets define the base URL and authentication
+        strategy for a destination (e.g. "ha" for Home Assistant, "grafana" for a Grafana instance,
+        "public" for unauthenticated pages). Defaults to the first configured target if omitted.
+        Check your DashSnap targets at GET /targets on the DashSnap API.
       required: false
-      example: infoshare
+      example: grafana
       selector:
         text:
     seconds:
@@ -72,7 +76,11 @@ record_ha:
         text:
     target:
       name: Target
-      description: Named HA target from DashSnap config (e.g. "ha"). Defaults to first configured target.
+      description: >-
+        Named target from your DashSnap configuration. Targets define the base URL and authentication
+        strategy for a destination (e.g. "ha" for Home Assistant, "grafana" for a Grafana instance).
+        Defaults to the first configured target if omitted.
+        Check your DashSnap targets at GET /targets on the DashSnap API.
       required: false
       example: ha
       selector:

@@ -41,6 +41,7 @@ record:
       description: Render width in pixels.
       required: false
       default: 1920
+      advanced: true
       selector:
         number:
           min: 320
@@ -51,6 +52,7 @@ record:
       description: Render height in pixels.
       required: false
       default: 1080
+      advanced: true
       selector:
         number:
           min: 240
@@ -63,7 +65,7 @@ record_ha:
   fields:
     path:
       name: Page path
-      description: HA route to capture, e.g. /lovelace/0, /entity-availability-test/entity-availability-test, /history.
+      description: HA route to capture, e.g. /lovelace/0 or /history.
       required: true
       example: /lovelace/0
       selector:
@@ -100,6 +102,7 @@ record_ha:
       description: Render width in pixels.
       required: false
       default: 1920
+      advanced: true
       selector:
         number:
           min: 320
@@ -110,6 +113,7 @@ record_ha:
       description: Render height in pixels.
       required: false
       default: 1080
+      advanced: true
       selector:
         number:
           min: 240

@@ -65,7 +65,9 @@ async def _call_app(hass: HomeAssistant, endpoint: str, params: dict) -> dict:
 
 
 def async_register_services(hass: HomeAssistant) -> None:
-    if hass.services.has_service(DOMAIN, SERVICE_RECORD):
+    if hass.services.has_service(DOMAIN, SERVICE_RECORD) and hass.services.has_service(
+        DOMAIN, SERVICE_RECORD_HA
+    ):
         return
 
     async def handle_record(call: ServiceCall) -> dict:

@@ -66,10 +66,10 @@ class DashSnapConfigFlow(ConfigFlow, domain=DOMAIN):
 
         if user_input is not None:
             base_url = user_input[CONF_BASE_URL].rstrip("/")
-            await self.async_set_unique_id(DOMAIN)
-            self._abort_if_unique_id_configured()
             ok, reason = await _health(self.hass, base_url)
             if ok:
+                await self.async_set_unique_id(DOMAIN)
+                self._abort_if_unique_id_configured()
                 targets = await _fetch_targets(self.hass, base_url)
                 return self.async_create_entry(
                     title="DashSnap",

@@ -38,8 +38,8 @@ jobs:
         uses: actions/setup-python@v6
         with:
           python-version: "3.12"
-      - name: Install ruff
-        run: pip install ruff
+      - name: Install dependencies
+        run: pip install -r requirements_test.txt
       - name: Run ruff check
         run: ruff check .
       - name: Run ruff format check

@@ -157,7 +157,7 @@ script:
     sequence:
       - service: dashsnap.record_ha
         data:
-          path: /entity-availability-test/entity-availability-test
+          path: /lovelace/0
           format: png
         response_variable: snap
       - service: notify.mobile_app_iphone

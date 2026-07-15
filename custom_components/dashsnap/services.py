@@ -12,6 +12,7 @@ from homeassistant.helpers.aiohttp_client import async_get_clientsession
 import voluptuous as vol
 
 from .const import (
+    ATTR_DELAY,
     ATTR_FORMAT,
     ATTR_PATH,
     ATTR_SECONDS,
@@ -31,6 +32,7 @@ from .const import (
 
 _COMMON = {
     vol.Optional(ATTR_SECONDS, default=DEFAULT_SECONDS): vol.All(int, vol.Range(min=1, max=600)),
+    vol.Optional(ATTR_DELAY, default=0): vol.All(int, vol.Range(min=0, max=60)),
     vol.Optional(ATTR_VIEWPORT_WIDTH, default=DEFAULT_VIEWPORT_WIDTH): vol.All(
         int, vol.Range(min=320, max=3840)
     ),
@@ -75,6 +77,7 @@ def async_register_services(hass: HomeAssistant) -> None:
         params = {
             "url": call.data[ATTR_URL],
             "seconds": call.data[ATTR_SECONDS],
+            "delay": call.data[ATTR_DELAY],
             "viewport_width": call.data[ATTR_VIEWPORT_WIDTH],
             "viewport_height": call.data[ATTR_VIEWPORT_HEIGHT],
             "format": call.data[ATTR_FORMAT],
@@ -87,6 +90,7 @@ def async_register_services(hass: HomeAssistant) -> None:
         params = {
             "path": call.data[ATTR_PATH],
             "seconds": call.data[ATTR_SECONDS],
+            "delay": call.data[ATTR_DELAY],
             "viewport_width": call.data[ATTR_VIEWPORT_WIDTH],
             "viewport_height": call.data[ATTR_VIEWPORT_HEIGHT],
             "format": call.data[ATTR_FORMAT],

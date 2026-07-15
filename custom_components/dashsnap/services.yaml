@@ -40,6 +40,17 @@ record:
           options:
             - webm
             - png
+    delay:
+      name: Delay (seconds)
+      description: Wait this many seconds after the page loads before capturing. Useful for dashboards that take time to render data.
+      required: false
+      default: 0
+      advanced: true
+      selector:
+        number:
+          min: 0
+          max: 60
+          unit_of_measurement: seconds
     viewport_width:
       name: Viewport width
       description: Render width in pixels.
@@ -105,6 +116,17 @@ record_ha:
           options:
             - webm
             - png
+    delay:
+      name: Delay (seconds)
+      description: Wait this many seconds after the page loads before capturing. Useful for dashboards that take time to render data.
+      required: false
+      default: 0
+      advanced: true
+      selector:
+        number:
+          min: 0
+          max: 60
+          unit_of_measurement: seconds
     viewport_width:
       name: Viewport width
       description: Render width in pixels.

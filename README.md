@@ -60,6 +60,8 @@ DashSnap must be running and reachable from Home Assistant. Install options:
 
 ## Configuration
 
+![Config flow — add integration](assets/00_add_integration.png)
+
 Go to **Settings → Devices & Services → Add Integration → DashSnap**.
 
 The integration auto-detects a running DashSnap instance on the local network. If found, it is pre-configured and the entry is created automatically. Otherwise, enter the base URL manually.
@@ -80,6 +82,8 @@ The integration auto-detects a running DashSnap instance on the local network. I
 ---
 
 ## Services
+
+![Services in HA developer tools](assets/01_services.png)
 
 ### `dashsnap.record_ha`
 

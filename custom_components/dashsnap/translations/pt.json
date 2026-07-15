@@ -3,14 +3,14 @@
     "step": {
       "user": {
         "title": "DashSnap",
-        "description": "O URL base do DashSnap é detetado automaticamente quando possível e pré-preenchido abaixo — confirme ou edite-o. Exemplos: http://dashsnap:8099 (container compose), http://host.docker.internal:8099 (publicado no host), http://addon_XXXX_dashsnap:8099 (add-on HA), ou um IP como http://192.168.1.50:8099.",
+        "description": "O URL base do DashSnap é detectado automaticamente quando possível e preenchido abaixo — confirme ou edite-o. Introduza o host e a porta onde o DashSnap está em execução.",
         "data": {
           "base_url": "URL base do DashSnap"
         }
       }
     },
     "error": {
-      "invalid_url": "Introduza um URL completo que comece com http:// ou https:// (ex. http://dashsnap:8099).",
+      "invalid_url": "Insira um URL completo com um esquema válido (http ou https), host e porta.",
       "cannot_connect": "Não foi possível alcançar o DashSnap nesse URL. Verifique o host/porta e se o DashSnap está em execução.",
       "app_unhealthy": "O DashSnap foi alcançado, mas /health falhou — verifique a configuração de destinos do DashSnap."
     },
@@ -22,14 +22,14 @@
     "step": {
       "init": {
         "title": "DashSnap",
-        "description": "Altere o URL base do DashSnap se a deteção automática escolheu o errado. É validado e verificado antes de guardar. Exemplos: http://dashsnap:8099 (container compose), http://host.docker.internal:8099 (publicado no host), http://addon_XXXX_dashsnap:8099 (add-on HA), ou um IP como http://192.168.1.50:8099.",
+        "description": "Altere o URL base do DashSnap se a deteção automática escolheu o errado. É validado e verificado antes de ser guardado.",
         "data": {
           "base_url": "URL base do DashSnap"
         }
       }
     },
     "error": {
-      "invalid_url": "Introduza um URL completo que comece com http:// ou https:// (ex. http://dashsnap:8099).",
+      "invalid_url": "Insira um URL completo com um esquema válido (http ou https), host e porta.",
       "cannot_connect": "Não foi possível alcançar o DashSnap nesse URL. Verifique o host/porta e se o DashSnap está em execução.",
       "app_unhealthy": "O DashSnap foi alcançado, mas /health falhou — verifique a configuração de destinos do DashSnap."
     }
@@ -39,24 +39,60 @@
       "name": "Gravar URL",
       "description": "Grave qualquer página web em vídeo ou captura de ecrã via DashSnap. Forneça um URL completo.",
       "fields": {
-        "url": { "name": "URL", "description": "URL completo a capturar, ex. https://grafana.example.com/d/xyz." },
-        "target": { "name": "Destino", "description": "Destino com nome da configuração do DashSnap (ex. \"infoshare\"). Por omissão, o primeiro destino configurado." },
-        "seconds": { "name": "Duração (segundos)", "description": "Duração do vídeo. Ignorado quando o formato é png." },
-        "format": { "name": "Formato", "description": "Vídeo webm ou uma única captura de ecrã png." },
-        "viewport_width": { "name": "Largura da janela", "description": "Largura de renderização em píxeis." },
-        "viewport_height": { "name": "Altura da janela", "description": "Altura de renderização em píxeis." }
+        "url": {
+          "name": "URL",
+          "description": "URL completo da página a capturar (deve começar com http ou https)."
+        },
+        "target": {
+          "name": "Destino",
+          "description": "Destino com nome da configuração do DashSnap (ex. \"infoshare\"). Por omissão, o primeiro destino configurado."
+        },
+        "seconds": {
+          "name": "Duração (segundos)",
+          "description": "Duração do vídeo. Ignorado quando o formato é png."
+        },
+        "format": {
+          "name": "Formato",
+          "description": "Vídeo webm ou uma única captura de ecrã png."
+        },
+        "viewport_width": {
+          "name": "Largura da janela",
+          "description": "Largura de renderização em píxeis."
+        },
+        "viewport_height": {
+          "name": "Altura da janela",
+          "description": "Altura de renderização em píxeis."
+        }
       }
     },
     "record_ha": {
       "name": "Gravar painel HA",
       "description": "Grave uma página do Home Assistant. Forneça um caminho — o URL base do HA é aplicado automaticamente a partir da configuração do destino.",
       "fields": {
-        "path": { "name": "Caminho da página", "description": "Rota HA a capturar, ex. /lovelace/0 ou /entity-availability-test/entity-availability-test." },
-        "target": { "name": "Destino", "description": "Destino HA com nome da configuração do DashSnap (ex. \"ha\"). Por omissão, o primeiro destino configurado." },
-        "seconds": { "name": "Duração (segundos)", "description": "Duração do vídeo. Ignorado quando o formato é png." },
-        "format": { "name": "Formato", "description": "Vídeo webm ou uma única captura de ecrã png." },
-        "viewport_width": { "name": "Largura da janela", "description": "Largura de renderização em píxeis." },
-        "viewport_height": { "name": "Altura da janela", "description": "Altura de renderização em píxeis." }
+        "path": {
+          "name": "Caminho da página",
+          "description": "Rota HA a capturar, ex. /lovelace/0 ou /entity-availability-test/entity-availability-test."
+        },
+        "target": {
+          "name": "Destino",
+          "description": "Destino HA com nome da configuração do DashSnap (ex. \"ha\"). Por omissão, o primeiro destino configurado."
+        },
+        "seconds": {
+          "name": "Duração (segundos)",
+          "description": "Duração do vídeo. Ignorado quando o formato é png."
+        },
+        "format": {
+          "name": "Formato",
+          "description": "Vídeo webm ou uma única captura de ecrã png."
+        },
+        "viewport_width": {
+          "name": "Largura da janela",
+          "description": "Largura de renderização em píxeis."
+        },
+        "viewport_height": {
+          "name": "Altura da janela",
+          "description": "Altura de renderização em píxeis."
+        }
       }
     }
   }

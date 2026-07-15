@@ -3,14 +3,14 @@
     "step": {
       "user": {
         "title": "DashSnap",
-        "description": "DashSnaps bas-URL detekteras automatiskt när det är möjligt och fylls i nedan — bekräfta eller redigera den. Exempel: http://dashsnap:8099 (compose-container), http://host.docker.internal:8099 (värd-publicerad), http://addon_XXXX_dashsnap:8099 (HA-tillägg), eller en IP som http://192.168.1.50:8099.",
+        "description": "DashSnap-bas-URL:en identifieras automatiskt om möjligt och fylls i nedan — bekräfta eller redigera den. Ange värd och port där DashSnap körs.",
         "data": {
           "base_url": "DashSnap bas-URL"
         }
       }
     },
     "error": {
-      "invalid_url": "Ange en fullständig URL som börjar med http:// eller https:// (t.ex. http://dashsnap:8099).",
+      "invalid_url": "Ange en fullständig URL med ett giltigt schema (http eller https), värd och port.",
       "cannot_connect": "Kunde inte nå DashSnap på den URL:en. Kontrollera host/port och att DashSnap körs.",
       "app_unhealthy": "Nådde DashSnap, men /health misslyckades — verifiera DashSnaps målkonfiguration."
     },
@@ -22,14 +22,14 @@
     "step": {
       "init": {
         "title": "DashSnap",
-        "description": "Ändra DashSnaps bas-URL om automatisk detektering valde fel. Den valideras och hälsokontrolleras innan sparning. Exempel: http://dashsnap:8099 (compose-container), http://host.docker.internal:8099 (värd-publicerad), http://addon_XXXX_dashsnap:8099 (HA-tillägg), eller en IP som http://192.168.1.50:8099.",
+        "description": "Ändra DashSnap-bas-URL:en om autoidentifiering valde fel. Den valideras och hälsokontrolleras innan den sparas.",
         "data": {
           "base_url": "DashSnap bas-URL"
         }
       }
     },
     "error": {
-      "invalid_url": "Ange en fullständig URL som börjar med http:// eller https:// (t.ex. http://dashsnap:8099).",
+      "invalid_url": "Ange en fullständig URL med ett giltigt schema (http eller https), värd och port.",
       "cannot_connect": "Kunde inte nå DashSnap på den URL:en. Kontrollera host/port och att DashSnap körs.",
       "app_unhealthy": "Nådde DashSnap, men /health misslyckades — verifiera DashSnaps målkonfiguration."
     }
@@ -39,24 +39,60 @@
       "name": "Spela in URL",
       "description": "Spela in en webbsida som video eller skärmbild via DashSnap. Ange en fullständig URL.",
       "fields": {
-        "url": { "name": "URL", "description": "Fullständig URL att fånga, t.ex. https://grafana.example.com/d/xyz." },
-        "target": { "name": "Mål", "description": "Namngivet mål från DashSnap-konfigurationen (t.ex. \"infoshare\"). Standard är det första konfigurerade målet." },
-        "seconds": { "name": "Varaktighet (sekunder)", "description": "Videolängd. Ignoreras när formatet är png." },
-        "format": { "name": "Format", "description": "webm-video eller en enskild png-skärmbild." },
-        "viewport_width": { "name": "Visningsbredd", "description": "Renderingsbredd i pixlar." },
-        "viewport_height": { "name": "Visningshöjd", "description": "Renderingshöjd i pixlar." }
+        "url": {
+          "name": "URL",
+          "description": "Fullständig URL för sidan som ska spelas in (måste börja med http eller https)."
+        },
+        "target": {
+          "name": "Mål",
+          "description": "Namngivet mål från DashSnap-konfigurationen (t.ex. \"infoshare\"). Standard är det första konfigurerade målet."
+        },
+        "seconds": {
+          "name": "Varaktighet (sekunder)",
+          "description": "Videolängd. Ignoreras när formatet är png."
+        },
+        "format": {
+          "name": "Format",
+          "description": "webm-video eller en enskild png-skärmbild."
+        },
+        "viewport_width": {
+          "name": "Visningsbredd",
+          "description": "Renderingsbredd i pixlar."
+        },
+        "viewport_height": {
+          "name": "Visningshöjd",
+          "description": "Renderingshöjd i pixlar."
+        }
       }
     },
     "record_ha": {
       "name": "Spela in HA-instrumentpanel",
       "description": "Spela in en Home Assistant-sida. Ange en sökväg — HA:s bas-URL tillämpas automatiskt från målkonfigurationen.",
       "fields": {
-        "path": { "name": "Sidsökväg", "description": "HA-rutt att fånga, t.ex. /lovelace/0 eller /entity-availability-test/entity-availability-test." },
-        "target": { "name": "Mål", "description": "Namngivet HA-mål från DashSnap-konfigurationen (t.ex. \"ha\"). Standard är det första konfigurerade målet." },
-        "seconds": { "name": "Varaktighet (sekunder)", "description": "Videolängd. Ignoreras när formatet är png." },
-        "format": { "name": "Format", "description": "webm-video eller en enskild png-skärmbild." },
-        "viewport_width": { "name": "Visningsbredd", "description": "Renderingsbredd i pixlar." },
-        "viewport_height": { "name": "Visningshöjd", "description": "Renderingshöjd i pixlar." }
+        "path": {
+          "name": "Sidsökväg",
+          "description": "HA-rutt att fånga, t.ex. /lovelace/0 eller /entity-availability-test/entity-availability-test."
+        },
+        "target": {
+          "name": "Mål",
+          "description": "Namngivet HA-mål från DashSnap-konfigurationen (t.ex. \"ha\"). Standard är det första konfigurerade målet."
+        },
+        "seconds": {
+          "name": "Varaktighet (sekunder)",
+          "description": "Videolängd. Ignoreras när formatet är png."
+        },
+        "format": {
+          "name": "Format",
+          "description": "webm-video eller en enskild png-skärmbild."
+        },
+        "viewport_width": {
+          "name": "Visningsbredd",
+          "description": "Renderingsbredd i pixlar."
+        },
+        "viewport_height": {
+          "name": "Visningshöjd",
+          "description": "Renderingshöjd i pixlar."
+        }
       }
     }
   }

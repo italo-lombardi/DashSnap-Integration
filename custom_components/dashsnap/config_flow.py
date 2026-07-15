@@ -5,6 +5,7 @@ from __future__ import annotations
 import os
 from typing import Any
 
+import aiohttp
 from homeassistant.config_entries import (
     ConfigEntry,
     ConfigFlow,
@@ -34,7 +35,10 @@ async def _health(
         return False, "invalid_url"
     session = async_get_clientsession(hass)
     try:
-        async with session.get(f"{base_url.rstrip('/')}/health", timeout=timeout) as resp:
+        async with session.get(
+            f"{base_url.rstrip('/')}/health",
+            timeout=aiohttp.ClientTimeout(total=timeout),
+        ) as resp:
             data = await resp.json(content_type=None)
     except Exception:  # noqa: BLE001
         return False, "cannot_connect"
@@ -46,7 +50,10 @@ async def _health(
 async def _fetch_targets(hass: HomeAssistant, base_url: str) -> list[dict]:
     session = async_get_clientsession(hass)
     try:
-        async with session.get(f"{base_url.rstrip('/')}/targets", timeout=HEALTH_TIMEOUT) as r:
+        async with session.get(
+            f"{base_url.rstrip('/')}/targets",
+            timeout=aiohttp.ClientTimeout(total=HEALTH_TIMEOUT),
+        ) as r:
             data = await r.json(content_type=None)
             return data.get("targets", [])
     except Exception:  # noqa: BLE001

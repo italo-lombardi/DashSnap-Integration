@@ -53,7 +53,7 @@
         },
         "delay": {
           "name": "Delay (seconds)",
-          "description": "Wait this many seconds after the page loads before capturing."
+          "description": "Wait this many seconds after the page loads before capturing. Useful for dashboards that take time to render data."
         },
         "format": {
           "name": "Format",
@@ -79,7 +79,7 @@
         },
         "target": {
           "name": "Target",
-          "description": "Named HA target from DashSnap config (e.g. \"ha\"). Defaults to first configured target."
+          "description": "Named ha_token target from DashSnap config. Must have a base_url and ha_token strategy. Defaults to the first configured ha_token target."
         },
         "seconds": {
           "name": "Duration (seconds)",
@@ -87,7 +87,7 @@
         },
         "delay": {
           "name": "Delay (seconds)",
-          "description": "Wait this many seconds after the page loads before capturing."
+          "description": "Wait this many seconds after the page loads before capturing. Useful for dashboards that take time to render data."
         },
         "format": {
           "name": "Format",

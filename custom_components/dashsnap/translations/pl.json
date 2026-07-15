@@ -45,7 +45,7 @@
         },
         "target": {
           "name": "Cel",
-          "description": "Nazwany cel z konfiguracji DashSnap (np. \"grafana\"). Domyślnie pierwszy skonfigurowany cel."
+          "description": "Nazwany cel z konfiguracji DashSnap. Domyślnie używa wbudowanego celu \"public\" (brak uwierzytelniania)."
         },
         "seconds": {
           "name": "Czas trwania (sekundy)",

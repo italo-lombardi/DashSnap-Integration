@@ -45,7 +45,7 @@
         },
         "target": {
           "name": "Destino",
-          "description": "Destino con nombre de la configuración de DashSnap (p. ej. \"grafana\"). Por defecto es el primer destino configurado."
+          "description": "Destino nombrado de la configuración de DashSnap. Por defecto usa el destino \"public\" integrado (sin autenticación)."
         },
         "seconds": {
           "name": "Duración (segundos)",

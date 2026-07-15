@@ -45,7 +45,7 @@
         },
         "target": {
           "name": "Cible",
-          "description": "Cible nommée dans la configuration DashSnap (ex. \"grafana\"). Par défaut, la première cible configurée."
+          "description": "Cible nommée dans la configuration DashSnap. Par défaut, utilise la cible \"public\" intégrée (sans authentification)."
         },
         "seconds": {
           "name": "Durée (secondes)",

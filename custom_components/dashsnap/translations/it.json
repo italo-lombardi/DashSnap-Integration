@@ -45,7 +45,7 @@
         },
         "target": {
           "name": "Target",
-          "description": "Target con nome dalla configurazione DashSnap (es. \"grafana\"). Predefinito: primo target configurato."
+          "description": "Target denominato dalla configurazione DashSnap. Per impostazione predefinita usa il target \"public\" integrato (nessuna autenticazione)."
         },
         "seconds": {
           "name": "Durata (secondi)",

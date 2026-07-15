@@ -45,7 +45,7 @@
         },
         "target": {
           "name": "Doel",
-          "description": "Benoemd doel uit de DashSnap-configuratie (bijv. \"grafana\"). Standaard is het eerste geconfigureerde doel."
+          "description": "Benoemd doel uit de DashSnap-configuratie. Standaard wordt het ingebouwde \"public\"-doel (geen authenticatie) gebruikt."
         },
         "seconds": {
           "name": "Duur (seconden)",

@@ -45,7 +45,7 @@
         },
         "target": {
           "name": "Mål",
-          "description": "Navngivet mål fra DashSnap-konfigurationen (f.eks. \"grafana\"). Bruger som standard det første konfigurerede mål."
+          "description": "Navngivet mål fra DashSnap-konfigurationen. Bruger det indbyggede \"public\"-mål (ingen godkendelse) som standard."
         },
         "seconds": {
           "name": "Varighed (sekunder)",

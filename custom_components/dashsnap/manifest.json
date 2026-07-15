@@ -1,6 +1,7 @@
 {
   "domain": "dashsnap",
   "name": "DashSnap",
+  "after_dependencies": ["http"],
   "codeowners": ["@italo-lombardi"],
   "config_flow": true,
   "dependencies": [],

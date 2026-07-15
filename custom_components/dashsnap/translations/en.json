@@ -45,11 +45,15 @@
         },
         "target": {
           "name": "Target",
-          "description": "Named target from DashSnap config (e.g. \"infoshare\"). Defaults to first configured target."
+          "description": "Named target from DashSnap config (e.g. \"grafana\"). Defaults to first configured target."
         },
         "seconds": {
           "name": "Duration (seconds)",
           "description": "Video length. Ignored when format is png."
+        },
+        "delay": {
+          "name": "Delay (seconds)",
+          "description": "Wait this many seconds after the page loads before capturing."
         },
         "format": {
           "name": "Format",
@@ -71,7 +75,7 @@
       "fields": {
         "path": {
           "name": "Page path",
-          "description": "HA route to capture, e.g. /lovelace/0 or /entity-availability-test/entity-availability-test."
+          "description": "HA route to capture, e.g. /lovelace/0 or /history."
         },
         "target": {
           "name": "Target",
@@ -80,6 +84,10 @@
         "seconds": {
           "name": "Duration (seconds)",
           "description": "Video length. Ignored when format is png."
+        },
+        "delay": {
+          "name": "Delay (seconds)",
+          "description": "Wait this many seconds after the page loads before capturing."
         },
         "format": {
           "name": "Format",

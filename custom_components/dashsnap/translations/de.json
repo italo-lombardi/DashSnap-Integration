@@ -45,11 +45,15 @@
         },
         "target": {
           "name": "Ziel",
-          "description": "Benanntes Ziel aus der DashSnap-Konfiguration (z. B. \"infoshare\"). Standard ist das erste konfigurierte Ziel."
+          "description": "Benanntes Ziel aus der DashSnap-Konfiguration (z. B. \"grafana\"). Standard ist das erste konfigurierte Ziel."
         },
         "seconds": {
           "name": "Dauer (Sekunden)",
           "description": "Videolänge. Wird ignoriert, wenn das Format png ist."
+        },
+        "delay": {
+          "name": "Verzögerung (Sekunden)",
+          "description": "Warte diese Anzahl Sekunden nach dem Laden der Seite, bevor die Aufnahme beginnt."
         },
         "format": {
           "name": "Format",
@@ -71,7 +75,7 @@
       "fields": {
         "path": {
           "name": "Seitenpfad",
-          "description": "Aufzunehmende HA-Route, z. B. /lovelace/0 oder /entity-availability-test/entity-availability-test."
+          "description": "Aufzunehmende HA-Route, z. B. /lovelace/0 oder /history."
         },
         "target": {
           "name": "Ziel",
@@ -80,6 +84,10 @@
         "seconds": {
           "name": "Dauer (Sekunden)",
           "description": "Videolänge. Wird ignoriert, wenn das Format png ist."
+        },
+        "delay": {
+          "name": "Verzögerung (Sekunden)",
+          "description": "Warte diese Anzahl Sekunden nach dem Laden der Seite, bevor die Aufnahme beginnt."
         },
         "format": {
           "name": "Format",

@@ -45,11 +45,15 @@
         },
         "target": {
           "name": "Doel",
-          "description": "Benoemd doel uit de DashSnap-configuratie (bijv. \"infoshare\"). Standaard is het eerste geconfigureerde doel."
+          "description": "Benoemd doel uit de DashSnap-configuratie (bijv. \"grafana\"). Standaard is het eerste geconfigureerde doel."
         },
         "seconds": {
           "name": "Duur (seconden)",
           "description": "Videolengte. Wordt genegeerd wanneer het formaat png is."
+        },
+        "delay": {
+          "name": "Vertraging (seconden)",
+          "description": "Wacht dit aantal seconden na het laden van de pagina voordat er opgenomen wordt."
         },
         "format": {
           "name": "Formaat",
@@ -71,7 +75,7 @@
       "fields": {
         "path": {
           "name": "Paginapad",
-          "description": "Te captureren HA-route, bijv. /lovelace/0 of /entity-availability-test/entity-availability-test."
+          "description": "Te captureren HA-route, bijv. /lovelace/0 of /history."
         },
         "target": {
           "name": "Doel",
@@ -80,6 +84,10 @@
         "seconds": {
           "name": "Duur (seconden)",
           "description": "Videolengte. Wordt genegeerd wanneer het formaat png is."
+        },
+        "delay": {
+          "name": "Vertraging (seconden)",
+          "description": "Wacht dit aantal seconden na het laden van de pagina voordat er opgenomen wordt."
         },
         "format": {
           "name": "Formaat",

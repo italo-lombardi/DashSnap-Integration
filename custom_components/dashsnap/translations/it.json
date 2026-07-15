@@ -45,11 +45,15 @@
         },
         "target": {
           "name": "Target",
-          "description": "Target con nome dalla configurazione DashSnap (es. \"infoshare\"). Predefinito: primo target configurato."
+          "description": "Target con nome dalla configurazione DashSnap (es. \"grafana\"). Predefinito: primo target configurato."
         },
         "seconds": {
           "name": "Durata (secondi)",
           "description": "Lunghezza del video. Ignorato quando il formato è png."
+        },
+        "delay": {
+          "name": "Ritardo (secondi)",
+          "description": "Attendere questo numero di secondi dopo il caricamento della pagina prima di acquisire."
         },
         "format": {
           "name": "Formato",
@@ -71,7 +75,7 @@
       "fields": {
         "path": {
           "name": "Percorso pagina",
-          "description": "Route HA da acquisire, es. /lovelace/0 o /entity-availability-test/entity-availability-test."
+          "description": "Route HA da acquisire, es. /lovelace/0 o /history."
         },
         "target": {
           "name": "Target",
@@ -80,6 +84,10 @@
         "seconds": {
           "name": "Durata (secondi)",
           "description": "Lunghezza del video. Ignorato quando il formato è png."
+        },
+        "delay": {
+          "name": "Ritardo (secondi)",
+          "description": "Attendere questo numero di secondi dopo il caricamento della pagina prima di acquisire."
         },
         "format": {
           "name": "Formato",

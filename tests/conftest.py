@@ -5,7 +5,7 @@ from __future__ import annotations
 import pytest
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 
-from custom_components.dashsnap.const import CONF_BASE_URL, CONF_TARGETS, DOMAIN
+from custom_components.dashsnap.const import CONF_BASE_URL, DOMAIN
 
 pytest_plugins = "pytest_homeassistant_custom_component"
 
@@ -24,7 +24,6 @@ def mock_config_entry():
         title="DashSnap",
         data={
             CONF_BASE_URL: "http://dashsnap:8099",
-            CONF_TARGETS: [{"name": "ha", "strategy": "ha_token"}],
         },
         entry_id="test_entry_id",
         unique_id=DOMAIN,

@@ -7,7 +7,7 @@ from unittest.mock import patch
 from homeassistant.core import HomeAssistant
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 
-from custom_components.dashsnap.const import CONF_BASE_URL, CONF_TARGETS, DOMAIN
+from custom_components.dashsnap.const import CONF_BASE_URL, DOMAIN
 
 
 async def test_async_setup_entry_stores_data(
@@ -21,7 +21,6 @@ async def test_async_setup_entry_stores_data(
     assert mock_config_entry.entry_id in hass.data[DOMAIN]
     stored = hass.data[DOMAIN][mock_config_entry.entry_id]
     assert stored["base_url"] == "http://dashsnap:8099"
-    assert stored["targets"] == [{"name": "ha", "strategy": "ha_token"}]
 
 
 async def test_async_setup_entry_options_override(hass: HomeAssistant):
@@ -29,10 +28,9 @@ async def test_async_setup_entry_options_override(hass: HomeAssistant):
         version=1,
         domain=DOMAIN,
         title="DashSnap",
-        data={CONF_BASE_URL: "http://dashsnap:8099", CONF_TARGETS: []},
+        data={CONF_BASE_URL: "http://dashsnap:8099"},
         options={
             CONF_BASE_URL: "http://other:8099",
-            CONF_TARGETS: [{"name": "x", "strategy": "none"}],
         },
         entry_id="opt_entry",
         unique_id=DOMAIN + "_opt",
@@ -42,7 +40,6 @@ async def test_async_setup_entry_options_override(hass: HomeAssistant):
         await hass.config_entries.async_setup(entry.entry_id)
     stored = hass.data[DOMAIN][entry.entry_id]
     assert stored["base_url"] == "http://other:8099"
-    assert stored["targets"] == [{"name": "x", "strategy": "none"}]
 
 
 async def test_async_setup_entry_data_fallback_when_no_options(hass: HomeAssistant):
@@ -58,7 +55,7 @@ async def test_async_setup_entry_data_fallback_when_no_options(hass: HomeAssista
     with patch("custom_components.dashsnap.async_register_services"):
         await hass.config_entries.async_setup(entry.entry_id)
     stored = hass.data[DOMAIN][entry.entry_id]
-    assert stored["targets"] == []
+    assert stored["base_url"] == "http://dashsnap:8099"
 
 
 async def test_update_listener_updates_data(
@@ -71,7 +68,7 @@ async def test_update_listener_updates_data(
     # Simulate options update
     hass.config_entries.async_update_entry(
         mock_config_entry,
-        options={CONF_BASE_URL: "http://new:8099", CONF_TARGETS: []},
+        options={CONF_BASE_URL: "http://new:8099"},
     )
     await hass.async_block_till_done()
 
@@ -102,7 +99,7 @@ async def test_async_unload_entry_keeps_services_when_other_entry_loaded(hass: H
         version=1,
         domain=DOMAIN,
         title="DashSnap1",
-        data={CONF_BASE_URL: "http://a:8099", CONF_TARGETS: []},
+        data={CONF_BASE_URL: "http://a:8099"},
         entry_id="e1",
         unique_id=DOMAIN + "_e1",
     )
@@ -110,7 +107,7 @@ async def test_async_unload_entry_keeps_services_when_other_entry_loaded(hass: H
         version=1,
         domain=DOMAIN,
         title="DashSnap2",
-        data={CONF_BASE_URL: "http://b:8099", CONF_TARGETS: []},
+        data={CONF_BASE_URL: "http://b:8099"},
         entry_id="e2",
         unique_id=DOMAIN + "_e2",
     )

@@ -18,7 +18,6 @@ from custom_components.dashsnap.const import (
     ATTR_VIEWPORT_HEIGHT,
     ATTR_VIEWPORT_WIDTH,
     CONF_BASE_URL,
-    CONF_TARGETS,
     DOMAIN,
     SERVICE_RECORD,
     SERVICE_RECORD_HA,
@@ -50,7 +49,7 @@ async def _setup_integration(hass: HomeAssistant, base_url: str = "http://dashsn
         version=1,
         domain=DOMAIN,
         title="DashSnap",
-        data={CONF_BASE_URL: base_url, CONF_TARGETS: []},
+        data={CONF_BASE_URL: base_url},
         entry_id="svc_entry",
         unique_id=DOMAIN + "_svc",
     )

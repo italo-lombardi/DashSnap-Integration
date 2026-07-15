@@ -3,7 +3,6 @@
 DOMAIN = "dashsnap"
 
 CONF_BASE_URL = "base_url"
-CONF_TARGETS = "targets"
 
 DEFAULT_BASE_URL = "http://homeassistant.local:8099"
 
@@ -14,6 +13,7 @@ ATTR_URL = "url"
 ATTR_PATH = "path"
 ATTR_TARGET = "target"
 ATTR_SECONDS = "seconds"
+ATTR_DELAY = "delay"
 ATTR_VIEWPORT_WIDTH = "viewport_width"
 ATTR_VIEWPORT_HEIGHT = "viewport_height"
 ATTR_FORMAT = "format"

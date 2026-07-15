@@ -15,7 +15,7 @@ from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 import voluptuous as vol
 
-from .const import CONF_BASE_URL, CONF_TARGETS, DEFAULT_BASE_URL, DOMAIN, HEALTH_TIMEOUT
+from .const import CONF_BASE_URL, DEFAULT_BASE_URL, DOMAIN, HEALTH_TIMEOUT
 
 _PROBE_URLS = [
     "http://dashsnap:8099",
@@ -43,16 +43,6 @@ async def _health(
     return False, "app_unhealthy"
 
 
-async def _fetch_targets(hass: HomeAssistant, base_url: str) -> list[dict]:
-    session = async_get_clientsession(hass)
-    try:
-        async with session.get(f"{base_url.rstrip('/')}/targets", timeout=HEALTH_TIMEOUT) as r:
-            data = await r.json(content_type=None)
-            return data.get("targets", [])
-    except Exception:  # noqa: BLE001
-        return []
-
-
 class DashSnapConfigFlow(ConfigFlow, domain=DOMAIN):
     VERSION = 1
 
@@ -70,10 +60,9 @@ class DashSnapConfigFlow(ConfigFlow, domain=DOMAIN):
             if ok:
                 await self.async_set_unique_id(DOMAIN)
                 self._abort_if_unique_id_configured()
-                targets = await _fetch_targets(self.hass, base_url)
                 return self.async_create_entry(
                     title="DashSnap",
-                    data={CONF_BASE_URL: base_url, CONF_TARGETS: targets},
+                    data={CONF_BASE_URL: base_url},
                 )
             errors["base"] = reason
             default = base_url
@@ -82,10 +71,9 @@ class DashSnapConfigFlow(ConfigFlow, domain=DOMAIN):
             if detected is not None:
                 await self.async_set_unique_id(DOMAIN)
                 self._abort_if_unique_id_configured()
-                targets = await _fetch_targets(self.hass, detected)
                 return self.async_create_entry(
                     title="DashSnap",
-                    data={CONF_BASE_URL: detected, CONF_TARGETS: targets},
+                    data={CONF_BASE_URL: detected},
                 )
             default = DEFAULT_BASE_URL
 
@@ -132,10 +120,7 @@ class DashSnapOptionsFlow(OptionsFlow):
             base_url = user_input[CONF_BASE_URL].rstrip("/")
             ok, reason = await _health(self.hass, base_url)
             if ok:
-                targets = await _fetch_targets(self.hass, base_url)
-                return self.async_create_entry(
-                    data={CONF_BASE_URL: base_url, CONF_TARGETS: targets}
-                )
+                return self.async_create_entry(data={CONF_BASE_URL: base_url})
             errors["base"] = reason
             current = base_url
         schema = vol.Schema({vol.Required(CONF_BASE_URL, default=current): str})

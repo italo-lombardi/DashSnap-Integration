@@ -9,7 +9,7 @@ from homeassistant.core import HomeAssistant
 from homeassistant.data_entry_flow import FlowResultType
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 
-from custom_components.dashsnap.const import CONF_BASE_URL, CONF_TARGETS, DOMAIN
+from custom_components.dashsnap.const import CONF_BASE_URL, DOMAIN
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -94,7 +94,7 @@ async def test_autodetect_creates_entry_directly(hass: HomeAssistant):
             DOMAIN, context={"source": config_entries.SOURCE_USER}
         )
     assert result["type"] == FlowResultType.CREATE_ENTRY
-    assert result["data"][CONF_TARGETS] == _TARGETS
+    assert result["data"][CONF_BASE_URL] == _GOOD_URL
 
 
 # ---------------------------------------------------------------------------
@@ -137,7 +137,6 @@ async def test_user_step_creates_entry_on_valid_url(hass: HomeAssistant):
         )
     assert result["type"] == FlowResultType.CREATE_ENTRY
     assert result["data"][CONF_BASE_URL] == _GOOD_URL
-    assert result["data"][CONF_TARGETS] == _TARGETS
 
 
 async def test_user_step_error_invalid_url(hass: HomeAssistant):
@@ -201,7 +200,7 @@ async def test_user_step_abort_already_configured(hass: HomeAssistant):
         version=1,
         domain=DOMAIN,
         title="DashSnap",
-        data={CONF_BASE_URL: _GOOD_URL, CONF_TARGETS: []},
+        data={CONF_BASE_URL: _GOOD_URL},
         unique_id=DOMAIN,
     )
     existing.add_to_hass(hass)
@@ -358,7 +357,6 @@ async def test_fetch_targets_exception_returns_empty(hass: HomeAssistant):
             DOMAIN, context={"source": config_entries.SOURCE_USER}
         )
     assert result["type"] == FlowResultType.CREATE_ENTRY
-    assert result["data"][CONF_TARGETS] == []
 
 
 # ---------------------------------------------------------------------------

@@ -3,7 +3,6 @@
 DOMAIN = "dashsnap"
 
 CONF_BASE_URL = "base_url"
-CONF_TARGETS = "targets"
 
 DEFAULT_BASE_URL = "http://homeassistant.local:8099"
 

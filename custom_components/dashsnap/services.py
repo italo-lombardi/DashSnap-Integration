@@ -84,7 +84,9 @@ async def _call_app(hass: HomeAssistant, endpoint: str, params: dict) -> dict:
             raise HomeAssistantError(f"Could not reach DashSnap: {err}") from err
         url = f"{new_url}{endpoint}?{urlencode(params)}"
         try:
-            async with session.post(url, timeout=aiohttp.ClientTimeout(total=RECORD_TIMEOUT)) as resp:
+            async with session.post(
+                url, timeout=aiohttp.ClientTimeout(total=RECORD_TIMEOUT)
+            ) as resp:
                 data = await resp.json(content_type=None)
         except Exception as retry_err:  # noqa: BLE001
             raise HomeAssistantError(f"Could not reach DashSnap: {retry_err}") from retry_err

@@ -61,6 +61,19 @@ def _session_health_ok_targets():
     return session
 
 
+def _session_health_with_self_urls(self_urls: list):
+    """Session: /health → ok=True with self_urls list."""
+    session = MagicMock()
+
+    def _get(url, **kwargs):
+        if "/health" in url:
+            return _ok_resp({"ok": True, "self_urls": self_urls})
+        return _raising_cm()
+
+    session.get = _get
+    return session
+
+
 def _session_health_unhealthy():
     """Session: /health returns ok=False (reachable but unhealthy)."""
     session = MagicMock()
@@ -438,3 +451,93 @@ async def test_options_flow_app_unhealthy(hass: HomeAssistant, mock_config_entry
         )
     assert result["type"] == FlowResultType.FORM
     assert result["errors"]["base"] == "app_unhealthy"
+
+
+async def test_autodetect_supervisor_url_health_fails_falls_through(hass: HomeAssistant):
+    """Supervisor returns addon URL but health fails → falls through to probe candidates."""
+    session = MagicMock()
+    call_count = 0
+
+    def _get(url, **kwargs):
+        nonlocal call_count
+        if "/addons" in url:
+            return _ok_resp(
+                {
+                    "data": {
+                        "addons": [{"slug": "c1b14015_dashsnap", "hostname": "c1b14015-dashsnap"}]
+                    }
+                }
+            )
+        if "/health" in url:
+            call_count += 1
+            if call_count == 1:
+                return _raising_cm()  # supervisor-derived URL health fails
+            return _ok_resp({"ok": True})  # probe candidate succeeds
+        return _raising_cm()
+
+    session.get = _get
+
+    with (
+        patch(
+            "custom_components.dashsnap.config_flow.async_get_clientsession", return_value=session
+        ),
+        patch.dict("os.environ", {"SUPERVISOR_TOKEN": "fake-token"}),
+    ):
+        result = await hass.config_entries.flow.async_init(
+            DOMAIN, context={"source": config_entries.SOURCE_USER}
+        )
+    assert result["type"] == FlowResultType.CREATE_ENTRY
+    assert call_count == 2
+
+
+# ---------------------------------------------------------------------------
+# self_urls canonical URL selection
+# ---------------------------------------------------------------------------
+
+
+async def test_health_uses_self_urls_as_canonical(hass: HomeAssistant):
+    """self_urls[0] is stored as canonical URL, not the probed candidate."""
+    with (
+        patch(
+            "custom_components.dashsnap.config_flow.async_get_clientsession",
+            return_value=_session_health_with_self_urls(["http://172.30.33.12:8099"]),
+        ),
+        patch.dict("os.environ", {}, clear=True),
+    ):
+        result = await hass.config_entries.flow.async_init(
+            DOMAIN, context={"source": config_entries.SOURCE_USER}
+        )
+    assert result["type"] == FlowResultType.CREATE_ENTRY
+    assert result["data"][CONF_BASE_URL] == "http://172.30.33.12:8099"
+
+
+async def test_health_skips_loopback_self_urls(hass: HomeAssistant):
+    """Loopback addresses in self_urls are filtered; falls back to probed URL."""
+    with (
+        patch(
+            "custom_components.dashsnap.config_flow.async_get_clientsession",
+            return_value=_session_health_with_self_urls(["http://127.0.0.1:8099"]),
+        ),
+        patch.dict("os.environ", {}, clear=True),
+    ):
+        result = await hass.config_entries.flow.async_init(
+            DOMAIN, context={"source": config_entries.SOURCE_USER}
+        )
+    assert result["type"] == FlowResultType.CREATE_ENTRY
+    assert result["data"][CONF_BASE_URL] == _GOOD_URL
+
+
+async def test_health_empty_self_urls_falls_back_to_probed(hass: HomeAssistant):
+    """Empty self_urls falls back to the probed candidate URL."""
+    with (
+        patch(
+            "custom_components.dashsnap.config_flow.async_get_clientsession",
+            return_value=_session_health_with_self_urls([]),
+        ),
+        patch.dict("os.environ", {}, clear=True),
+    ):
+        result = await hass.config_entries.flow.async_init(
+            DOMAIN, context={"source": config_entries.SOURCE_USER}
+        )
+    assert result["type"] == FlowResultType.CREATE_ENTRY
+    assert result["data"][CONF_BASE_URL] == _GOOD_URL

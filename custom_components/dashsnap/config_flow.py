@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import os
 from typing import Any
+from urllib.parse import urlparse
 
 from homeassistant.config_entries import (
     ConfigEntry,
@@ -37,7 +38,11 @@ async def _health(
     except Exception:  # noqa: BLE001
         return False, "cannot_connect", base_url
     if data.get("ok"):
-        self_urls = data.get("self_urls", [])
+        self_urls = [
+            u
+            for u in data.get("self_urls", [])
+            if urlparse(u).hostname not in ("localhost", "127.0.0.1", "::1")
+        ]
         canonical = self_urls[0].rstrip("/") if self_urls else base_url.rstrip("/")
         return True, "", canonical
     return False, "app_unhealthy", base_url

@@ -17,11 +17,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     hass.data.setdefault(DOMAIN, {})
     base_url = entry.options.get(CONF_BASE_URL, entry.data[CONF_BASE_URL])
     hass.data[DOMAIN][entry.entry_id] = {"base_url": base_url}
-    _LOGGER.info(
-        "DashSnap integration using base URL: %s — if service calls fail with "
-        "'Server disconnected', update this in Settings → Devices & Services → "
-        "DashSnap → Configure. Valid internal addresses: http://dashsnap:8099, "
-        "http://host.docker.internal:8099, or your host IP:8099",
+    _LOGGER.warning(
+        "DashSnap addon URL: %s — change in Settings → Devices & Services → DashSnap → Configure if wrong",
         base_url,
     )
     entry.async_on_unload(entry.add_update_listener(_async_update_listener))

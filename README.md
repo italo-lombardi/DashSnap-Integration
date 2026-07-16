@@ -22,7 +22,7 @@ DashSnap is a headless Chromium recorder that captures any URL to `.webm` video 
 
 - **`dashsnap.record_ha`** — record a Home Assistant page by path; the base URL is resolved automatically from the DashSnap target config
 - **`dashsnap.record`** — record any full URL (Grafana, public pages, anything)
-- **Auto-detection** — finds a local DashSnap instance automatically on setup (Supervisor add-on, Docker Compose, localhost)
+- **Auto-detection** — finds a local DashSnap instance automatically on setup using `self_urls` from `/health`; self-heals if the addon IP changes after a container restart
 - **Multi-target** — pass an optional `target` name to select which DashSnap target to use
 - **Returns the output file path** from both services (usable in scripts and automations)
 
@@ -94,6 +94,7 @@ Record a Home Assistant page by path. The HA base URL is applied automatically f
 | `path` | ✅ | — | HA route to capture, e.g. `/lovelace/0` |
 | `target` | ✗ | first target | Named DashSnap target (e.g. `ha`) |
 | `seconds` | ✗ | 30 | Video duration (ignored for `png`) |
+| `delay` | ✗ | 0 | Seconds to wait for page to settle before recording starts |
 | `format` | ✗ | `webm` | `webm` or `png` |
 | `viewport_width` | ✗ | 1920 | Render width in pixels |
 | `viewport_height` | ✗ | 1080 | Render height in pixels |
@@ -107,6 +108,7 @@ Record any web page by full URL.
 | `url` | ✅ | — | Full URL to capture |
 | `target` | ✗ | first target | Named DashSnap target |
 | `seconds` | ✗ | 30 | Video duration (ignored for `png`) |
+| `delay` | ✗ | 0 | Seconds to wait for page to settle before recording starts |
 | `format` | ✗ | `webm` | `webm` or `png` |
 | `viewport_width` | ✗ | 1920 | Render width in pixels |
 | `viewport_height` | ✗ | 1080 | Render height in pixels |

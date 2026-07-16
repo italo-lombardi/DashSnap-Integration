@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import logging
 from urllib.parse import urlencode
 
 import aiohttp
@@ -28,6 +29,8 @@ from .const import (
     SERVICE_RECORD_HA,
 )
 
+_LOGGER = logging.getLogger(__name__)
+
 _COMMON = {
     vol.Optional(ATTR_SECONDS, default=DEFAULT_SECONDS): vol.All(
         vol.Coerce(int), vol.Range(min=1, max=600)
@@ -50,12 +53,41 @@ def _base_url(hass: HomeAssistant) -> str:
     return entry_data["base_url"].rstrip("/")
 
 
+async def _rediscover(hass: HomeAssistant) -> str | None:
+    """Re-probe for the addon URL and update stored config if found."""
+    from .config_flow import _PROBE_URLS, PROBE_TIMEOUT, _health  # noqa: PLC0415
+
+    entry = next(iter(hass.config_entries.async_entries(DOMAIN)), None)
+    if entry is None:
+        return None
+    for candidate in _PROBE_URLS:
+        ok, _, canonical = await _health(hass, candidate, PROBE_TIMEOUT)
+        if ok:
+            hass.config_entries.async_update_entry(
+                entry, data={**entry.data, "base_url": canonical}
+            )
+            hass.data[DOMAIN][entry.entry_id] = {"base_url": canonical}
+            _LOGGER.warning("DashSnap URL updated to %s after connection failure", canonical)
+            return canonical
+    return None
+
+
 async def _call_app(hass: HomeAssistant, endpoint: str, params: dict) -> dict:
     session = async_get_clientsession(hass)
     url = f"{_base_url(hass)}{endpoint}?{urlencode(params)}"
     try:
         async with session.post(url, timeout=aiohttp.ClientTimeout(total=RECORD_TIMEOUT)) as resp:
             data = await resp.json(content_type=None)
+    except (aiohttp.ClientConnectionError, aiohttp.ServerDisconnectedError) as err:
+        new_url = await _rediscover(hass)
+        if new_url is None:
+            raise HomeAssistantError(f"Could not reach DashSnap: {err}") from err
+        url = f"{new_url}{endpoint}?{urlencode(params)}"
+        try:
+            async with session.post(url, timeout=aiohttp.ClientTimeout(total=RECORD_TIMEOUT)) as resp:
+                data = await resp.json(content_type=None)
+        except Exception as retry_err:  # noqa: BLE001
+            raise HomeAssistantError(f"Could not reach DashSnap: {retry_err}") from retry_err
     except Exception as err:  # noqa: BLE001
         raise HomeAssistantError(f"Could not reach DashSnap: {err}") from err
     if not data.get("ok", False):

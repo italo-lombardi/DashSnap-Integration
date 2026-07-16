@@ -22,8 +22,6 @@ from .const import (
     ATTR_VIEWPORT_WIDTH,
     DEFAULT_FORMAT,
     DEFAULT_SECONDS,
-    DEFAULT_VIEWPORT_HEIGHT,
-    DEFAULT_VIEWPORT_WIDTH,
     DOMAIN,
     RECORD_TIMEOUT,
     SERVICE_RECORD,
@@ -35,12 +33,8 @@ _COMMON = {
         vol.Coerce(int), vol.Range(min=1, max=600)
     ),
     vol.Optional(ATTR_DELAY, default=0): vol.All(vol.Coerce(int), vol.Range(min=0, max=60)),
-    vol.Optional(ATTR_VIEWPORT_WIDTH, default=DEFAULT_VIEWPORT_WIDTH): vol.All(
-        vol.Coerce(int), vol.Range(min=320, max=3840)
-    ),
-    vol.Optional(ATTR_VIEWPORT_HEIGHT, default=DEFAULT_VIEWPORT_HEIGHT): vol.All(
-        vol.Coerce(int), vol.Range(min=240, max=2160)
-    ),
+    vol.Optional(ATTR_VIEWPORT_WIDTH): vol.All(vol.Coerce(int), vol.Range(min=320, max=3840)),
+    vol.Optional(ATTR_VIEWPORT_HEIGHT): vol.All(vol.Coerce(int), vol.Range(min=240, max=2160)),
     vol.Optional(ATTR_FORMAT, default=DEFAULT_FORMAT): vol.In(["webm", "png"]),
     vol.Optional(ATTR_TARGET): cv.string,
 }
@@ -80,10 +74,12 @@ def async_register_services(hass: HomeAssistant) -> None:
             "url": call.data[ATTR_URL],
             "seconds": call.data[ATTR_SECONDS],
             "delay": call.data[ATTR_DELAY],
-            "viewport_width": call.data[ATTR_VIEWPORT_WIDTH],
-            "viewport_height": call.data[ATTR_VIEWPORT_HEIGHT],
             "format": call.data[ATTR_FORMAT],
         }
+        if ATTR_VIEWPORT_WIDTH in call.data:
+            params["viewport_width"] = call.data[ATTR_VIEWPORT_WIDTH]
+        if ATTR_VIEWPORT_HEIGHT in call.data:
+            params["viewport_height"] = call.data[ATTR_VIEWPORT_HEIGHT]
         if ATTR_TARGET in call.data:
             params["target"] = call.data[ATTR_TARGET]
         return await _call_app(hass, "/record", params)
@@ -93,10 +89,12 @@ def async_register_services(hass: HomeAssistant) -> None:
             "path": call.data[ATTR_PATH],
             "seconds": call.data[ATTR_SECONDS],
             "delay": call.data[ATTR_DELAY],
-            "viewport_width": call.data[ATTR_VIEWPORT_WIDTH],
-            "viewport_height": call.data[ATTR_VIEWPORT_HEIGHT],
             "format": call.data[ATTR_FORMAT],
         }
+        if ATTR_VIEWPORT_WIDTH in call.data:
+            params["viewport_width"] = call.data[ATTR_VIEWPORT_WIDTH]
+        if ATTR_VIEWPORT_HEIGHT in call.data:
+            params["viewport_height"] = call.data[ATTR_VIEWPORT_HEIGHT]
         if ATTR_TARGET in call.data:
             params["target"] = call.data[ATTR_TARGET]
         return await _call_app(hass, "/record/ha", params)

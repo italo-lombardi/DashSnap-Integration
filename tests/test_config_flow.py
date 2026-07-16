@@ -285,7 +285,7 @@ async def test_autodetect_supervisor_no_hostname_uses_slug(hass: HomeAssistant):
             DOMAIN, context={"source": config_entries.SOURCE_USER}
         )
     assert result["type"] == FlowResultType.CREATE_ENTRY
-    assert "dashsnap_app" in result["data"][CONF_BASE_URL]
+    assert "dashsnap-app" in result["data"][CONF_BASE_URL]
 
 
 async def test_autodetect_supervisor_no_dashsnap_slug_falls_through(hass: HomeAssistant):

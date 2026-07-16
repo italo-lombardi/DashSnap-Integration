@@ -108,7 +108,7 @@ class DashSnapConfigFlow(ConfigFlow, domain=DOMAIN):
         for addon in data.get("data", {}).get("addons", []):
             slug = addon.get("slug", "")
             if "dashsnap" in slug:
-                host = addon.get("hostname") or slug.replace("-", "_")
+                host = addon.get("hostname") or slug.replace("_", "-")
                 return f"http://{host}:8099"
         return None
 

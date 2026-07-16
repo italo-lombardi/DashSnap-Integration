@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+import os
 from urllib.parse import urlencode
 
 import aiohttp
@@ -55,7 +56,6 @@ def _base_url(hass: HomeAssistant) -> str:
 
 async def _rediscover(hass: HomeAssistant) -> str | None:
     """Re-probe for the addon URL and update stored config if found."""
-    import os  # noqa: PLC0415
 
     from .config_flow import (  # noqa: PLC0415
         _PROBE_URLS,
@@ -69,7 +69,7 @@ async def _rediscover(hass: HomeAssistant) -> str | None:
         return None
 
     if hass.data[DOMAIN].get("_rediscovering"):
-        return None
+        return None  # ponytail: bystander gets None while first caller updates URL; window is tiny on single-threaded event loop
     hass.data[DOMAIN]["_rediscovering"] = True
     try:
         candidates = list(_PROBE_URLS)
@@ -86,7 +86,9 @@ async def _rediscover(hass: HomeAssistant) -> str | None:
                     entry, data={**entry.data, "base_url": canonical}
                 )
                 hass.data[DOMAIN][entry.entry_id] = {"base_url": canonical}
-                _LOGGER.warning("DashSnap URL updated to %s after connection failure", canonical)
+                _LOGGER.warning(
+                    "DashSnap URL updated to %s after connection was refused or reset", canonical
+                )
                 return canonical
     finally:
         hass.data[DOMAIN].pop("_rediscovering", None)

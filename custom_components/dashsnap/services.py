@@ -13,6 +13,7 @@ from homeassistant.helpers import config_validation as cv
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 import voluptuous as vol
 
+from .config_flow import _PROBE_URLS, PROBE_TIMEOUT, _health, _supervisor_addon_url
 from .const import (
     ATTR_DELAY,
     ATTR_FORMAT,
@@ -58,13 +59,6 @@ def _base_url(hass: HomeAssistant) -> str:
 async def _rediscover(hass: HomeAssistant) -> str | None:
     """Re-probe for the addon URL and update stored config if found."""
     global _rediscovering
-
-    from .config_flow import (  # noqa: PLC0415
-        _PROBE_URLS,
-        PROBE_TIMEOUT,
-        _health,
-        _supervisor_addon_url,
-    )
 
     entry = next(iter(hass.config_entries.async_entries(DOMAIN)), None)
     if entry is None:

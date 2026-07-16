@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import logging
+import os
 from urllib.parse import urlencode
 
 import aiohttp
@@ -11,6 +13,7 @@ from homeassistant.helpers import config_validation as cv
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 import voluptuous as vol
 
+from .config_flow import _PROBE_URLS, PROBE_TIMEOUT, _health, _supervisor_addon_url
 from .const import (
     ATTR_DELAY,
     ATTR_FORMAT,
@@ -27,6 +30,9 @@ from .const import (
     SERVICE_RECORD,
     SERVICE_RECORD_HA,
 )
+
+_LOGGER = logging.getLogger(__name__)
+_rediscovering: bool = False
 
 _COMMON = {
     vol.Optional(ATTR_SECONDS, default=DEFAULT_SECONDS): vol.All(
@@ -50,12 +56,59 @@ def _base_url(hass: HomeAssistant) -> str:
     return entry_data["base_url"].rstrip("/")
 
 
+async def _rediscover(hass: HomeAssistant) -> str | None:
+    """Re-probe for the addon URL and update stored config if found."""
+    global _rediscovering
+
+    entry = next(iter(hass.config_entries.async_entries(DOMAIN)), None)
+    if entry is None:
+        return None
+
+    if _rediscovering:
+        return None  # ponytail: bystander gets None while first caller updates URL; window is tiny on single-threaded event loop
+    _rediscovering = True
+    try:
+        candidates = list(_PROBE_URLS)
+        supervisor_token = os.environ.get("SUPERVISOR_TOKEN")
+        if supervisor_token:
+            sup_url = await _supervisor_addon_url(hass, supervisor_token)
+            if sup_url:
+                candidates.insert(0, sup_url)
+
+        for candidate in candidates:
+            ok, _, canonical = await _health(hass, candidate, PROBE_TIMEOUT)
+            if ok:
+                hass.config_entries.async_update_entry(
+                    entry, data={**entry.data, "base_url": canonical}
+                )
+                hass.data[DOMAIN][entry.entry_id] = {"base_url": canonical}
+                _LOGGER.warning(
+                    "DashSnap URL updated to %s after connection was refused or reset", canonical
+                )
+                return canonical
+    finally:
+        _rediscovering = False
+    return None
+
+
 async def _call_app(hass: HomeAssistant, endpoint: str, params: dict) -> dict:
     session = async_get_clientsession(hass)
     url = f"{_base_url(hass)}{endpoint}?{urlencode(params)}"
     try:
         async with session.post(url, timeout=aiohttp.ClientTimeout(total=RECORD_TIMEOUT)) as resp:
             data = await resp.json(content_type=None)
+    except (aiohttp.ClientConnectionError, aiohttp.ServerDisconnectedError) as err:
+        new_url = await _rediscover(hass)
+        if new_url is None:
+            raise HomeAssistantError(f"Could not reach DashSnap: {err}") from err
+        url = f"{new_url}{endpoint}?{urlencode(params)}"
+        try:
+            async with session.post(
+                url, timeout=aiohttp.ClientTimeout(total=RECORD_TIMEOUT)
+            ) as resp:
+                data = await resp.json(content_type=None)
+        except Exception as retry_err:  # noqa: BLE001
+            raise HomeAssistantError(f"Could not reach DashSnap: {retry_err}") from retry_err
     except Exception as err:  # noqa: BLE001
         raise HomeAssistantError(f"Could not reach DashSnap: {err}") from err
     if not data.get("ok", False):

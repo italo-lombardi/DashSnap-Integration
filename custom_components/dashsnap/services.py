@@ -31,6 +31,7 @@ from .const import (
 )
 
 _LOGGER = logging.getLogger(__name__)
+_rediscovering: bool = False
 
 _COMMON = {
     vol.Optional(ATTR_SECONDS, default=DEFAULT_SECONDS): vol.All(
@@ -56,6 +57,7 @@ def _base_url(hass: HomeAssistant) -> str:
 
 async def _rediscover(hass: HomeAssistant) -> str | None:
     """Re-probe for the addon URL and update stored config if found."""
+    global _rediscovering
 
     from .config_flow import (  # noqa: PLC0415
         _PROBE_URLS,
@@ -68,9 +70,9 @@ async def _rediscover(hass: HomeAssistant) -> str | None:
     if entry is None:
         return None
 
-    if hass.data[DOMAIN].get("_rediscovering"):
+    if _rediscovering:
         return None  # ponytail: bystander gets None while first caller updates URL; window is tiny on single-threaded event loop
-    hass.data[DOMAIN]["_rediscovering"] = True
+    _rediscovering = True
     try:
         candidates = list(_PROBE_URLS)
         supervisor_token = os.environ.get("SUPERVISOR_TOKEN")
@@ -91,7 +93,7 @@ async def _rediscover(hass: HomeAssistant) -> str | None:
                 )
                 return canonical
     finally:
-        hass.data[DOMAIN].pop("_rediscovering", None)
+        _rediscovering = False
     return None
 
 

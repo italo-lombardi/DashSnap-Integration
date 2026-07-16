@@ -507,13 +507,16 @@ async def test_rediscover_no_entry_returns_none(hass: HomeAssistant):
 
 async def test_rediscover_concurrency_guard(hass: HomeAssistant):
     """Second _rediscover call while first is running returns None immediately."""
+    import custom_components.dashsnap.services as svc
     from custom_components.dashsnap.services import _rediscover
 
     await _setup_integration(hass)
-    hass.data["dashsnap"]["_rediscovering"] = True
-    result = await _rediscover(hass)
-    assert result is None
-    hass.data["dashsnap"].pop("_rediscovering", None)
+    svc._rediscovering = True
+    try:
+        result = await _rediscover(hass)
+        assert result is None
+    finally:
+        svc._rediscovering = False
 
 
 async def test_rediscover_uses_supervisor_url(hass: HomeAssistant):

@@ -272,6 +272,31 @@ async def test_handle_record_ha_with_target(hass: HomeAssistant):
     assert "target=ha" in called_url
 
 
+async def test_handle_record_ha_with_all_params(hass: HomeAssistant):
+    await _setup_integration(hass)
+    with patch(
+        "custom_components.dashsnap.services.async_get_clientsession",
+        return_value=_patched_session(ok=True),
+    ) as mock_sess:
+        session = mock_sess.return_value
+        await hass.services.async_call(
+            DOMAIN,
+            SERVICE_RECORD_HA,
+            {
+                ATTR_PATH: "/lovelace/0",
+                ATTR_VIEWPORT_WIDTH: 1280,
+                ATTR_VIEWPORT_HEIGHT: 720,
+                ATTR_FORMAT: "png",
+            },
+            blocking=True,
+            return_response=True,
+        )
+    called_url = session.post.call_args[0][0]
+    assert "viewport_width=1280" in called_url
+    assert "viewport_height=720" in called_url
+    assert "format=png" in called_url
+
+
 async def test_handle_record_ha_failure_raises(hass: HomeAssistant):
     await _setup_integration(hass)
     with patch(

@@ -55,7 +55,6 @@ record:
       name: Viewport width
       description: Render width in pixels.
       required: false
-      default: 1920
       advanced: true
       selector:
         number:
@@ -66,7 +65,6 @@ record:
       name: Viewport height
       description: Render height in pixels.
       required: false
-      default: 1080
       advanced: true
       selector:
         number:
@@ -130,7 +128,6 @@ record_ha:
       name: Viewport width
       description: Render width in pixels.
       required: false
-      default: 1920
       advanced: true
       selector:
         number:
@@ -141,7 +138,6 @@ record_ha:
       name: Viewport height
       description: Render height in pixels.
       required: false
-      default: 1080
       advanced: true
       selector:
         number:

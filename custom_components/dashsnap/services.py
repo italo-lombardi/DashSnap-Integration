@@ -55,20 +55,41 @@ def _base_url(hass: HomeAssistant) -> str:
 
 async def _rediscover(hass: HomeAssistant) -> str | None:
     """Re-probe for the addon URL and update stored config if found."""
-    from .config_flow import _PROBE_URLS, PROBE_TIMEOUT, _health  # noqa: PLC0415
+    import os  # noqa: PLC0415
+
+    from .config_flow import (  # noqa: PLC0415
+        _PROBE_URLS,
+        PROBE_TIMEOUT,
+        _health,
+        _supervisor_addon_url,
+    )
 
     entry = next(iter(hass.config_entries.async_entries(DOMAIN)), None)
     if entry is None:
         return None
-    for candidate in _PROBE_URLS:
-        ok, _, canonical = await _health(hass, candidate, PROBE_TIMEOUT)
-        if ok:
-            hass.config_entries.async_update_entry(
-                entry, data={**entry.data, "base_url": canonical}
-            )
-            hass.data[DOMAIN][entry.entry_id] = {"base_url": canonical}
-            _LOGGER.warning("DashSnap URL updated to %s after connection failure", canonical)
-            return canonical
+
+    if hass.data[DOMAIN].get("_rediscovering"):
+        return None
+    hass.data[DOMAIN]["_rediscovering"] = True
+    try:
+        candidates = list(_PROBE_URLS)
+        supervisor_token = os.environ.get("SUPERVISOR_TOKEN")
+        if supervisor_token:
+            sup_url = await _supervisor_addon_url(hass, supervisor_token)
+            if sup_url:
+                candidates.insert(0, sup_url)
+
+        for candidate in candidates:
+            ok, _, canonical = await _health(hass, candidate, PROBE_TIMEOUT)
+            if ok:
+                hass.config_entries.async_update_entry(
+                    entry, data={**entry.data, "base_url": canonical}
+                )
+                hass.data[DOMAIN][entry.entry_id] = {"base_url": canonical}
+                _LOGGER.warning("DashSnap URL updated to %s after connection failure", canonical)
+                return canonical
+    finally:
+        hass.data[DOMAIN].pop("_rediscovering", None)
     return None
 
 

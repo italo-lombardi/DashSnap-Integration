@@ -88,7 +88,7 @@ class DashSnapConfigFlow(ConfigFlow, domain=DOMAIN):
     async def _autodetect(self) -> str | None:
         token = os.environ.get("SUPERVISOR_TOKEN")
         if token:
-            url = await self._supervisor_addon_url(token)
+            url = await _supervisor_addon_url(self.hass, token)
             if url:
                 ok, _, canonical = await _health(self.hass, url)
                 if ok:
@@ -99,23 +99,24 @@ class DashSnapConfigFlow(ConfigFlow, domain=DOMAIN):
                 return canonical
         return None
 
-    async def _supervisor_addon_url(self, token: str) -> str | None:
-        session = async_get_clientsession(self.hass)
-        try:
-            async with session.get(
-                "http://supervisor/addons",
-                headers={"Authorization": f"Bearer {token}"},
-                timeout=HEALTH_TIMEOUT,
-            ) as resp:
-                data = await resp.json(content_type=None)
-        except Exception:  # noqa: BLE001
-            return None
-        for addon in data.get("data", {}).get("addons", []):
-            slug = addon.get("slug", "")
-            if "dashsnap" in slug:
-                host = addon.get("hostname") or slug.replace("_", "-")
-                return f"http://{host}:8099"
+
+async def _supervisor_addon_url(hass: HomeAssistant, token: str) -> str | None:
+    session = async_get_clientsession(hass)
+    try:
+        async with session.get(
+            "http://supervisor/addons",
+            headers={"Authorization": f"Bearer {token}"},
+            timeout=HEALTH_TIMEOUT,
+        ) as resp:
+            data = await resp.json(content_type=None)
+    except Exception:  # noqa: BLE001
         return None
+    for addon in data.get("data", {}).get("addons", []):
+        slug = addon.get("slug", "")
+        if "dashsnap" in slug:
+            host = addon.get("hostname") or slug.replace("_", "-")
+            return f"http://{host}:8099"
+    return None
 
 
 class DashSnapOptionsFlow(OptionsFlow):

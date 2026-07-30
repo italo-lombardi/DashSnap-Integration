@@ -53,7 +53,7 @@
         },
         "delay": {
           "name": "Retard (segons)",
-          "description": "Espera aquests segons després que la pàgina s'hagi carregat abans de capturar."
+          "description": "Espereu aquests segons després que la pàgina s'hagi carregat abans de capturar."
         },
         "format": {
           "name": "Format",
@@ -87,7 +87,7 @@
         },
         "delay": {
           "name": "Retard (segons)",
-          "description": "Espera aquests segons després que la pàgina s'hagi carregat abans de capturar."
+          "description": "Espereu aquests segons després que la pàgina s'hagi carregat abans de capturar."
         },
         "format": {
           "name": "Format",

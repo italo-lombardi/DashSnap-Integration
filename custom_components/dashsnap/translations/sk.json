@@ -70,7 +70,7 @@
       }
     },
     "record_ha": {
-      "name": "Nahrať nástenku HA",
+      "name": "Nahrať panel HA",
       "description": "Nahrajte stránku Home Assistant. Zadajte cestu – základná URL adresa HA sa použije automaticky z konfigurácie cieľa.",
       "fields": {
         "path": {

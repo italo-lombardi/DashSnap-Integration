@@ -1,0 +1,107 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "DashSnap",
+        "description": "Osnovni URL za DashSnap automatski se otkriva kada je to moguće i unaprijed je popunjen ispod — potvrdite ga ili uredite. Unesite poslužitelj i priključak na kojem DashSnap radi.",
+        "data": {
+          "base_url": "Osnovni URL za DashSnap"
+        }
+      }
+    },
+    "error": {
+      "invalid_url": "Unesite potpuni URL s valjanom shemom (http ili https), poslužiteljem i priključkom.",
+      "cannot_connect": "Nije moguće pristupiti DashSnapu na tom URL-u. Provjerite poslužitelj/priključak i radi li DashSnap.",
+      "app_unhealthy": "DashSnap je dostupan, ali /health nije uspio — provjerite konfiguraciju ciljeva u DashSnapu."
+    },
+    "abort": {
+      "already_configured": "DashSnap je već konfiguriran."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "DashSnap",
+        "description": "Promijenite osnovni URL za DashSnap ako je automatsko otkrivanje odabralo pogrešan. URL se provjerava i testira mu se ispravnost prije spremanja.",
+        "data": {
+          "base_url": "Osnovni URL za DashSnap"
+        }
+      }
+    },
+    "error": {
+      "invalid_url": "Unesite potpuni URL s valjanom shemom (http ili https), poslužiteljem i priključkom.",
+      "cannot_connect": "Nije moguće pristupiti DashSnapu na tom URL-u. Provjerite poslužitelj/priključak i radi li DashSnap.",
+      "app_unhealthy": "DashSnap je dostupan, ali /health nije uspio — provjerite konfiguraciju ciljeva u DashSnapu."
+    }
+  },
+  "services": {
+    "record": {
+      "name": "Snimi URL",
+      "description": "Snimite bilo koju web-stranicu kao videozapis ili snimku zaslona putem DashSnapa. Navedite potpuni URL.",
+      "fields": {
+        "url": {
+          "name": "URL",
+          "description": "Potpuni URL stranice za snimanje (mora počinjati s http ili https)."
+        },
+        "target": {
+          "name": "Cilj",
+          "description": "Imenovani cilj iz konfiguracije DashSnapa. Ako se izostavi, koristi se ugrađeni cilj \"public\" (bez autentifikacije)."
+        },
+        "seconds": {
+          "name": "Trajanje (sekunde)",
+          "description": "Duljina videozapisa. Zanemaruje se kada je format png."
+        },
+        "delay": {
+          "name": "Odgoda (sekunde)",
+          "description": "Pričekajte ovoliko sekundi nakon učitavanja stranice prije snimanja."
+        },
+        "format": {
+          "name": "Format",
+          "description": "webm videozapis ili jedna png snimka zaslona."
+        },
+        "viewport_width": {
+          "name": "Širina prikaza",
+          "description": "Širina prikaza u pikselima."
+        },
+        "viewport_height": {
+          "name": "Visina prikaza",
+          "description": "Visina prikaza u pikselima."
+        }
+      }
+    },
+    "record_ha": {
+      "name": "Snimi HA nadzornu ploču",
+      "description": "Snimite stranicu Home Assistanta. Navedite putanju — osnovni URL za HA primjenjuje se automatski iz konfiguracije cilja.",
+      "fields": {
+        "path": {
+          "name": "Putanja stranice",
+          "description": "HA ruta za snimanje, npr. /lovelace/0 ili /history."
+        },
+        "target": {
+          "name": "Cilj",
+          "description": "Imenovani HA cilj iz konfiguracije DashSnapa (npr. \"ha\"). Ako se izostavi, koristi se prvi konfigurirani cilj."
+        },
+        "seconds": {
+          "name": "Trajanje (sekunde)",
+          "description": "Duljina videozapisa. Zanemaruje se kada je format png."
+        },
+        "delay": {
+          "name": "Odgoda (sekunde)",
+          "description": "Pričekajte ovoliko sekundi nakon učitavanja stranice prije snimanja."
+        },
+        "format": {
+          "name": "Format",
+          "description": "webm videozapis ili jedna png snimka zaslona."
+        },
+        "viewport_width": {
+          "name": "Širina prikaza",
+          "description": "Širina prikaza u pikselima."
+        },
+        "viewport_height": {
+          "name": "Visina prikaza",
+          "description": "Visina prikaza u pikselima."
+        }
+      }
+    }
+  }
+}

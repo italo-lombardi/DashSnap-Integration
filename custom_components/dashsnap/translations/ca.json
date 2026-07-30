@@ -1,0 +1,107 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "DashSnap",
+        "description": "L'URL base de DashSnap es detecta automàticament quan és possible i es preomple a continuació; confirmeu-lo o editeu-lo. Introduïu l'amfitrió i el port on s'executa DashSnap.",
+        "data": {
+          "base_url": "URL base de DashSnap"
+        }
+      }
+    },
+    "error": {
+      "invalid_url": "Introduïu un URL complet amb un esquema vàlid (http o https), amfitrió i port.",
+      "cannot_connect": "No s'ha pogut connectar amb DashSnap en aquest URL. Comproveu l'amfitrió/port i que DashSnap s'estigui executant.",
+      "app_unhealthy": "S'ha connectat amb DashSnap, però /health ha fallat; verifiqueu la configuració de destinacions de DashSnap."
+    },
+    "abort": {
+      "already_configured": "DashSnap ja està configurat."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "DashSnap",
+        "description": "Canvieu l'URL base de DashSnap si la detecció automàtica n'ha triat un d'incorrecte. Es valida i se'n comprova l'estat de salut abans de desar.",
+        "data": {
+          "base_url": "URL base de DashSnap"
+        }
+      }
+    },
+    "error": {
+      "invalid_url": "Introduïu un URL complet amb un esquema vàlid (http o https), amfitrió i port.",
+      "cannot_connect": "No s'ha pogut connectar amb DashSnap en aquest URL. Comproveu l'amfitrió/port i que DashSnap s'estigui executant.",
+      "app_unhealthy": "S'ha connectat amb DashSnap, però /health ha fallat; verifiqueu la configuració de destinacions de DashSnap."
+    }
+  },
+  "services": {
+    "record": {
+      "name": "Enregistra un URL",
+      "description": "Enregistreu qualsevol pàgina web en vídeo o captura de pantalla mitjançant DashSnap. Proporcioneu un URL complet.",
+      "fields": {
+        "url": {
+          "name": "URL",
+          "description": "URL complet de la pàgina que voleu capturar (ha de començar amb http o https)."
+        },
+        "target": {
+          "name": "Destinació",
+          "description": "Destinació amb nom de la configuració de DashSnap. Si s'omet, s'utilitza per defecte la destinació integrada «public» (sense autenticació)."
+        },
+        "seconds": {
+          "name": "Durada (segons)",
+          "description": "Durada del vídeo. S'ignora quan el format és png."
+        },
+        "delay": {
+          "name": "Retard (segons)",
+          "description": "Espera aquests segons després que la pàgina s'hagi carregat abans de capturar."
+        },
+        "format": {
+          "name": "Format",
+          "description": "Vídeo webm o una única captura de pantalla png."
+        },
+        "viewport_width": {
+          "name": "Amplada de la finestra gràfica",
+          "description": "Amplada de renderització en píxels."
+        },
+        "viewport_height": {
+          "name": "Alçada de la finestra gràfica",
+          "description": "Alçada de renderització en píxels."
+        }
+      }
+    },
+    "record_ha": {
+      "name": "Enregistra un tauler d'HA",
+      "description": "Enregistreu una pàgina de Home Assistant. Proporcioneu una ruta; l'URL base d'HA s'aplica automàticament des de la configuració de la destinació.",
+      "fields": {
+        "path": {
+          "name": "Ruta de la pàgina",
+          "description": "Ruta d'HA que voleu capturar, p. ex. /lovelace/0 o /history."
+        },
+        "target": {
+          "name": "Destinació",
+          "description": "Destinació d'HA amb nom de la configuració de DashSnap (p. ex. «ha»). Si s'omet, s'utilitza la primera destinació configurada."
+        },
+        "seconds": {
+          "name": "Durada (segons)",
+          "description": "Durada del vídeo. S'ignora quan el format és png."
+        },
+        "delay": {
+          "name": "Retard (segons)",
+          "description": "Espera aquests segons després que la pàgina s'hagi carregat abans de capturar."
+        },
+        "format": {
+          "name": "Format",
+          "description": "Vídeo webm o una única captura de pantalla png."
+        },
+        "viewport_width": {
+          "name": "Amplada de la finestra gràfica",
+          "description": "Amplada de renderització en píxels."
+        },
+        "viewport_height": {
+          "name": "Alçada de la finestra gràfica",
+          "description": "Alçada de renderització en píxels."
+        }
+      }
+    }
+  }
+}

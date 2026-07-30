@@ -1,0 +1,107 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "DashSnap",
+        "description": "DashSnap のベース URL は可能な場合は自動検出され、以下に入力されています。内容を確認するか編集してください。DashSnap が動作しているホストとポートを入力してください。",
+        "data": {
+          "base_url": "DashSnap のベース URL"
+        }
+      }
+    },
+    "error": {
+      "invalid_url": "有効なスキーム（http または https）、ホスト、ポートを含む完全な URL を入力してください。",
+      "cannot_connect": "指定された URL で DashSnap に接続できませんでした。ホスト／ポートと、DashSnap が動作していることを確認してください。",
+      "app_unhealthy": "DashSnap には接続できましたが、/health が失敗しました。DashSnap のターゲット設定を確認してください。"
+    },
+    "abort": {
+      "already_configured": "DashSnap はすでに設定されています。"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "DashSnap",
+        "description": "自動検出が誤った URL を選択した場合は、DashSnap のベース URL を変更してください。保存前に検証とヘルスチェックが行われます。",
+        "data": {
+          "base_url": "DashSnap のベース URL"
+        }
+      }
+    },
+    "error": {
+      "invalid_url": "有効なスキーム（http または https）、ホスト、ポートを含む完全な URL を入力してください。",
+      "cannot_connect": "指定された URL で DashSnap に接続できませんでした。ホスト／ポートと、DashSnap が動作していることを確認してください。",
+      "app_unhealthy": "DashSnap には接続できましたが、/health が失敗しました。DashSnap のターゲット設定を確認してください。"
+    }
+  },
+  "services": {
+    "record": {
+      "name": "URL を録画",
+      "description": "DashSnap を使用して任意の Web ページを動画またはスクリーンショットとして録画します。完全な URL を指定してください。",
+      "fields": {
+        "url": {
+          "name": "URL",
+          "description": "キャプチャするページの完全な URL（http または https で始まる必要があります）。"
+        },
+        "target": {
+          "name": "ターゲット",
+          "description": "DashSnap 設定内の名前付きターゲット。省略した場合は、組み込みの「public」ターゲット（認証なし）が使用されます。"
+        },
+        "seconds": {
+          "name": "長さ（秒）",
+          "description": "動画の長さ。フォーマットが png の場合は無視されます。"
+        },
+        "delay": {
+          "name": "遅延（秒）",
+          "description": "ページの読み込み後、キャプチャするまで待機する秒数。"
+        },
+        "format": {
+          "name": "フォーマット",
+          "description": "webm 動画、または単一の png スクリーンショット。"
+        },
+        "viewport_width": {
+          "name": "ビューポート幅",
+          "description": "レンダリング幅（ピクセル）。"
+        },
+        "viewport_height": {
+          "name": "ビューポート高さ",
+          "description": "レンダリング高さ（ピクセル）。"
+        }
+      }
+    },
+    "record_ha": {
+      "name": "HA ダッシュボードを録画",
+      "description": "Home Assistant のページを録画します。パスを指定してください。HA のベース URL はターゲット設定から自動的に適用されます。",
+      "fields": {
+        "path": {
+          "name": "ページパス",
+          "description": "キャプチャする HA のルート。例: /lovelace/0 や /history。"
+        },
+        "target": {
+          "name": "ターゲット",
+          "description": "DashSnap 設定内の名前付き HA ターゲット（例:「ha」）。省略した場合は、最初に設定されたターゲットが使用されます。"
+        },
+        "seconds": {
+          "name": "長さ（秒）",
+          "description": "動画の長さ。フォーマットが png の場合は無視されます。"
+        },
+        "delay": {
+          "name": "遅延（秒）",
+          "description": "ページの読み込み後、キャプチャするまで待機する秒数。"
+        },
+        "format": {
+          "name": "フォーマット",
+          "description": "webm 動画、または単一の png スクリーンショット。"
+        },
+        "viewport_width": {
+          "name": "ビューポート幅",
+          "description": "レンダリング幅（ピクセル）。"
+        },
+        "viewport_height": {
+          "name": "ビューポート高さ",
+          "description": "レンダリング高さ（ピクセル）。"
+        }
+      }
+    }
+  }
+}

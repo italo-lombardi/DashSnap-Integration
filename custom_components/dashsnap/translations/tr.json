@@ -1,0 +1,107 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "DashSnap",
+        "description": "DashSnap taban URL'si mümkün olduğunda otomatik algılanır ve aşağıda önceden doldurulur — onaylayın veya düzenleyin. DashSnap'in çalıştığı ana bilgisayarı ve bağlantı noktasını girin.",
+        "data": {
+          "base_url": "DashSnap taban URL'si"
+        }
+      }
+    },
+    "error": {
+      "invalid_url": "Geçerli bir şema (http veya https), ana bilgisayar ve bağlantı noktası içeren tam bir URL girin.",
+      "cannot_connect": "DashSnap'e bu URL üzerinden ulaşılamadı. Ana bilgisayarı/bağlantı noktasını ve DashSnap'in çalışıp çalışmadığını kontrol edin.",
+      "app_unhealthy": "DashSnap'e ulaşıldı ancak /health başarısız oldu — DashSnap'in hedef yapılandırmasını doğrulayın."
+    },
+    "abort": {
+      "already_configured": "DashSnap zaten yapılandırılmış."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "DashSnap",
+        "description": "Otomatik algılama yanlış olanı seçtiyse DashSnap taban URL'sini değiştirin. Kaydedilmeden önce doğrulanır ve sağlık kontrolünden geçirilir.",
+        "data": {
+          "base_url": "DashSnap taban URL'si"
+        }
+      }
+    },
+    "error": {
+      "invalid_url": "Geçerli bir şema (http veya https), ana bilgisayar ve bağlantı noktası içeren tam bir URL girin.",
+      "cannot_connect": "DashSnap'e bu URL üzerinden ulaşılamadı. Ana bilgisayarı/bağlantı noktasını ve DashSnap'in çalışıp çalışmadığını kontrol edin.",
+      "app_unhealthy": "DashSnap'e ulaşıldı ancak /health başarısız oldu — DashSnap'in hedef yapılandırmasını doğrulayın."
+    }
+  },
+  "services": {
+    "record": {
+      "name": "URL'yi kaydet",
+      "description": "DashSnap aracılığıyla herhangi bir web sayfasını video veya ekran görüntüsü olarak kaydedin. Tam bir URL girin.",
+      "fields": {
+        "url": {
+          "name": "URL",
+          "description": "Yakalanacak sayfanın tam URL'si (http veya https ile başlamalıdır)."
+        },
+        "target": {
+          "name": "Hedef",
+          "description": "DashSnap yapılandırmasındaki adlandırılmış hedef. Belirtilmezse yerleşik \"public\" hedefine (kimlik doğrulaması yok) varsayılan olarak ayarlanır."
+        },
+        "seconds": {
+          "name": "Süre (saniye)",
+          "description": "Video uzunluğu. Biçim png olduğunda yoksayılır."
+        },
+        "delay": {
+          "name": "Gecikme (saniye)",
+          "description": "Sayfa yüklendikten sonra yakalamadan önce bu kadar saniye bekleyin."
+        },
+        "format": {
+          "name": "Biçim",
+          "description": "webm video veya tek bir png ekran görüntüsü."
+        },
+        "viewport_width": {
+          "name": "Görüntü alanı genişliği",
+          "description": "Piksel cinsinden işleme genişliği."
+        },
+        "viewport_height": {
+          "name": "Görüntü alanı yüksekliği",
+          "description": "Piksel cinsinden işleme yüksekliği."
+        }
+      }
+    },
+    "record_ha": {
+      "name": "HA panosunu kaydet",
+      "description": "Bir Home Assistant sayfasını kaydedin. Bir yol girin — HA taban URL'si hedef yapılandırmasından otomatik olarak uygulanır.",
+      "fields": {
+        "path": {
+          "name": "Sayfa yolu",
+          "description": "Yakalanacak HA rotası, örn. /lovelace/0 veya /history."
+        },
+        "target": {
+          "name": "Hedef",
+          "description": "DashSnap yapılandırmasındaki adlandırılmış HA hedefi (örn. \"ha\"). Yapılandırılan ilk hedefe varsayılan olarak ayarlanır."
+        },
+        "seconds": {
+          "name": "Süre (saniye)",
+          "description": "Video uzunluğu. Biçim png olduğunda yoksayılır."
+        },
+        "delay": {
+          "name": "Gecikme (saniye)",
+          "description": "Sayfa yüklendikten sonra yakalamadan önce bu kadar saniye bekleyin."
+        },
+        "format": {
+          "name": "Biçim",
+          "description": "webm video veya tek bir png ekran görüntüsü."
+        },
+        "viewport_width": {
+          "name": "Görüntü alanı genişliği",
+          "description": "Piksel cinsinden işleme genişliği."
+        },
+        "viewport_height": {
+          "name": "Görüntü alanı yüksekliği",
+          "description": "Piksel cinsinden işleme yüksekliği."
+        }
+      }
+    }
+  }
+}

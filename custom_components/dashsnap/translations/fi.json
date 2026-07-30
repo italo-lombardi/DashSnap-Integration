@@ -1,0 +1,107 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "DashSnap",
+        "description": "DashSnapin perusosoite tunnistetaan automaattisesti mahdollisuuksien mukaan ja esitäytetään alle – vahvista tai muokkaa sitä. Anna isäntä ja portti, joissa DashSnap on käynnissä.",
+        "data": {
+          "base_url": "DashSnapin perusosoite"
+        }
+      }
+    },
+    "error": {
+      "invalid_url": "Anna täydellinen URL-osoite, jossa on kelvollinen protokolla (http tai https), isäntä ja portti.",
+      "cannot_connect": "DashSnapiin ei saatu yhteyttä annetusta osoitteesta. Tarkista isäntä/portti ja että DashSnap on käynnissä.",
+      "app_unhealthy": "DashSnap tavoitettiin, mutta /health epäonnistui – tarkista DashSnapin kohdeasetukset."
+    },
+    "abort": {
+      "already_configured": "DashSnap on jo määritetty."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "DashSnap",
+        "description": "Vaihda DashSnapin perusosoite, jos automaattinen tunnistus valitsi väärän. Se tarkistetaan ja sen kunto testataan ennen tallennusta.",
+        "data": {
+          "base_url": "DashSnapin perusosoite"
+        }
+      }
+    },
+    "error": {
+      "invalid_url": "Anna täydellinen URL-osoite, jossa on kelvollinen protokolla (http tai https), isäntä ja portti.",
+      "cannot_connect": "DashSnapiin ei saatu yhteyttä annetusta osoitteesta. Tarkista isäntä/portti ja että DashSnap on käynnissä.",
+      "app_unhealthy": "DashSnap tavoitettiin, mutta /health epäonnistui – tarkista DashSnapin kohdeasetukset."
+    }
+  },
+  "services": {
+    "record": {
+      "name": "Tallenna URL-osoite",
+      "description": "Tallenna mikä tahansa verkkosivu videona tai kuvakaappauksena DashSnapin avulla. Anna täydellinen URL-osoite.",
+      "fields": {
+        "url": {
+          "name": "URL-osoite",
+          "description": "Kaapattavan sivun täydellinen URL-osoite (alettava http tai https)."
+        },
+        "target": {
+          "name": "Kohde",
+          "description": "Nimetty kohde DashSnapin asetuksista. Oletuksena käytetään sisäänrakennettua \"public\"-kohdetta (ei todennusta), jos jätetään pois."
+        },
+        "seconds": {
+          "name": "Kesto (sekuntia)",
+          "description": "Videon pituus. Ohitetaan, kun muoto on png."
+        },
+        "delay": {
+          "name": "Viive (sekuntia)",
+          "description": "Odota tämän verran sekunteja sivun latautumisen jälkeen ennen kaappausta."
+        },
+        "format": {
+          "name": "Muoto",
+          "description": "webm-video tai yksittäinen png-kuvakaappaus."
+        },
+        "viewport_width": {
+          "name": "Näkymän leveys",
+          "description": "Renderöintileveys pikseleinä."
+        },
+        "viewport_height": {
+          "name": "Näkymän korkeus",
+          "description": "Renderöintikorkeus pikseleinä."
+        }
+      }
+    },
+    "record_ha": {
+      "name": "Tallenna HA-hallintapaneeli",
+      "description": "Tallenna Home Assistant -sivu. Anna polku – HA:n perusosoite lisätään automaattisesti kohdeasetuksista.",
+      "fields": {
+        "path": {
+          "name": "Sivun polku",
+          "description": "Kaapattava HA-reitti, esim. /lovelace/0 tai /history."
+        },
+        "target": {
+          "name": "Kohde",
+          "description": "Nimetty HA-kohde DashSnapin asetuksista (esim. \"ha\"). Oletuksena ensimmäinen määritetty kohde."
+        },
+        "seconds": {
+          "name": "Kesto (sekuntia)",
+          "description": "Videon pituus. Ohitetaan, kun muoto on png."
+        },
+        "delay": {
+          "name": "Viive (sekuntia)",
+          "description": "Odota tämän verran sekunteja sivun latautumisen jälkeen ennen kaappausta."
+        },
+        "format": {
+          "name": "Muoto",
+          "description": "webm-video tai yksittäinen png-kuvakaappaus."
+        },
+        "viewport_width": {
+          "name": "Näkymän leveys",
+          "description": "Renderöintileveys pikseleinä."
+        },
+        "viewport_height": {
+          "name": "Näkymän korkeus",
+          "description": "Renderöintikorkeus pikseleinä."
+        }
+      }
+    }
+  }
+}

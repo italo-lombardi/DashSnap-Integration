@@ -45,7 +45,7 @@
         },
         "target": {
           "name": "Cél",
-          "description": "Elnevezett cél a DashSnap konfigurációból. Elhagyás esetén a beépített „public" célra áll be (hitelesítés nélkül)."
+          "description": "Elnevezett cél a DashSnap konfigurációból. Elhagyás esetén a beépített „public” célra áll be (hitelesítés nélkül)."
         },
         "seconds": {
           "name": "Időtartam (másodperc)",
@@ -79,7 +79,7 @@
         },
         "target": {
           "name": "Cél",
-          "description": "Elnevezett HA cél a DashSnap konfigurációból (pl. „ha"). Elhagyás esetén az első beállított célra áll be."
+          "description": "Elnevezett HA cél a DashSnap konfigurációból (pl. „ha”). Elhagyás esetén az első beállított célra áll be."
         },
         "seconds": {
           "name": "Időtartam (másodperc)",

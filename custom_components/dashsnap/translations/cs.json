@@ -45,7 +45,7 @@
         },
         "target": {
           "name": "Cíl",
-          "description": "Pojmenovaný cíl z konfigurace DashSnap. Pokud je vynechán, použije se výchozí vestavěný cíl „public" (bez ověřování)."
+          "description": "Pojmenovaný cíl z konfigurace DashSnap. Pokud je vynechán, použije se výchozí vestavěný cíl „public” (bez ověřování)."
         },
         "seconds": {
           "name": "Doba trvání (sekundy)",
@@ -79,7 +79,7 @@
         },
         "target": {
           "name": "Cíl",
-          "description": "Pojmenovaný cíl HA z konfigurace DashSnap (např. „ha"). Pokud je vynechán, použije se první nakonfigurovaný cíl."
+          "description": "Pojmenovaný cíl HA z konfigurace DashSnap (např. „ha”). Pokud je vynechán, použije se první nakonfigurovaný cíl."
         },
         "seconds": {
           "name": "Doba trvání (sekundy)",

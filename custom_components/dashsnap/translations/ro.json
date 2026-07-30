@@ -45,7 +45,7 @@
         },
         "target": {
           "name": "Țintă",
-          "description": "Țintă denumită din configurația DashSnap. Implicit este ținta încorporată „public" (fără autentificare) dacă este omisă."
+          "description": "Țintă denumită din configurația DashSnap. Implicit este ținta încorporată „public” (fără autentificare) dacă este omisă."
         },
         "seconds": {
           "name": "Durată (secunde)",
@@ -79,7 +79,7 @@
         },
         "target": {
           "name": "Țintă",
-          "description": "Țintă HA denumită din configurația DashSnap (de ex. „ha"). Implicit este prima țintă configurată."
+          "description": "Țintă HA denumită din configurația DashSnap (de ex. „ha”). Implicit este prima țintă configurată."
         },
         "seconds": {
           "name": "Durată (secunde)",

@@ -45,7 +45,7 @@
         },
         "target": {
           "name": "Taikinys",
-          "description": "Pavadintas taikinys iš DashSnap konfigūracijos. Jei praleista, numatytasis yra integruotas „public" taikinys (be autentifikacijos)."
+          "description": "Pavadintas taikinys iš DashSnap konfigūracijos. Jei praleista, numatytasis yra integruotas „public” taikinys (be autentifikacijos)."
         },
         "seconds": {
           "name": "Trukmė (sekundėmis)",
@@ -79,7 +79,7 @@
         },
         "target": {
           "name": "Taikinys",
-          "description": "Pavadintas HA taikinys iš DashSnap konfigūracijos (pvz., „ha\"). Numatytasis yra pirmas sukonfigūruotas taikinys."
+          "description": "Pavadintas HA taikinys iš DashSnap konfigūracijos (pvz., „ha”). Numatytasis yra pirmas sukonfigūruotas taikinys."
         },
         "seconds": {
           "name": "Trukmė (sekundėmis)",

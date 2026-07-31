@@ -1,0 +1,107 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "DashSnap",
+        "description": "Základná URL adresa DashSnap sa podľa možnosti zistí automaticky a je predvyplnená nižšie – potvrďte ju alebo upravte. Zadajte hostiteľa a port, na ktorom beží DashSnap.",
+        "data": {
+          "base_url": "Základná URL adresa DashSnap"
+        }
+      }
+    },
+    "error": {
+      "invalid_url": "Zadajte úplnú URL adresu s platnou schémou (http alebo https), hostiteľom a portom.",
+      "cannot_connect": "Na tejto URL adrese sa nepodarilo spojiť s DashSnap. Skontrolujte hostiteľa/port a to, či DashSnap beží.",
+      "app_unhealthy": "DashSnap je dostupný, ale /health zlyhal – overte konfiguráciu cieľov v DashSnap."
+    },
+    "abort": {
+      "already_configured": "DashSnap je už nakonfigurovaný."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "DashSnap",
+        "description": "Zmeňte základnú URL adresu DashSnap, ak automatická detekcia vybrala nesprávnu. Pred uložením sa overí jej platnosť a stav funkčnosti.",
+        "data": {
+          "base_url": "Základná URL adresa DashSnap"
+        }
+      }
+    },
+    "error": {
+      "invalid_url": "Zadajte úplnú URL adresu s platnou schémou (http alebo https), hostiteľom a portom.",
+      "cannot_connect": "Na tejto URL adrese sa nepodarilo spojiť s DashSnap. Skontrolujte hostiteľa/port a to, či DashSnap beží.",
+      "app_unhealthy": "DashSnap je dostupný, ale /health zlyhal – overte konfiguráciu cieľov v DashSnap."
+    }
+  },
+  "services": {
+    "record": {
+      "name": "Nahrať URL",
+      "description": "Nahrajte ľubovoľnú webovú stránku ako video alebo snímku obrazovky pomocou DashSnap. Zadajte úplnú URL adresu.",
+      "fields": {
+        "url": {
+          "name": "URL",
+          "description": "Úplná URL adresa stránky, ktorú chcete zachytiť (musí začínať na http alebo https)."
+        },
+        "target": {
+          "name": "Cieľ",
+          "description": "Pomenovaný cieľ z konfigurácie DashSnap. Ak sa vynechá, použije sa vstavaný cieľ „public” (bez overenia)."
+        },
+        "seconds": {
+          "name": "Trvanie (sekundy)",
+          "description": "Dĺžka videa. Ignoruje sa, keď je formát png."
+        },
+        "delay": {
+          "name": "Oneskorenie (sekundy)",
+          "description": "Počkajte toľkoto sekúnd po načítaní stránky pred zachytením."
+        },
+        "format": {
+          "name": "Formát",
+          "description": "video webm alebo jedna snímka obrazovky png."
+        },
+        "viewport_width": {
+          "name": "Šírka zobrazovacej plochy",
+          "description": "Šírka vykreslenia v pixeloch."
+        },
+        "viewport_height": {
+          "name": "Výška zobrazovacej plochy",
+          "description": "Výška vykreslenia v pixeloch."
+        }
+      }
+    },
+    "record_ha": {
+      "name": "Nahrať panel HA",
+      "description": "Nahrajte stránku Home Assistant. Zadajte cestu – základná URL adresa HA sa použije automaticky z konfigurácie cieľa.",
+      "fields": {
+        "path": {
+          "name": "Cesta stránky",
+          "description": "Cesta HA, ktorú chcete zachytiť, napr. /lovelace/0 alebo /history."
+        },
+        "target": {
+          "name": "Cieľ",
+          "description": "Pomenovaný cieľ HA z konfigurácie DashSnap (napr. „ha”). Ak sa vynechá, použije sa prvý nakonfigurovaný cieľ."
+        },
+        "seconds": {
+          "name": "Trvanie (sekundy)",
+          "description": "Dĺžka videa. Ignoruje sa, keď je formát png."
+        },
+        "delay": {
+          "name": "Oneskorenie (sekundy)",
+          "description": "Počkajte toľkoto sekúnd po načítaní stránky pred zachytením."
+        },
+        "format": {
+          "name": "Formát",
+          "description": "video webm alebo jedna snímka obrazovky png."
+        },
+        "viewport_width": {
+          "name": "Šírka zobrazovacej plochy",
+          "description": "Šírka vykreslenia v pixeloch."
+        },
+        "viewport_height": {
+          "name": "Výška zobrazovacej plochy",
+          "description": "Výška vykreslenia v pixeloch."
+        }
+      }
+    }
+  }
+}

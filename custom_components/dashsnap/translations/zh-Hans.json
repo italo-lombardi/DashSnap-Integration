@@ -1,0 +1,107 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "DashSnap",
+        "description": "系统会尽可能自动检测 DashSnap 的基础 URL 并预填到下方——请确认或编辑。输入运行 DashSnap 的主机和端口。",
+        "data": {
+          "base_url": "DashSnap 基础 URL"
+        }
+      }
+    },
+    "error": {
+      "invalid_url": "请输入包含有效协议（http 或 https）、主机和端口的完整 URL。",
+      "cannot_connect": "无法通过该 URL 连接到 DashSnap。请检查主机/端口，并确认 DashSnap 正在运行。",
+      "app_unhealthy": "已连接到 DashSnap，但 /health 检查失败——请验证 DashSnap 的目标配置。"
+    },
+    "abort": {
+      "already_configured": "DashSnap 已配置。"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "DashSnap",
+        "description": "如果自动检测选择了错误的 URL，请修改 DashSnap 基础 URL。保存前会进行验证和健康检查。",
+        "data": {
+          "base_url": "DashSnap 基础 URL"
+        }
+      }
+    },
+    "error": {
+      "invalid_url": "请输入包含有效协议（http 或 https）、主机和端口的完整 URL。",
+      "cannot_connect": "无法通过该 URL 连接到 DashSnap。请检查主机/端口，并确认 DashSnap 正在运行。",
+      "app_unhealthy": "已连接到 DashSnap，但 /health 检查失败——请验证 DashSnap 的目标配置。"
+    }
+  },
+  "services": {
+    "record": {
+      "name": "录制 URL",
+      "description": "通过 DashSnap 将任意网页录制为视频或截图。请提供完整 URL。",
+      "fields": {
+        "url": {
+          "name": "URL",
+          "description": "要捕获页面的完整 URL（必须以 http 或 https 开头）。"
+        },
+        "target": {
+          "name": "目标",
+          "description": "DashSnap 配置中的命名目标。如省略，默认使用内置的 \"public\" 目标（无需身份验证）。"
+        },
+        "seconds": {
+          "name": "时长（秒）",
+          "description": "视频长度。格式为 png 时忽略此项。"
+        },
+        "delay": {
+          "name": "延迟（秒）",
+          "description": "页面加载后等待指定秒数再开始捕获。"
+        },
+        "format": {
+          "name": "格式",
+          "description": "webm 视频或单张 png 截图。"
+        },
+        "viewport_width": {
+          "name": "视口宽度",
+          "description": "渲染宽度（像素）。"
+        },
+        "viewport_height": {
+          "name": "视口高度",
+          "description": "渲染高度（像素）。"
+        }
+      }
+    },
+    "record_ha": {
+      "name": "录制 HA 仪表板",
+      "description": "录制 Home Assistant 页面。提供路径——HA 基础 URL 将自动从目标配置中应用。",
+      "fields": {
+        "path": {
+          "name": "页面路径",
+          "description": "要捕获的 HA 路由，例如 /lovelace/0 或 /history。"
+        },
+        "target": {
+          "name": "目标",
+          "description": "DashSnap 配置中的命名 HA 目标（例如 \"ha\"）。如省略，默认使用第一个已配置的目标。"
+        },
+        "seconds": {
+          "name": "时长（秒）",
+          "description": "视频长度。格式为 png 时忽略此项。"
+        },
+        "delay": {
+          "name": "延迟（秒）",
+          "description": "页面加载后等待指定秒数再开始捕获。"
+        },
+        "format": {
+          "name": "格式",
+          "description": "webm 视频或单张 png 截图。"
+        },
+        "viewport_width": {
+          "name": "视口宽度",
+          "description": "渲染宽度（像素）。"
+        },
+        "viewport_height": {
+          "name": "视口高度",
+          "description": "渲染高度（像素）。"
+        }
+      }
+    }
+  }
+}

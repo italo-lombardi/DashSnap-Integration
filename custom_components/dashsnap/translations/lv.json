@@ -1,0 +1,107 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "DashSnap",
+        "description": "DashSnap bāzes URL tiek automātiski noteikts, kad tas ir iespējams, un aizpildīts zemāk — apstipriniet vai rediģējiet to. Ievadiet resursdatoru un portu, kurā darbojas DashSnap.",
+        "data": {
+          "base_url": "DashSnap bāzes URL"
+        }
+      }
+    },
+    "error": {
+      "invalid_url": "Ievadiet pilnu URL ar derīgu shēmu (http vai https), resursdatoru un portu.",
+      "cannot_connect": "Neizdevās sasniegt DashSnap norādītajā URL. Pārbaudiet resursdatoru/portu un to, vai DashSnap darbojas.",
+      "app_unhealthy": "DashSnap tika sasniegts, taču /health neizdevās — pārbaudiet DashSnap mērķu konfigurāciju."
+    },
+    "abort": {
+      "already_configured": "DashSnap jau ir konfigurēts."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "DashSnap",
+        "description": "Mainiet DashSnap bāzes URL, ja automātiskā noteikšana izvēlējās nepareizo. Pirms saglabāšanas tas tiek validēts un pārbaudīts veselības statuss.",
+        "data": {
+          "base_url": "DashSnap bāzes URL"
+        }
+      }
+    },
+    "error": {
+      "invalid_url": "Ievadiet pilnu URL ar derīgu shēmu (http vai https), resursdatoru un portu.",
+      "cannot_connect": "Neizdevās sasniegt DashSnap norādītajā URL. Pārbaudiet resursdatoru/portu un to, vai DashSnap darbojas.",
+      "app_unhealthy": "DashSnap tika sasniegts, taču /health neizdevās — pārbaudiet DashSnap mērķu konfigurāciju."
+    }
+  },
+  "services": {
+    "record": {
+      "name": "Ierakstīt URL",
+      "description": "Ierakstiet jebkuru tīmekļa lapu kā video vai ekrānuzņēmumu, izmantojot DashSnap. Norādiet pilnu URL.",
+      "fields": {
+        "url": {
+          "name": "URL",
+          "description": "Tveramās lapas pilns URL (jāsākas ar http vai https)."
+        },
+        "target": {
+          "name": "Mērķis",
+          "description": "Nosaukts mērķis no DashSnap konfigurācijas. Ja netiek norādīts, tiek izmantots iebūvētais mērķis \"public\" (bez autentifikācijas)."
+        },
+        "seconds": {
+          "name": "Ilgums (sekundes)",
+          "description": "Video garums. Tiek ignorēts, ja formāts ir png."
+        },
+        "delay": {
+          "name": "Aizkave (sekundes)",
+          "description": "Pēc lapas ielādes pirms tveršanas nogaidiet šādu sekunžu skaitu."
+        },
+        "format": {
+          "name": "Formāts",
+          "description": "webm video vai viens png ekrānuzņēmums."
+        },
+        "viewport_width": {
+          "name": "Skata loga platums",
+          "description": "Renderēšanas platums pikseļos."
+        },
+        "viewport_height": {
+          "name": "Skata loga augstums",
+          "description": "Renderēšanas augstums pikseļos."
+        }
+      }
+    },
+    "record_ha": {
+      "name": "Ierakstīt HA informācijas paneli",
+      "description": "Ierakstiet Home Assistant lapu. Norādiet ceļu — HA bāzes URL tiek automātiski piemērots no mērķa konfigurācijas.",
+      "fields": {
+        "path": {
+          "name": "Lapas ceļš",
+          "description": "Tveramais HA maršruts, piemēram, /lovelace/0 vai /history."
+        },
+        "target": {
+          "name": "Mērķis",
+          "description": "Nosaukts HA mērķis no DashSnap konfigurācijas (piemēram, \"ha\"). Ja netiek norādīts, tiek izmantots pirmais konfigurētais mērķis."
+        },
+        "seconds": {
+          "name": "Ilgums (sekundes)",
+          "description": "Video garums. Tiek ignorēts, ja formāts ir png."
+        },
+        "delay": {
+          "name": "Aizkave (sekundes)",
+          "description": "Pēc lapas ielādes pirms tveršanas nogaidiet šādu sekunžu skaitu."
+        },
+        "format": {
+          "name": "Formāts",
+          "description": "webm video vai viens png ekrānuzņēmums."
+        },
+        "viewport_width": {
+          "name": "Skata loga platums",
+          "description": "Renderēšanas platums pikseļos."
+        },
+        "viewport_height": {
+          "name": "Skata loga augstums",
+          "description": "Renderēšanas augstums pikseļos."
+        }
+      }
+    }
+  }
+}

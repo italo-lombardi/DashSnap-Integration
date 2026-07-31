@@ -1,0 +1,107 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "DashSnap",
+        "description": "A DashSnap alap-URL lehetőség szerint automatikusan felismerésre kerül, és alább előre kitöltjük – erősítsd meg vagy szerkeszd. Add meg a gazdagépet és a portot, ahol a DashSnap fut.",
+        "data": {
+          "base_url": "DashSnap alap-URL"
+        }
+      }
+    },
+    "error": {
+      "invalid_url": "Adj meg teljes URL-t érvényes protokollal (http vagy https), gazdagéppel és porttal.",
+      "cannot_connect": "A DashSnap nem érhető el ezen az URL-en. Ellenőrizd a gazdagépet/portot, és hogy a DashSnap fut-e.",
+      "app_unhealthy": "A DashSnap elérhető, de a /health sikertelen volt – ellenőrizd a DashSnap célkonfigurációját."
+    },
+    "abort": {
+      "already_configured": "A DashSnap már be van állítva."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "DashSnap",
+        "description": "Módosítsd a DashSnap alap-URL-t, ha az automatikus felismerés rosszat választott. Mentés előtt ellenőrizzük és állapotellenőrzést végzünk rajta.",
+        "data": {
+          "base_url": "DashSnap alap-URL"
+        }
+      }
+    },
+    "error": {
+      "invalid_url": "Adj meg teljes URL-t érvényes protokollal (http vagy https), gazdagéppel és porttal.",
+      "cannot_connect": "A DashSnap nem érhető el ezen az URL-en. Ellenőrizd a gazdagépet/portot, és hogy a DashSnap fut-e.",
+      "app_unhealthy": "A DashSnap elérhető, de a /health sikertelen volt – ellenőrizd a DashSnap célkonfigurációját."
+    }
+  },
+  "services": {
+    "record": {
+      "name": "URL rögzítése",
+      "description": "Bármely weboldal rögzítése videóként vagy képernyőképként a DashSnap segítségével. Adj meg egy teljes URL-t.",
+      "fields": {
+        "url": {
+          "name": "URL",
+          "description": "A rögzítendő oldal teljes URL-je (http vagy https protokollal kell kezdődnie)."
+        },
+        "target": {
+          "name": "Cél",
+          "description": "Elnevezett cél a DashSnap konfigurációból. Elhagyás esetén a beépített „public” célra áll be (hitelesítés nélkül)."
+        },
+        "seconds": {
+          "name": "Időtartam (másodperc)",
+          "description": "A videó hossza. png formátum esetén figyelmen kívül hagyva."
+        },
+        "delay": {
+          "name": "Késleltetés (másodperc)",
+          "description": "Ennyi másodpercet várjon az oldal betöltése után a rögzítés megkezdéséig."
+        },
+        "format": {
+          "name": "Formátum",
+          "description": "webm videó vagy egyetlen png képernyőkép."
+        },
+        "viewport_width": {
+          "name": "Nézetablak szélessége",
+          "description": "Renderelési szélesség képpontban."
+        },
+        "viewport_height": {
+          "name": "Nézetablak magassága",
+          "description": "Renderelési magasság képpontban."
+        }
+      }
+    },
+    "record_ha": {
+      "name": "HA irányítópult rögzítése",
+      "description": "Egy Home Assistant oldal rögzítése. Adj meg egy útvonalat – a HA alap-URL automatikusan a célkonfigurációból kerül alkalmazásra.",
+      "fields": {
+        "path": {
+          "name": "Oldal útvonala",
+          "description": "A rögzítendő HA útvonal, pl. /lovelace/0 vagy /history."
+        },
+        "target": {
+          "name": "Cél",
+          "description": "Elnevezett HA cél a DashSnap konfigurációból (pl. „ha”). Elhagyás esetén az első beállított célra áll be."
+        },
+        "seconds": {
+          "name": "Időtartam (másodperc)",
+          "description": "A videó hossza. png formátum esetén figyelmen kívül hagyva."
+        },
+        "delay": {
+          "name": "Késleltetés (másodperc)",
+          "description": "Ennyi másodpercet várjon az oldal betöltése után a rögzítés megkezdéséig."
+        },
+        "format": {
+          "name": "Formátum",
+          "description": "webm videó vagy egyetlen png képernyőkép."
+        },
+        "viewport_width": {
+          "name": "Nézetablak szélessége",
+          "description": "Renderelési szélesség képpontban."
+        },
+        "viewport_height": {
+          "name": "Nézetablak magassága",
+          "description": "Renderelési magasság képpontban."
+        }
+      }
+    }
+  }
+}

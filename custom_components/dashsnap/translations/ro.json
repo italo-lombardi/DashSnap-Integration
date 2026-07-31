@@ -1,0 +1,107 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "DashSnap",
+        "description": "URL-ul de bază DashSnap este detectat automat când este posibil și precompletat mai jos — confirmați-l sau modificați-l. Introduceți gazda și portul unde rulează DashSnap.",
+        "data": {
+          "base_url": "URL de bază DashSnap"
+        }
+      }
+    },
+    "error": {
+      "invalid_url": "Introduceți un URL complet cu o schemă validă (http sau https), gazdă și port.",
+      "cannot_connect": "Nu s-a putut contacta DashSnap la acel URL. Verificați gazda/portul și dacă DashSnap rulează.",
+      "app_unhealthy": "S-a contactat DashSnap, dar /health a eșuat — verificați configurația țintelor DashSnap."
+    },
+    "abort": {
+      "already_configured": "DashSnap este deja configurat."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "DashSnap",
+        "description": "Modificați URL-ul de bază DashSnap dacă detectarea automată l-a ales greșit. Acesta este validat și verificat prin health check înainte de salvare.",
+        "data": {
+          "base_url": "URL de bază DashSnap"
+        }
+      }
+    },
+    "error": {
+      "invalid_url": "Introduceți un URL complet cu o schemă validă (http sau https), gazdă și port.",
+      "cannot_connect": "Nu s-a putut contacta DashSnap la acel URL. Verificați gazda/portul și dacă DashSnap rulează.",
+      "app_unhealthy": "S-a contactat DashSnap, dar /health a eșuat — verificați configurația țintelor DashSnap."
+    }
+  },
+  "services": {
+    "record": {
+      "name": "Înregistrează URL",
+      "description": "Înregistrați orice pagină web ca videoclip sau captură de ecran prin DashSnap. Furnizați un URL complet.",
+      "fields": {
+        "url": {
+          "name": "URL",
+          "description": "URL-ul complet al paginii de capturat (trebuie să înceapă cu http sau https)."
+        },
+        "target": {
+          "name": "Țintă",
+          "description": "Țintă denumită din configurația DashSnap. Implicit este ținta încorporată „public” (fără autentificare) dacă este omisă."
+        },
+        "seconds": {
+          "name": "Durată (secunde)",
+          "description": "Durata videoclipului. Ignorată când formatul este png."
+        },
+        "delay": {
+          "name": "Întârziere (secunde)",
+          "description": "Așteptați atâtea secunde după încărcarea paginii înainte de capturare."
+        },
+        "format": {
+          "name": "Format",
+          "description": "videoclip webm sau o singură captură de ecran png."
+        },
+        "viewport_width": {
+          "name": "Lățime fereastră de vizualizare",
+          "description": "Lățimea de randare în pixeli."
+        },
+        "viewport_height": {
+          "name": "Înălțime fereastră de vizualizare",
+          "description": "Înălțimea de randare în pixeli."
+        }
+      }
+    },
+    "record_ha": {
+      "name": "Înregistrează tabloul de bord HA",
+      "description": "Înregistrați o pagină Home Assistant. Furnizați o cale — URL-ul de bază HA este aplicat automat din configurația țintei.",
+      "fields": {
+        "path": {
+          "name": "Calea paginii",
+          "description": "Ruta HA de capturat, de ex. /lovelace/0 sau /history."
+        },
+        "target": {
+          "name": "Țintă",
+          "description": "Țintă HA denumită din configurația DashSnap (de ex. „ha”). Implicit este prima țintă configurată."
+        },
+        "seconds": {
+          "name": "Durată (secunde)",
+          "description": "Durata videoclipului. Ignorată când formatul este png."
+        },
+        "delay": {
+          "name": "Întârziere (secunde)",
+          "description": "Așteptați atâtea secunde după încărcarea paginii înainte de capturare."
+        },
+        "format": {
+          "name": "Format",
+          "description": "videoclip webm sau o singură captură de ecran png."
+        },
+        "viewport_width": {
+          "name": "Lățime fereastră de vizualizare",
+          "description": "Lățimea de randare în pixeli."
+        },
+        "viewport_height": {
+          "name": "Înălțime fereastră de vizualizare",
+          "description": "Înălțimea de randare în pixeli."
+        }
+      }
+    }
+  }
+}

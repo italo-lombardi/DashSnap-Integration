@@ -1,0 +1,107 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "DashSnap",
+        "description": "DashSnap bazinis URL, jei įmanoma, aptinkamas automatiškai ir iš anksto įrašomas žemiau – patvirtinkite arba pakoreguokite jį. Įveskite pagrindinį kompiuterį ir prievadą, kuriuose veikia DashSnap.",
+        "data": {
+          "base_url": "DashSnap bazinis URL"
+        }
+      }
+    },
+    "error": {
+      "invalid_url": "Įveskite pilną URL su galiojančia schema (http arba https), pagrindiniu kompiuteriu ir prievadu.",
+      "cannot_connect": "Nepavyko pasiekti DashSnap nurodytu URL. Patikrinkite pagrindinį kompiuterį / prievadą ir ar DashSnap veikia.",
+      "app_unhealthy": "DashSnap pasiektas, bet /health nepavyko – patikrinkite DashSnap taikinių konfigūraciją."
+    },
+    "abort": {
+      "already_configured": "DashSnap jau sukonfigūruotas."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "DashSnap",
+        "description": "Pakeiskite DashSnap bazinį URL, jei automatinis aptikimas pasirinko netinkamą. Prieš įrašant jis patikrinamas ir atliekamas būklės patikrinimas.",
+        "data": {
+          "base_url": "DashSnap bazinis URL"
+        }
+      }
+    },
+    "error": {
+      "invalid_url": "Įveskite pilną URL su galiojančia schema (http arba https), pagrindiniu kompiuteriu ir prievadu.",
+      "cannot_connect": "Nepavyko pasiekti DashSnap nurodytu URL. Patikrinkite pagrindinį kompiuterį / prievadą ir ar DashSnap veikia.",
+      "app_unhealthy": "DashSnap pasiektas, bet /health nepavyko – patikrinkite DashSnap taikinių konfigūraciją."
+    }
+  },
+  "services": {
+    "record": {
+      "name": "Įrašyti URL",
+      "description": "Įrašykite bet kurį tinklalapį į vaizdo įrašą arba ekrano nuotrauką naudodami DashSnap. Nurodykite pilną URL.",
+      "fields": {
+        "url": {
+          "name": "URL",
+          "description": "Pilnas fiksuojamo puslapio URL (turi prasidėti http arba https)."
+        },
+        "target": {
+          "name": "Taikinys",
+          "description": "Pavadintas taikinys iš DashSnap konfigūracijos. Jei praleista, numatytasis yra integruotas „public” taikinys (be autentifikacijos)."
+        },
+        "seconds": {
+          "name": "Trukmė (sekundėmis)",
+          "description": "Vaizdo įrašo ilgis. Ignoruojama, kai formatas yra png."
+        },
+        "delay": {
+          "name": "Delsa (sekundėmis)",
+          "description": "Palaukti tiek sekundžių po puslapio įkėlimo prieš fiksuojant."
+        },
+        "format": {
+          "name": "Formatas",
+          "description": "webm vaizdo įrašas arba viena png ekrano nuotrauka."
+        },
+        "viewport_width": {
+          "name": "Peržiūros srities plotis",
+          "description": "Atvaizdavimo plotis pikseliais."
+        },
+        "viewport_height": {
+          "name": "Peržiūros srities aukštis",
+          "description": "Atvaizdavimo aukštis pikseliais."
+        }
+      }
+    },
+    "record_ha": {
+      "name": "Įrašyti HA skydelį",
+      "description": "Įrašykite Home Assistant puslapį. Nurodykite kelią – HA bazinis URL taikomas automatiškai iš taikinio konfigūracijos.",
+      "fields": {
+        "path": {
+          "name": "Puslapio kelias",
+          "description": "Fiksuojamas HA maršrutas, pvz., /lovelace/0 arba /history."
+        },
+        "target": {
+          "name": "Taikinys",
+          "description": "Pavadintas HA taikinys iš DashSnap konfigūracijos (pvz., „ha”). Numatytasis yra pirmas sukonfigūruotas taikinys."
+        },
+        "seconds": {
+          "name": "Trukmė (sekundėmis)",
+          "description": "Vaizdo įrašo ilgis. Ignoruojama, kai formatas yra png."
+        },
+        "delay": {
+          "name": "Delsa (sekundėmis)",
+          "description": "Palaukti tiek sekundžių po puslapio įkėlimo prieš fiksuojant."
+        },
+        "format": {
+          "name": "Formatas",
+          "description": "webm vaizdo įrašas arba viena png ekrano nuotrauka."
+        },
+        "viewport_width": {
+          "name": "Peržiūros srities plotis",
+          "description": "Atvaizdavimo plotis pikseliais."
+        },
+        "viewport_height": {
+          "name": "Peržiūros srities aukštis",
+          "description": "Atvaizdavimo aukštis pikseliais."
+        }
+      }
+    }
+  }
+}

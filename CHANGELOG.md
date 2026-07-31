@@ -2,7 +2,7 @@
 
 All notable changes to DashSnap Integration.
 
-## [0.2.0] - 2026-07-31
+## [Unreleased]
 
 ### Added
 - Translations for 18 languages: zh-Hans, zh-Hant, ru, ja, ko, uk, cs, sk, hu, ro, bg, hr, fi, el, tr, lt, lv, ca — reaching the full HA core coverage target (~29 languages total)

@@ -25,6 +25,7 @@ DashSnap is a headless Chromium recorder that captures any URL to `.webm` video 
 - **Auto-detection** — finds a local DashSnap instance automatically on setup using `self_urls` from `/health`; self-heals if the addon IP changes after a container restart
 - **Multi-target** — pass an optional `target` name to select which DashSnap target to use
 - **Returns the output file path** from both services (usable in scripts and automations)
+- **29 languages** — UI translated into zh-Hans, zh-Hant, ru, ja, ko, uk, cs, sk, hu, ro, bg, hr, fi, el, tr, lt, lv, ca and all original 11
 
 ---
 

@@ -38,7 +38,6 @@ def test_all_translations_have_en_keys() -> None:
         if absent:
             missing[path.name] = absent
 
-    assert not missing, (
-        "Translation files missing keys from en.json:\n"
-        + "\n".join(f"  {lang}: {keys}" for lang, keys in missing.items())
+    assert not missing, "Translation files missing keys from en.json:\n" + "\n".join(
+        f"  {lang}: {keys}" for lang, keys in missing.items()
     )

@@ -14,6 +14,7 @@ known-first-party = ["custom_components.dashsnap"]
 asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "function"
 testpaths = ["tests"]
+addopts = "--cov=custom_components/dashsnap --cov-branch --cov-report=term-missing --cov-fail-under=100"
 
 [tool.coverage.run]
 source = ["custom_components/dashsnap"]

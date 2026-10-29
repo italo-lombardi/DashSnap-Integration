@@ -17,6 +17,7 @@ ATTR_DELAY = "delay"
 ATTR_VIEWPORT_WIDTH = "viewport_width"
 ATTR_VIEWPORT_HEIGHT = "viewport_height"
 ATTR_FORMAT = "format"
+ATTR_LANG = "lang"
 
 DEFAULT_SECONDS = 30
 DEFAULT_FORMAT = "webm"

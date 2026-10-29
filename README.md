@@ -99,6 +99,7 @@ Record a Home Assistant page by path. The HA base URL is applied automatically f
 | `format` | ✗ | `webm` | `webm` or `png` |
 | `viewport_width` | ✗ | 1920 | Render width in pixels |
 | `viewport_height` | ✗ | 1080 | Render height in pixels |
+| `lang` | ✗ | — | UI language, e.g. `de` or `en-GB` (requires DashSnap ≥ 0.1.15) |
 
 ### `dashsnap.record`
 
@@ -113,6 +114,7 @@ Record any web page by full URL.
 | `format` | ✗ | `webm` | `webm` or `png` |
 | `viewport_width` | ✗ | 1920 | Render width in pixels |
 | `viewport_height` | ✗ | 1080 | Render height in pixels |
+| `lang` | ✗ | — | UI language, e.g. `de` or `en-GB` (requires DashSnap ≥ 0.1.15) |
 
 ---
 

@@ -66,6 +66,10 @@
         "viewport_height": {
           "name": "Ύψος προβολής",
           "description": "Ύψος απόδοσης σε pixel."
+        },
+        "lang": {
+          "name": "Language",
+          "description": "UI language for the captured page, e.g. de or en-GB. Sets the browser locale; for HA pages also the frontend language."
         }
       }
     },
@@ -100,6 +104,10 @@
         "viewport_height": {
           "name": "Ύψος προβολής",
           "description": "Ύψος απόδοσης σε pixel."
+        },
+        "lang": {
+          "name": "Language",
+          "description": "UI language for the captured page, e.g. de or en-GB. Sets the browser locale; for HA pages also the frontend language."
         }
       }
     }

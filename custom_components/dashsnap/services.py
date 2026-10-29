@@ -17,6 +17,7 @@ from .config_flow import _PROBE_URLS, PROBE_TIMEOUT, _health, _supervisor_addon_
 from .const import (
     ATTR_DELAY,
     ATTR_FORMAT,
+    ATTR_LANG,
     ATTR_PATH,
     ATTR_SECONDS,
     ATTR_TARGET,
@@ -43,6 +44,9 @@ _COMMON = {
     vol.Optional(ATTR_VIEWPORT_HEIGHT): vol.All(vol.Coerce(int), vol.Range(min=240, max=2160)),
     vol.Optional(ATTR_FORMAT, default=DEFAULT_FORMAT): vol.In(["webm", "png"]),
     vol.Optional(ATTR_TARGET): cv.string,
+    vol.Optional(ATTR_LANG): vol.All(
+        cv.string, vol.Match(r"^[A-Za-z]{2,3}(?:-[A-Za-z0-9]{2,8})*$")
+    ),
 }
 
 RECORD_SCHEMA = vol.Schema({vol.Required(ATTR_URL): cv.string, **_COMMON})
@@ -135,6 +139,8 @@ def async_register_services(hass: HomeAssistant) -> None:
             params["viewport_height"] = call.data[ATTR_VIEWPORT_HEIGHT]
         if ATTR_TARGET in call.data:
             params["target"] = call.data[ATTR_TARGET]
+        if ATTR_LANG in call.data:
+            params["lang"] = call.data[ATTR_LANG]
         return await _call_app(hass, "/record", params)
 
     async def handle_record_ha(call: ServiceCall) -> dict:
@@ -150,6 +156,8 @@ def async_register_services(hass: HomeAssistant) -> None:
             params["viewport_height"] = call.data[ATTR_VIEWPORT_HEIGHT]
         if ATTR_TARGET in call.data:
             params["target"] = call.data[ATTR_TARGET]
+        if ATTR_LANG in call.data:
+            params["lang"] = call.data[ATTR_LANG]
         return await _call_app(hass, "/record/ha", params)
 
     hass.services.async_register(

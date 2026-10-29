@@ -12,6 +12,7 @@ from pytest_homeassistant_custom_component.common import MockConfigEntry
 from custom_components.dashsnap.const import (
     ATTR_DELAY,
     ATTR_FORMAT,
+    ATTR_LANG,
     ATTR_PATH,
     ATTR_SECONDS,
     ATTR_TARGET,
@@ -270,6 +271,38 @@ async def test_handle_record_ha_with_target(hass: HomeAssistant):
         )
     called_url = session.post.call_args[0][0]
     assert "target=ha" in called_url
+
+
+async def test_handle_record_ha_with_lang(hass: HomeAssistant):
+    await _setup_integration(hass)
+    with patch(
+        "custom_components.dashsnap.services.async_get_clientsession",
+        return_value=_patched_session(ok=True),
+    ) as mock_sess:
+        session = mock_sess.return_value
+        await hass.services.async_call(
+            DOMAIN,
+            SERVICE_RECORD_HA,
+            {ATTR_PATH: "/lovelace/0", ATTR_LANG: "de"},
+            blocking=True,
+            return_response=True,
+        )
+    called_url = session.post.call_args[0][0]
+    assert "lang=de" in called_url
+
+
+async def test_handle_record_ha_invalid_lang_rejected(hass: HomeAssistant):
+    import voluptuous as vol
+
+    await _setup_integration(hass)
+    with pytest.raises(vol.Invalid):
+        await hass.services.async_call(
+            DOMAIN,
+            SERVICE_RECORD_HA,
+            {ATTR_PATH: "/lovelace/0", ATTR_LANG: "de; drop"},
+            blocking=True,
+            return_response=True,
+        )
 
 
 async def test_handle_record_ha_with_all_params(hass: HomeAssistant):

@@ -71,6 +71,14 @@ record:
           min: 240
           max: 2160
           unit_of_measurement: px
+    lang:
+      name: Language
+      description: UI language for the captured page, e.g. de or en-GB. Sets the browser locale; for HA pages also the frontend language.
+      required: false
+      example: de
+      advanced: true
+      selector:
+        text:
 
 record_ha:
   name: Record HA dashboard
@@ -144,3 +152,11 @@ record_ha:
           min: 240
           max: 2160
           unit_of_measurement: px
+    lang:
+      name: Language
+      description: UI language for the captured page, e.g. de or en-GB. Sets the browser locale; for HA pages also the frontend language.
+      required: false
+      example: de
+      advanced: true
+      selector:
+        text:

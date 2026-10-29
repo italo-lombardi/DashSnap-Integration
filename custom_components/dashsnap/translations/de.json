@@ -66,6 +66,10 @@
         "viewport_height": {
           "name": "Anzeigehöhe",
           "description": "Darstellungshöhe in Pixeln."
+        },
+        "lang": {
+          "name": "Sprache",
+          "description": "Sprache der aufgenommenen Seite, z. B. de oder en-GB. Setzt die Browser-Sprache; bei HA-Seiten auch die Sprache der Oberfläche."
         }
       }
     },
@@ -100,6 +104,10 @@
         "viewport_height": {
           "name": "Anzeigehöhe",
           "description": "Darstellungshöhe in Pixeln."
+        },
+        "lang": {
+          "name": "Sprache",
+          "description": "Sprache der aufgenommenen Seite, z. B. de oder en-GB. Setzt die Browser-Sprache; bei HA-Seiten auch die Sprache der Oberfläche."
         }
       }
     }

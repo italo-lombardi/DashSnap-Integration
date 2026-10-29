@@ -44,6 +44,8 @@ _COMMON = {
     vol.Optional(ATTR_VIEWPORT_HEIGHT): vol.All(vol.Coerce(int), vol.Range(min=240, max=2160)),
     vol.Optional(ATTR_FORMAT, default=DEFAULT_FORMAT): vol.In(["webm", "png"]),
     vol.Optional(ATTR_TARGET): cv.string,
+    # Intentionally stricter than the addon (which accepts any string): validate the
+    # language tag at the HA trust boundary and block injection (e.g. "de; drop").
     vol.Optional(ATTR_LANG): vol.All(
         cv.string, vol.Match(r"^[A-Za-z]{2,3}(?:-[A-Za-z0-9]{2,8})*$")
     ),

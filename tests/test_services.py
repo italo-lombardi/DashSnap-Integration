@@ -305,6 +305,24 @@ async def test_handle_record_ha_invalid_lang_rejected(hass: HomeAssistant):
         )
 
 
+async def test_handle_record_with_lang(hass: HomeAssistant):
+    await _setup_integration(hass)
+    with patch(
+        "custom_components.dashsnap.services.async_get_clientsession",
+        return_value=_patched_session(ok=True),
+    ) as mock_sess:
+        session = mock_sess.return_value
+        await hass.services.async_call(
+            DOMAIN,
+            SERVICE_RECORD,
+            {ATTR_URL: "https://example.com", ATTR_LANG: "de"},
+            blocking=True,
+            return_response=True,
+        )
+    called_url = session.post.call_args[0][0]
+    assert "lang=de" in called_url
+
+
 async def test_handle_record_ha_with_all_params(hass: HomeAssistant):
     await _setup_integration(hass)
     with patch(

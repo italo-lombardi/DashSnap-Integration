@@ -68,8 +68,8 @@
           "description": "Renderhoogte in pixels."
         },
         "lang": {
-          "name": "Language",
-          "description": "UI language for the captured page, e.g. de or en-GB. Sets the browser locale; for HA pages also the frontend language."
+          "name": "Taal",
+          "description": "UI-taal voor de vastgelegde pagina, bijv. de of en-GB. Stelt de browserlocale in; voor HA-pagina's ook de frontendtaal."
         }
       }
     },
@@ -106,8 +106,8 @@
           "description": "Renderhoogte in pixels."
         },
         "lang": {
-          "name": "Language",
-          "description": "UI language for the captured page, e.g. de or en-GB. Sets the browser locale; for HA pages also the frontend language."
+          "name": "Taal",
+          "description": "UI-taal voor de vastgelegde pagina, bijv. de of en-GB. Stelt de browserlocale in; voor HA-pagina's ook de frontendtaal."
         }
       }
     }

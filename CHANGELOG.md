@@ -4,6 +4,10 @@ All notable changes to DashSnap Integration.
 
 ## [Unreleased]
 
+### Fixed
+- `lang` service field `name`/`description` now carry real native translations in the 27 affected non-English files — 0.1.1 shipped the English source text pasted verbatim (de.json already held correct German)
+- Translation test now fails if any leaf value is identical to English across every language, so an untranslated paste can no longer pass review
+
 ## [0.1.1] - 2026-10-29
 
 ### Added

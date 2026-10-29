@@ -68,8 +68,8 @@
           "description": "Alto de renderizado en píxeles."
         },
         "lang": {
-          "name": "Language",
-          "description": "UI language for the captured page, e.g. de or en-GB. Sets the browser locale; for HA pages also the frontend language."
+          "name": "Idioma",
+          "description": "Idioma de la interfaz para la página capturada, p. ej. de o en-GB. Establece la configuración regional del navegador; para las páginas de HA también el idioma del frontend."
         }
       }
     },
@@ -106,8 +106,8 @@
           "description": "Alto de renderizado en píxeles."
         },
         "lang": {
-          "name": "Language",
-          "description": "UI language for the captured page, e.g. de or en-GB. Sets the browser locale; for HA pages also the frontend language."
+          "name": "Idioma",
+          "description": "Idioma de la interfaz para la página capturada, p. ej. de o en-GB. Establece la configuración regional del navegador; para las páginas de HA también el idioma del frontend."
         }
       }
     }

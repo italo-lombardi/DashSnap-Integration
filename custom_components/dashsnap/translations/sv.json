@@ -68,8 +68,8 @@
           "description": "Renderingshöjd i pixlar."
         },
         "lang": {
-          "name": "Language",
-          "description": "UI language for the captured page, e.g. de or en-GB. Sets the browser locale; for HA pages also the frontend language."
+          "name": "Språk",
+          "description": "Gränssnittsspråk för den infångade sidan, t.ex. de eller en-GB. Ställer in webbläsarens språk; för HA-sidor även gränssnittsspråket."
         }
       }
     },
@@ -106,8 +106,8 @@
           "description": "Renderingshöjd i pixlar."
         },
         "lang": {
-          "name": "Language",
-          "description": "UI language for the captured page, e.g. de or en-GB. Sets the browser locale; for HA pages also the frontend language."
+          "name": "Språk",
+          "description": "Gränssnittsspråk för den infångade sidan, t.ex. de eller en-GB. Ställer in webbläsarens språk; för HA-sidor även gränssnittsspråket."
         }
       }
     }

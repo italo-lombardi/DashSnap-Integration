@@ -68,8 +68,8 @@
           "description": "Ύψος απόδοσης σε pixel."
         },
         "lang": {
-          "name": "Language",
-          "description": "UI language for the captured page, e.g. de or en-GB. Sets the browser locale; for HA pages also the frontend language."
+          "name": "Γλώσσα",
+          "description": "Γλώσσα διεπαφής για τη σελίδα που καταγράφεται, π.χ. de ή en-GB. Ορίζει την τοπική ρύθμιση (locale) του προγράμματος περιήγησης· για σελίδες HA ορίζει επίσης τη γλώσσα του frontend."
         }
       }
     },
@@ -106,8 +106,8 @@
           "description": "Ύψος απόδοσης σε pixel."
         },
         "lang": {
-          "name": "Language",
-          "description": "UI language for the captured page, e.g. de or en-GB. Sets the browser locale; for HA pages also the frontend language."
+          "name": "Γλώσσα",
+          "description": "Γλώσσα διεπαφής για τη σελίδα που καταγράφεται, π.χ. de ή en-GB. Ορίζει την τοπική ρύθμιση (locale) του προγράμματος περιήγησης· για σελίδες HA ορίζει επίσης τη γλώσσα του frontend."
         }
       }
     }

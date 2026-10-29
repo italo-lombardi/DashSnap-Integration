@@ -68,8 +68,8 @@
           "description": "Renderēšanas augstums pikseļos."
         },
         "lang": {
-          "name": "Language",
-          "description": "UI language for the captured page, e.g. de or en-GB. Sets the browser locale; for HA pages also the frontend language."
+          "name": "Valoda",
+          "description": "Tvertās lapas lietotāja saskarnes valoda, piemēram, de vai en-GB. Iestata pārlūka lokalizāciju; HA lapām arī priekšgala valodu."
         }
       }
     },
@@ -106,8 +106,8 @@
           "description": "Renderēšanas augstums pikseļos."
         },
         "lang": {
-          "name": "Language",
-          "description": "UI language for the captured page, e.g. de or en-GB. Sets the browser locale; for HA pages also the frontend language."
+          "name": "Valoda",
+          "description": "Tvertās lapas lietotāja saskarnes valoda, piemēram, de vai en-GB. Iestata pārlūka lokalizāciju; HA lapām arī priekšgala valodu."
         }
       }
     }

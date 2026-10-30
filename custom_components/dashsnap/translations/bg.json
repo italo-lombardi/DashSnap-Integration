@@ -68,8 +68,8 @@
           "description": "Височина на рендиране в пиксели."
         },
         "lang": {
-          "name": "Language",
-          "description": "UI language for the captured page, e.g. de or en-GB. Sets the browser locale; for HA pages also the frontend language."
+          "name": "Език",
+          "description": "Език на интерфейса за заснетата страница, например de или en-GB. Задава локала на браузъра; за HA страници също и езика на интерфейса."
         }
       }
     },
@@ -106,8 +106,8 @@
           "description": "Височина на рендиране в пиксели."
         },
         "lang": {
-          "name": "Language",
-          "description": "UI language for the captured page, e.g. de or en-GB. Sets the browser locale; for HA pages also the frontend language."
+          "name": "Език",
+          "description": "Език на интерфейса за заснетата страница, например de или en-GB. Задава локала на браузъра; за HA страници също и езика на интерфейса."
         }
       }
     }

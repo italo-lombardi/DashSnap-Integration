@@ -68,8 +68,8 @@
           "description": "Hauteur de rendu en pixels."
         },
         "lang": {
-          "name": "Language",
-          "description": "UI language for the captured page, e.g. de or en-GB. Sets the browser locale; for HA pages also the frontend language."
+          "name": "Langue",
+          "description": "Langue de l'interface pour la page capturée, par exemple de ou en-GB. Définit la locale du navigateur ; pour les pages HA, également la langue de l'interface."
         }
       }
     },
@@ -106,8 +106,8 @@
           "description": "Hauteur de rendu en pixels."
         },
         "lang": {
-          "name": "Language",
-          "description": "UI language for the captured page, e.g. de or en-GB. Sets the browser locale; for HA pages also the frontend language."
+          "name": "Langue",
+          "description": "Langue de l'interface pour la page capturée, par exemple de ou en-GB. Définit la locale du navigateur ; pour les pages HA, également la langue de l'interface."
         }
       }
     }

@@ -68,8 +68,8 @@
           "description": "Atvaizdavimo aukštis pikseliais."
         },
         "lang": {
-          "name": "Language",
-          "description": "UI language for the captured page, e.g. de or en-GB. Sets the browser locale; for HA pages also the frontend language."
+          "name": "Kalba",
+          "description": "Užfiksuoto puslapio sąsajos kalba, pvz., de arba en-GB. Nustato naršyklės lokalę; HA puslapiams – taip pat ir sąsajos kalbą."
         }
       }
     },
@@ -106,8 +106,8 @@
           "description": "Atvaizdavimo aukštis pikseliais."
         },
         "lang": {
-          "name": "Language",
-          "description": "UI language for the captured page, e.g. de or en-GB. Sets the browser locale; for HA pages also the frontend language."
+          "name": "Kalba",
+          "description": "Užfiksuoto puslapio sąsajos kalba, pvz., de arba en-GB. Nustato naršyklės lokalę; HA puslapiams – taip pat ir sąsajos kalbą."
         }
       }
     }

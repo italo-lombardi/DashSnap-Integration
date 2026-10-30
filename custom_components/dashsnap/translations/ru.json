@@ -68,8 +68,8 @@
           "description": "Высота отрисовки в пикселях."
         },
         "lang": {
-          "name": "Language",
-          "description": "UI language for the captured page, e.g. de or en-GB. Sets the browser locale; for HA pages also the frontend language."
+          "name": "Язык",
+          "description": "Язык интерфейса для захватываемой страницы, например de или en-GB. Задаёт языковой стандарт браузера; для страниц HA — также язык интерфейса."
         }
       }
     },
@@ -106,8 +106,8 @@
           "description": "Высота отрисовки в пикселях."
         },
         "lang": {
-          "name": "Language",
-          "description": "UI language for the captured page, e.g. de or en-GB. Sets the browser locale; for HA pages also the frontend language."
+          "name": "Язык",
+          "description": "Язык интерфейса для захватываемой страницы, например de или en-GB. Задаёт языковой стандарт браузера; для страниц HA — также язык интерфейса."
         }
       }
     }

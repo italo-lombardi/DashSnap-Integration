@@ -68,8 +68,8 @@
           "description": "Visina prikaza u pikselima."
         },
         "lang": {
-          "name": "Language",
-          "description": "UI language for the captured page, e.g. de or en-GB. Sets the browser locale; for HA pages also the frontend language."
+          "name": "Jezik",
+          "description": "Jezik sučelja za snimljenu stranicu, npr. de ili en-GB. Postavlja lokalizaciju preglednika; za HA stranice i jezik sučelja."
         }
       }
     },
@@ -106,8 +106,8 @@
           "description": "Visina prikaza u pikselima."
         },
         "lang": {
-          "name": "Language",
-          "description": "UI language for the captured page, e.g. de or en-GB. Sets the browser locale; for HA pages also the frontend language."
+          "name": "Jezik",
+          "description": "Jezik sučelja za snimljenu stranicu, npr. de ili en-GB. Postavlja lokalizaciju preglednika; za HA stranice i jezik sučelja."
         }
       }
     }

@@ -68,8 +68,8 @@
           "description": "렌더링 높이(픽셀)입니다."
         },
         "lang": {
-          "name": "Language",
-          "description": "UI language for the captured page, e.g. de or en-GB. Sets the browser locale; for HA pages also the frontend language."
+          "name": "언어",
+          "description": "캡처할 페이지의 UI 언어입니다(예: de 또는 en-GB). 브라우저 로케일을 설정하며, HA 페이지의 경우 프런트엔드 언어도 함께 설정합니다."
         }
       }
     },
@@ -106,8 +106,8 @@
           "description": "렌더링 높이(픽셀)입니다."
         },
         "lang": {
-          "name": "Language",
-          "description": "UI language for the captured page, e.g. de or en-GB. Sets the browser locale; for HA pages also the frontend language."
+          "name": "언어",
+          "description": "캡처할 페이지의 UI 언어입니다(예: de 또는 en-GB). 브라우저 로케일을 설정하며, HA 페이지의 경우 프런트엔드 언어도 함께 설정합니다."
         }
       }
     }

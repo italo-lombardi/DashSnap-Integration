@@ -68,8 +68,8 @@
           "description": "Wysokość renderowania w pikselach."
         },
         "lang": {
-          "name": "Language",
-          "description": "UI language for the captured page, e.g. de or en-GB. Sets the browser locale; for HA pages also the frontend language."
+          "name": "Język",
+          "description": "Język interfejsu przechwytywanej strony, np. de lub en-GB. Ustawia język regionalny przeglądarki; w przypadku stron HA również język interfejsu."
         }
       }
     },
@@ -106,8 +106,8 @@
           "description": "Wysokość renderowania w pikselach."
         },
         "lang": {
-          "name": "Language",
-          "description": "UI language for the captured page, e.g. de or en-GB. Sets the browser locale; for HA pages also the frontend language."
+          "name": "Język",
+          "description": "Język interfejsu przechwytywanej strony, np. de lub en-GB. Ustawia język regionalny przeglądarki; w przypadku stron HA również język interfejsu."
         }
       }
     }

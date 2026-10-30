@@ -68,8 +68,8 @@
           "description": "Renderelési magasság képpontban."
         },
         "lang": {
-          "name": "Language",
-          "description": "UI language for the captured page, e.g. de or en-GB. Sets the browser locale; for HA pages also the frontend language."
+          "name": "Nyelv",
+          "description": "A rögzített oldal felületének nyelve, például de vagy en-GB. Beállítja a böngésző területi beállítását; HA oldalaknál a kezelőfelület nyelvét is."
         }
       }
     },
@@ -106,8 +106,8 @@
           "description": "Renderelési magasság képpontban."
         },
         "lang": {
-          "name": "Language",
-          "description": "UI language for the captured page, e.g. de or en-GB. Sets the browser locale; for HA pages also the frontend language."
+          "name": "Nyelv",
+          "description": "A rögzített oldal felületének nyelve, például de vagy en-GB. Beállítja a böngésző területi beállítását; HA oldalaknál a kezelőfelület nyelvét is."
         }
       }
     }

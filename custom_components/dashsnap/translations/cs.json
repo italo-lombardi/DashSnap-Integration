@@ -68,8 +68,8 @@
           "description": "Výška vykreslení v pixelech."
         },
         "lang": {
-          "name": "Language",
-          "description": "UI language for the captured page, e.g. de or en-GB. Sets the browser locale; for HA pages also the frontend language."
+          "name": "Jazyk",
+          "description": "Jazyk rozhraní pro zachycovanou stránku, např. de nebo en-GB. Nastavuje národní prostředí prohlížeče; u stránek HA také jazyk frontendu."
         }
       }
     },
@@ -106,8 +106,8 @@
           "description": "Výška vykreslení v pixelech."
         },
         "lang": {
-          "name": "Language",
-          "description": "UI language for the captured page, e.g. de or en-GB. Sets the browser locale; for HA pages also the frontend language."
+          "name": "Jazyk",
+          "description": "Jazyk rozhraní pro zachycovanou stránku, např. de nebo en-GB. Nastavuje národní prostředí prohlížeče; u stránek HA také jazyk frontendu."
         }
       }
     }

@@ -68,8 +68,8 @@
           "description": "算繪高度（像素）。"
         },
         "lang": {
-          "name": "Language",
-          "description": "UI language for the captured page, e.g. de or en-GB. Sets the browser locale; for HA pages also the frontend language."
+          "name": "語言",
+          "description": "擷取頁面所使用的介面語言，例如 de 或 en-GB。設定瀏覽器的地區設定；若為 HA 頁面，同時也會設定前端語言。"
         }
       }
     },
@@ -106,8 +106,8 @@
           "description": "算繪高度（像素）。"
         },
         "lang": {
-          "name": "Language",
-          "description": "UI language for the captured page, e.g. de or en-GB. Sets the browser locale; for HA pages also the frontend language."
+          "name": "語言",
+          "description": "擷取頁面所使用的介面語言，例如 de 或 en-GB。設定瀏覽器的地區設定；若為 HA 頁面，同時也會設定前端語言。"
         }
       }
     }

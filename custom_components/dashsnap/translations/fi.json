@@ -68,8 +68,8 @@
           "description": "Renderöintikorkeus pikseleinä."
         },
         "lang": {
-          "name": "Language",
-          "description": "UI language for the captured page, e.g. de or en-GB. Sets the browser locale; for HA pages also the frontend language."
+          "name": "Kieli",
+          "description": "Kaapatun sivun käyttöliittymän kieli, esim. de tai en-GB. Asettaa selaimen kieliasetuksen; HA-sivuilla myös käyttöliittymän kielen."
         }
       }
     },
@@ -106,8 +106,8 @@
           "description": "Renderöintikorkeus pikseleinä."
         },
         "lang": {
-          "name": "Language",
-          "description": "UI language for the captured page, e.g. de or en-GB. Sets the browser locale; for HA pages also the frontend language."
+          "name": "Kieli",
+          "description": "Kaapatun sivun käyttöliittymän kieli, esim. de tai en-GB. Asettaa selaimen kieliasetuksen; HA-sivuilla myös käyttöliittymän kielen."
         }
       }
     }

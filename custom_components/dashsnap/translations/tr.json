@@ -68,8 +68,8 @@
           "description": "Piksel cinsinden işleme yüksekliği."
         },
         "lang": {
-          "name": "Language",
-          "description": "UI language for the captured page, e.g. de or en-GB. Sets the browser locale; for HA pages also the frontend language."
+          "name": "Dil",
+          "description": "Yakalanan sayfanın arayüz dili, örneğin de veya en-GB. Tarayıcı yerel ayarını belirler; HA sayfaları için ayrıca ön yüz dilini de ayarlar."
         }
       }
     },
@@ -106,8 +106,8 @@
           "description": "Piksel cinsinden işleme yüksekliği."
         },
         "lang": {
-          "name": "Language",
-          "description": "UI language for the captured page, e.g. de or en-GB. Sets the browser locale; for HA pages also the frontend language."
+          "name": "Dil",
+          "description": "Yakalanan sayfanın arayüz dili, örneğin de veya en-GB. Tarayıcı yerel ayarını belirler; HA sayfaları için ayrıca ön yüz dilini de ayarlar."
         }
       }
     }

@@ -68,8 +68,8 @@
           "description": "Gjengivelseshøyde i piksler."
         },
         "lang": {
-          "name": "Language",
-          "description": "UI language for the captured page, e.g. de or en-GB. Sets the browser locale; for HA pages also the frontend language."
+          "name": "Språk",
+          "description": "Grensesnittspråk for siden som tas opp, f.eks. de eller en-GB. Angir nettleserens språkinnstilling; for HA-sider også frontend-språket."
         }
       }
     },
@@ -106,8 +106,8 @@
           "description": "Gjengivelseshøyde i piksler."
         },
         "lang": {
-          "name": "Language",
-          "description": "UI language for the captured page, e.g. de or en-GB. Sets the browser locale; for HA pages also the frontend language."
+          "name": "Språk",
+          "description": "Grensesnittspråk for siden som tas opp, f.eks. de eller en-GB. Angir nettleserens språkinnstilling; for HA-sider også frontend-språket."
         }
       }
     }

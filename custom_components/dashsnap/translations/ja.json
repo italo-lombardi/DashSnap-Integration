@@ -68,8 +68,8 @@
           "description": "レンダリング高さ（ピクセル）。"
         },
         "lang": {
-          "name": "Language",
-          "description": "UI language for the captured page, e.g. de or en-GB. Sets the browser locale; for HA pages also the frontend language."
+          "name": "言語",
+          "description": "キャプチャするページのUI言語（例: de や en-GB）。ブラウザのロケールを設定します。HAページの場合はフロントエンドの言語も設定します。"
         }
       }
     },
@@ -106,8 +106,8 @@
           "description": "レンダリング高さ（ピクセル）。"
         },
         "lang": {
-          "name": "Language",
-          "description": "UI language for the captured page, e.g. de or en-GB. Sets the browser locale; for HA pages also the frontend language."
+          "name": "言語",
+          "description": "キャプチャするページのUI言語（例: de や en-GB）。ブラウザのロケールを設定します。HAページの場合はフロントエンドの言語も設定します。"
         }
       }
     }

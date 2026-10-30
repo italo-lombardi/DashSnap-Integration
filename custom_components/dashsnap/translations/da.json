@@ -68,8 +68,8 @@
           "description": "Gengivelseshøjde i pixels."
         },
         "lang": {
-          "name": "Language",
-          "description": "UI language for the captured page, e.g. de or en-GB. Sets the browser locale; for HA pages also the frontend language."
+          "name": "Sprog",
+          "description": "UI-sprog for den fangede side, f.eks. de eller en-GB. Angiver browserens lokalitet; for HA-sider også frontend-sproget."
         }
       }
     },
@@ -106,8 +106,8 @@
           "description": "Gengivelseshøjde i pixels."
         },
         "lang": {
-          "name": "Language",
-          "description": "UI language for the captured page, e.g. de or en-GB. Sets the browser locale; for HA pages also the frontend language."
+          "name": "Sprog",
+          "description": "UI-sprog for den fangede side, f.eks. de eller en-GB. Angiver browserens lokalitet; for HA-sider også frontend-sproget."
         }
       }
     }

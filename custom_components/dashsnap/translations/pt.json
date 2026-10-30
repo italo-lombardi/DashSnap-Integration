@@ -68,8 +68,8 @@
           "description": "Altura de renderização em píxeis."
         },
         "lang": {
-          "name": "Language",
-          "description": "UI language for the captured page, e.g. de or en-GB. Sets the browser locale; for HA pages also the frontend language."
+          "name": "Idioma",
+          "description": "Idioma da interface da página capturada, por exemplo de ou en-GB. Define a região do navegador; nas páginas do HA também o idioma da interface."
         }
       }
     },
@@ -106,8 +106,8 @@
           "description": "Altura de renderização em píxeis."
         },
         "lang": {
-          "name": "Language",
-          "description": "UI language for the captured page, e.g. de or en-GB. Sets the browser locale; for HA pages also the frontend language."
+          "name": "Idioma",
+          "description": "Idioma da interface da página capturada, por exemplo de ou en-GB. Define a região do navegador; nas páginas do HA também o idioma da interface."
         }
       }
     }

@@ -16,10 +16,15 @@ import voluptuous as vol
 from .config_flow import _PROBE_URLS, PROBE_TIMEOUT, _health, _supervisor_addon_url
 from .const import (
     ATTR_DELAY,
+    ATTR_DELETE_ALL,
+    ATTR_DRY_RUN,
     ATTR_FORMAT,
     ATTR_LANG,
+    ATTR_NAME,
+    ATTR_OLDER_THAN_DAYS,
     ATTR_PATH,
     ATTR_SECONDS,
+    ATTR_SLUG,
     ATTR_TARGET,
     ATTR_URL,
     ATTR_VIEWPORT_HEIGHT,
@@ -28,8 +33,13 @@ from .const import (
     DEFAULT_SECONDS,
     DOMAIN,
     RECORD_TIMEOUT,
+    RECORDING_NAME_RE,
+    RECORDINGS_TIMEOUT,
+    SERVICE_DELETE_RECORDINGS,
+    SERVICE_LIST_RECORDINGS,
     SERVICE_RECORD,
     SERVICE_RECORD_HA,
+    SLUG_RE,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -53,6 +63,28 @@ _COMMON = {
 
 RECORD_SCHEMA = vol.Schema({vol.Required(ATTR_URL): cv.string, **_COMMON})
 RECORD_HA_SCHEMA = vol.Schema({vol.Required(ATTR_PATH): cv.string, **_COMMON})
+
+_FORMAT = vol.In(["webm", "png"])
+_SLUG = vol.All(cv.string, vol.Match(SLUG_RE))
+
+LIST_RECORDINGS_SCHEMA = vol.Schema(
+    {
+        vol.Optional(ATTR_FORMAT): _FORMAT,
+        vol.Optional(ATTR_SLUG): _SLUG,
+        vol.Optional(ATTR_OLDER_THAN_DAYS): vol.All(vol.Coerce(int), vol.Range(min=0)),
+    }
+)
+
+DELETE_RECORDINGS_SCHEMA = vol.Schema(
+    {
+        vol.Optional(ATTR_NAME): vol.All(cv.string, vol.Match(RECORDING_NAME_RE)),
+        vol.Optional(ATTR_SLUG): _SLUG,
+        vol.Optional(ATTR_OLDER_THAN_DAYS): vol.All(vol.Coerce(int), vol.Range(min=0)),
+        vol.Optional(ATTR_FORMAT): _FORMAT,
+        vol.Optional(ATTR_DELETE_ALL, default=False): cv.boolean,
+        vol.Optional(ATTR_DRY_RUN, default=False): cv.boolean,
+    }
+)
 
 
 def _base_url(hass: HomeAssistant) -> str:
@@ -122,9 +154,57 @@ async def _call_app(hass: HomeAssistant, endpoint: str, params: dict) -> dict:
     return data
 
 
+# Stable error slugs from the addon (contract): branch on these, not HTTP status.
+_ERROR_MESSAGES = {
+    "not_found": "Recording not found: {name}",
+    "invalid_name": "Invalid recording name: {name}",
+    "refuse_wipe": "Refusing to delete: specify a filter (name, slug, older_than_days, format) or set delete_all.",
+}
+
+
+async def _request_recordings(
+    hass: HomeAssistant, method: str, base: str, params: dict
+) -> dict:
+    """Single HTTP attempt to the recordings API. Returns parsed JSON (any status)."""
+    session = async_get_clientsession(hass)
+    url = f"{base}/recordings/delete" if method == "post" else f"{base}/recordings"
+    if params:
+        url = f"{url}?{urlencode(params)}"
+    timeout = aiohttp.ClientTimeout(total=RECORDINGS_TIMEOUT)
+    async with session.request(method, url, timeout=timeout) as resp:
+        return await resp.json(content_type=None)
+
+
+async def _call_recordings(hass: HomeAssistant, method: str, params: dict) -> dict:
+    """Call the list/delete recordings API with one rediscover-retry, then branch on error slug."""
+    try:
+        data = await _request_recordings(hass, method, _base_url(hass), params)
+    except (aiohttp.ClientConnectionError, aiohttp.ServerDisconnectedError) as err:
+        new_url = await _rediscover(hass)
+        if new_url is None:
+            raise HomeAssistantError(f"Could not reach DashSnap: {err}") from err
+        try:
+            data = await _request_recordings(hass, method, new_url, params)
+        except Exception as retry_err:  # noqa: BLE001
+            raise HomeAssistantError(f"Could not reach DashSnap: {retry_err}") from retry_err
+    except Exception as err:  # noqa: BLE001
+        raise HomeAssistantError(f"Could not reach DashSnap: {err}") from err
+
+    if not data.get("ok", False):
+        slug = data.get("error", "")
+        template = _ERROR_MESSAGES.get(slug)
+        if template:
+            raise HomeAssistantError(template.format(name=data.get("name", "")))
+        raise HomeAssistantError(f"DashSnap error: {data.get('error', data)}")
+    return data
+
+
 def async_register_services(hass: HomeAssistant) -> None:
-    if hass.services.has_service(DOMAIN, SERVICE_RECORD) and hass.services.has_service(
-        DOMAIN, SERVICE_RECORD_HA
+    if (
+        hass.services.has_service(DOMAIN, SERVICE_RECORD)
+        and hass.services.has_service(DOMAIN, SERVICE_RECORD_HA)
+        and hass.services.has_service(DOMAIN, SERVICE_LIST_RECORDINGS)
+        and hass.services.has_service(DOMAIN, SERVICE_DELETE_RECORDINGS)
     ):
         return
 
@@ -162,6 +242,32 @@ def async_register_services(hass: HomeAssistant) -> None:
             params["lang"] = call.data[ATTR_LANG]
         return await _call_app(hass, "/record/ha", params)
 
+    async def handle_list_recordings(call: ServiceCall) -> dict:
+        params: dict = {}
+        if ATTR_FORMAT in call.data:
+            params["format"] = call.data[ATTR_FORMAT]
+        if ATTR_SLUG in call.data:
+            params["slug"] = call.data[ATTR_SLUG]
+        if ATTR_OLDER_THAN_DAYS in call.data:
+            params["older_than_days"] = call.data[ATTR_OLDER_THAN_DAYS]
+        return await _call_recordings(hass, "get", params)
+
+    async def handle_delete_recordings(call: ServiceCall) -> dict:
+        params: dict = {}
+        if ATTR_NAME in call.data:
+            params["name"] = call.data[ATTR_NAME]
+        if ATTR_SLUG in call.data:
+            params["slug"] = call.data[ATTR_SLUG]
+        if ATTR_OLDER_THAN_DAYS in call.data:
+            params["older_than_days"] = call.data[ATTR_OLDER_THAN_DAYS]
+        if ATTR_FORMAT in call.data:
+            params["format"] = call.data[ATTR_FORMAT]
+        if call.data.get(ATTR_DELETE_ALL):
+            params["all"] = "true"
+        if call.data.get(ATTR_DRY_RUN):
+            params["dry_run"] = "true"
+        return await _call_recordings(hass, "post", params)
+
     hass.services.async_register(
         DOMAIN,
         SERVICE_RECORD,
@@ -176,8 +282,24 @@ def async_register_services(hass: HomeAssistant) -> None:
         schema=RECORD_HA_SCHEMA,
         supports_response=SupportsResponse.OPTIONAL,
     )
+    hass.services.async_register(
+        DOMAIN,
+        SERVICE_LIST_RECORDINGS,
+        handle_list_recordings,
+        schema=LIST_RECORDINGS_SCHEMA,
+        supports_response=SupportsResponse.ONLY,
+    )
+    hass.services.async_register(
+        DOMAIN,
+        SERVICE_DELETE_RECORDINGS,
+        handle_delete_recordings,
+        schema=DELETE_RECORDINGS_SCHEMA,
+        supports_response=SupportsResponse.OPTIONAL,
+    )
 
 
 def async_unregister_services(hass: HomeAssistant) -> None:
     hass.services.async_remove(DOMAIN, SERVICE_RECORD)
     hass.services.async_remove(DOMAIN, SERVICE_RECORD_HA)
+    hass.services.async_remove(DOMAIN, SERVICE_LIST_RECORDINGS)
+    hass.services.async_remove(DOMAIN, SERVICE_DELETE_RECORDINGS)

@@ -11,16 +11,23 @@ from pytest_homeassistant_custom_component.common import MockConfigEntry
 
 from custom_components.dashsnap.const import (
     ATTR_DELAY,
+    ATTR_DELETE_ALL,
+    ATTR_DRY_RUN,
     ATTR_FORMAT,
     ATTR_LANG,
+    ATTR_NAME,
+    ATTR_OLDER_THAN_DAYS,
     ATTR_PATH,
     ATTR_SECONDS,
+    ATTR_SLUG,
     ATTR_TARGET,
     ATTR_URL,
     ATTR_VIEWPORT_HEIGHT,
     ATTR_VIEWPORT_WIDTH,
     CONF_BASE_URL,
     DOMAIN,
+    SERVICE_DELETE_RECORDINGS,
+    SERVICE_LIST_RECORDINGS,
     SERVICE_RECORD,
     SERVICE_RECORD_HA,
 )
@@ -90,6 +97,8 @@ async def test_services_registered_after_setup(hass: HomeAssistant):
     await _setup_integration(hass)
     assert hass.services.has_service(DOMAIN, SERVICE_RECORD)
     assert hass.services.has_service(DOMAIN, SERVICE_RECORD_HA)
+    assert hass.services.has_service(DOMAIN, SERVICE_LIST_RECORDINGS)
+    assert hass.services.has_service(DOMAIN, SERVICE_DELETE_RECORDINGS)
 
 
 async def test_services_not_double_registered(hass: HomeAssistant):
@@ -109,6 +118,390 @@ async def test_services_unregistered_on_unload(
     await hass.config_entries.async_unload(mock_config_entry.entry_id)
     assert not hass.services.has_service(DOMAIN, SERVICE_RECORD)
     assert not hass.services.has_service(DOMAIN, SERVICE_RECORD_HA)
+    assert not hass.services.has_service(DOMAIN, SERVICE_LIST_RECORDINGS)
+    assert not hass.services.has_service(DOMAIN, SERVICE_DELETE_RECORDINGS)
+
+
+# ---------------------------------------------------------------------------
+# list_recordings / delete_recordings  (recordings API, session.request)
+# ---------------------------------------------------------------------------
+
+
+def _request_session(data: dict):
+    """Mock a session whose .request(method, url, ...) returns JSON `data`."""
+    resp = AsyncMock()
+    resp.json = AsyncMock(return_value=data)
+    cm = MagicMock()
+    cm.__aenter__ = AsyncMock(return_value=resp)
+    cm.__aexit__ = AsyncMock(return_value=False)
+    session = MagicMock()
+    session.request = MagicMock(return_value=cm)
+    return session
+
+
+def _last_request(session):
+    """Return (method, url) of the last session.request call."""
+    args = session.request.call_args
+    return args[0][0], args[0][1]
+
+
+async def test_list_recordings_success(hass: HomeAssistant):
+    await _setup_integration(hass)
+    payload = {
+        "ok": True,
+        "recordings": [
+            {
+                "name": "20260720_124216_example_com.webm",
+                "size": 123,
+                "mtime": 1,
+                "captured": "2026-07-20T12:42:16",
+                "format": "webm",
+                "slug": "example_com",
+            }
+        ],
+    }
+    session = _request_session(payload)
+    with patch(
+        "custom_components.dashsnap.services.async_get_clientsession", return_value=session
+    ):
+        result = await hass.services.async_call(
+            DOMAIN, SERVICE_LIST_RECORDINGS, {}, blocking=True, return_response=True
+        )
+    assert result["ok"] is True
+    assert result["recordings"][0]["slug"] == "example_com"
+    method, url = _last_request(session)
+    assert method == "get"
+    assert url.endswith("/recordings")
+
+
+async def test_list_recordings_filters_passthrough(hass: HomeAssistant):
+    await _setup_integration(hass)
+    session = _request_session({"ok": True, "recordings": []})
+    with patch(
+        "custom_components.dashsnap.services.async_get_clientsession", return_value=session
+    ):
+        await hass.services.async_call(
+            DOMAIN,
+            SERVICE_LIST_RECORDINGS,
+            {ATTR_FORMAT: "png", ATTR_SLUG: "lovelace_0", ATTR_OLDER_THAN_DAYS: 7},
+            blocking=True,
+            return_response=True,
+        )
+    _, url = _last_request(session)
+    assert "format=png" in url
+    assert "slug=lovelace_0" in url
+    assert "older_than_days=7" in url
+
+
+async def test_delete_by_name_success(hass: HomeAssistant):
+    await _setup_integration(hass)
+    name = "20260720_124216_example_com.webm"
+    session = _request_session({"ok": True, "deleted": [name], "count": 1, "dry_run": False})
+    with patch(
+        "custom_components.dashsnap.services.async_get_clientsession", return_value=session
+    ):
+        result = await hass.services.async_call(
+            DOMAIN,
+            SERVICE_DELETE_RECORDINGS,
+            {ATTR_NAME: name},
+            blocking=True,
+            return_response=True,
+        )
+    assert result["deleted"] == [name]
+    method, url = _last_request(session)
+    assert method == "post"
+    assert "/recordings/delete" in url
+    assert "name=" in url
+
+
+async def test_delete_all_maps_to_wire_all(hass: HomeAssistant):
+    await _setup_integration(hass)
+    session = _request_session({"ok": True, "deleted": [], "count": 0, "dry_run": False})
+    with patch(
+        "custom_components.dashsnap.services.async_get_clientsession", return_value=session
+    ):
+        await hass.services.async_call(
+            DOMAIN,
+            SERVICE_DELETE_RECORDINGS,
+            {ATTR_DELETE_ALL: True},
+            blocking=True,
+            return_response=True,
+        )
+    _, url = _last_request(session)
+    assert "all=true" in url
+
+
+async def test_delete_dry_run_passthrough(hass: HomeAssistant):
+    await _setup_integration(hass)
+    session = _request_session({"ok": True, "deleted": [], "count": 0, "dry_run": True})
+    with patch(
+        "custom_components.dashsnap.services.async_get_clientsession", return_value=session
+    ):
+        await hass.services.async_call(
+            DOMAIN,
+            SERVICE_DELETE_RECORDINGS,
+            {ATTR_OLDER_THAN_DAYS: 30, ATTR_DRY_RUN: True},
+            blocking=True,
+            return_response=True,
+        )
+    _, url = _last_request(session)
+    assert "dry_run=true" in url
+    assert "older_than_days=30" in url
+
+
+async def test_delete_no_filter_omits_all_and_dry_run(hass: HomeAssistant):
+    """delete_all/dry_run default False must NOT be sent — addon enforces refuse-wipe."""
+    await _setup_integration(hass)
+    session = _request_session({"ok": False, "error": "refuse_wipe"})
+    with patch(
+        "custom_components.dashsnap.services.async_get_clientsession", return_value=session
+    ):
+        with pytest.raises(HomeAssistantError, match="Refusing to delete"):
+            await hass.services.async_call(
+                DOMAIN, SERVICE_DELETE_RECORDINGS, {}, blocking=True, return_response=True
+            )
+    _, url = _last_request(session)
+    assert "all=" not in url
+    assert "dry_run=" not in url
+
+
+async def test_delete_not_found_slug_branches(hass: HomeAssistant):
+    await _setup_integration(hass)
+    name = "20260720_124216_example_com.webm"
+    session = _request_session({"ok": False, "error": "not_found", "name": name})
+    with patch(
+        "custom_components.dashsnap.services.async_get_clientsession", return_value=session
+    ):
+        with pytest.raises(HomeAssistantError, match=f"Recording not found: {name}"):
+            await hass.services.async_call(
+                DOMAIN,
+                SERVICE_DELETE_RECORDINGS,
+                {ATTR_NAME: name},
+                blocking=True,
+                return_response=True,
+            )
+
+
+async def test_delete_invalid_name_slug_branches(hass: HomeAssistant):
+    await _setup_integration(hass)
+    name = "20260720_124216_example_com.webm"
+    session = _request_session({"ok": False, "error": "invalid_name", "name": name})
+    with patch(
+        "custom_components.dashsnap.services.async_get_clientsession", return_value=session
+    ):
+        with pytest.raises(HomeAssistantError, match="Invalid recording name"):
+            await hass.services.async_call(
+                DOMAIN,
+                SERVICE_DELETE_RECORDINGS,
+                {ATTR_NAME: name},
+                blocking=True,
+                return_response=True,
+            )
+
+
+async def test_delete_bad_name_rejected_at_boundary(hass: HomeAssistant):
+    """A name failing the recording-pattern is rejected by the HA schema before any HTTP call."""
+    import voluptuous as vol
+
+    await _setup_integration(hass)
+    session = _request_session({"ok": True, "deleted": [], "count": 0})
+    with patch(
+        "custom_components.dashsnap.services.async_get_clientsession", return_value=session
+    ):
+        with pytest.raises(vol.Invalid):
+            await hass.services.async_call(
+                DOMAIN,
+                SERVICE_DELETE_RECORDINGS,
+                {ATTR_NAME: "../etc/passwd"},
+                blocking=True,
+                return_response=True,
+            )
+    session.request.assert_not_called()
+
+
+async def test_delete_bad_slug_rejected_at_boundary(hass: HomeAssistant):
+    import voluptuous as vol
+
+    await _setup_integration(hass)
+    with pytest.raises(vol.Invalid):
+        await hass.services.async_call(
+            DOMAIN,
+            SERVICE_DELETE_RECORDINGS,
+            {ATTR_SLUG: "bad slug!"},
+            blocking=True,
+            return_response=True,
+        )
+
+
+async def test_delete_negative_days_rejected_at_boundary(hass: HomeAssistant):
+    import voluptuous as vol
+
+    await _setup_integration(hass)
+    with pytest.raises(vol.Invalid):
+        await hass.services.async_call(
+            DOMAIN,
+            SERVICE_DELETE_RECORDINGS,
+            {ATTR_OLDER_THAN_DAYS: -1},
+            blocking=True,
+            return_response=True,
+        )
+
+
+async def test_list_recordings_network_error_raises(hass: HomeAssistant):
+    await _setup_integration(hass)
+    session = MagicMock()
+    session.request = MagicMock(side_effect=Exception("connection refused"))
+    with patch(
+        "custom_components.dashsnap.services.async_get_clientsession", return_value=session
+    ):
+        with pytest.raises(HomeAssistantError, match="Could not reach DashSnap"):
+            await hass.services.async_call(
+                DOMAIN, SERVICE_LIST_RECORDINGS, {}, blocking=True, return_response=True
+            )
+
+
+async def test_delete_slug_and_format_passthrough(hass: HomeAssistant):
+    """slug + format branches in the delete handler reach the wire."""
+    await _setup_integration(hass)
+    session = _request_session({"ok": True, "deleted": [], "count": 0, "dry_run": False})
+    with patch(
+        "custom_components.dashsnap.services.async_get_clientsession", return_value=session
+    ):
+        await hass.services.async_call(
+            DOMAIN,
+            SERVICE_DELETE_RECORDINGS,
+            {ATTR_SLUG: "lovelace_0", ATTR_FORMAT: "png"},
+            blocking=True,
+            return_response=True,
+        )
+    _, url = _last_request(session)
+    assert "slug=lovelace_0" in url
+    assert "format=png" in url
+
+
+async def test_delete_unknown_error_slug_falls_through(hass: HomeAssistant):
+    """An error slug not in the known set surfaces via the generic message."""
+    await _setup_integration(hass)
+    session = _request_session({"ok": False, "error": "kaboom"})
+    with patch(
+        "custom_components.dashsnap.services.async_get_clientsession", return_value=session
+    ):
+        with pytest.raises(HomeAssistantError, match="DashSnap error: kaboom"):
+            await hass.services.async_call(
+                DOMAIN,
+                SERVICE_DELETE_RECORDINGS,
+                {ATTR_DELETE_ALL: True},
+                blocking=True,
+                return_response=True,
+            )
+
+
+async def test_recordings_connection_error_rediscovers_and_retries(hass: HomeAssistant):
+    """Recordings API: ClientConnectionError → rediscover → retry on new URL succeeds."""
+    import aiohttp
+
+    await _setup_integration(hass)
+
+    call_count = 0
+
+    def _request_side_effect(method, url, **kwargs):
+        nonlocal call_count
+        call_count += 1
+        cm = MagicMock()
+        if call_count == 1:
+            cm.__aenter__ = AsyncMock(side_effect=aiohttp.ClientConnectionError("gone"))
+        else:
+            resp = AsyncMock()
+            resp.json = AsyncMock(return_value={"ok": True, "recordings": []})
+            cm.__aenter__ = AsyncMock(return_value=resp)
+        cm.__aexit__ = AsyncMock(return_value=False)
+        return cm
+
+    session = MagicMock()
+    session.request = MagicMock(side_effect=_request_side_effect)
+
+    health_resp = MagicMock()
+    health_resp.json = AsyncMock(return_value={"ok": True, "self_urls": ["http://new-host:8099"]})
+    health_cm = MagicMock()
+    health_cm.__aenter__ = AsyncMock(return_value=health_resp)
+    health_cm.__aexit__ = AsyncMock(return_value=False)
+    session.get = MagicMock(return_value=health_cm)
+
+    with (
+        patch("custom_components.dashsnap.services.async_get_clientsession", return_value=session),
+        patch(
+            "custom_components.dashsnap.config_flow.async_get_clientsession", return_value=session
+        ),
+    ):
+        result = await hass.services.async_call(
+            DOMAIN, SERVICE_LIST_RECORDINGS, {}, blocking=True, return_response=True
+        )
+    assert result["ok"] is True
+    assert call_count == 2
+
+
+async def test_recordings_rediscover_fails_raises(hass: HomeAssistant):
+    """Recordings API: rediscover finds nothing → raises."""
+    import aiohttp
+
+    await _setup_integration(hass)
+
+    def _request_raises(method, url, **kwargs):
+        cm = MagicMock()
+        cm.__aenter__ = AsyncMock(side_effect=aiohttp.ClientConnectionError("gone"))
+        cm.__aexit__ = AsyncMock(return_value=False)
+        return cm
+
+    session = MagicMock()
+    session.request = MagicMock(side_effect=_request_raises)
+    health_cm = MagicMock()
+    health_cm.__aenter__ = AsyncMock(side_effect=Exception("unreachable"))
+    health_cm.__aexit__ = AsyncMock(return_value=False)
+    session.get = MagicMock(return_value=health_cm)
+
+    with (
+        patch("custom_components.dashsnap.services.async_get_clientsession", return_value=session),
+        patch(
+            "custom_components.dashsnap.config_flow.async_get_clientsession", return_value=session
+        ),
+    ):
+        with pytest.raises(HomeAssistantError, match="Could not reach DashSnap"):
+            await hass.services.async_call(
+                DOMAIN, SERVICE_LIST_RECORDINGS, {}, blocking=True, return_response=True
+            )
+
+
+async def test_recordings_retry_also_fails_raises(hass: HomeAssistant):
+    """Recordings API: rediscover succeeds but retry request also fails → raises."""
+    import aiohttp
+
+    await _setup_integration(hass)
+
+    def _request_raises(method, url, **kwargs):
+        cm = MagicMock()
+        cm.__aenter__ = AsyncMock(side_effect=aiohttp.ClientConnectionError("still gone"))
+        cm.__aexit__ = AsyncMock(return_value=False)
+        return cm
+
+    session = MagicMock()
+    session.request = MagicMock(side_effect=_request_raises)
+    health_resp = MagicMock()
+    health_resp.json = AsyncMock(return_value={"ok": True, "self_urls": ["http://new-host:8099"]})
+    health_cm = MagicMock()
+    health_cm.__aenter__ = AsyncMock(return_value=health_resp)
+    health_cm.__aexit__ = AsyncMock(return_value=False)
+    session.get = MagicMock(return_value=health_cm)
+
+    with (
+        patch("custom_components.dashsnap.services.async_get_clientsession", return_value=session),
+        patch(
+            "custom_components.dashsnap.config_flow.async_get_clientsession", return_value=session
+        ),
+    ):
+        with pytest.raises(HomeAssistantError, match="Could not reach DashSnap"):
+            await hass.services.async_call(
+                DOMAIN, SERVICE_LIST_RECORDINGS, {}, blocking=True, return_response=True
+            )
 
 
 # ---------------------------------------------------------------------------

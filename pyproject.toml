@@ -14,7 +14,13 @@ known-first-party = ["custom_components.dashsnap"]
 asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "function"
 testpaths = ["tests"]
-addopts = "--cov=custom_components/dashsnap --cov-branch --cov-report=term-missing --cov-fail-under=100"
+markers = [
+    "smoke: live end-to-end test against a running DashSnap container (run explicitly, outside the coverage gate)",
+]
+# Default run = mocked unit suite under the 100% coverage gate. The smoke test
+# drives the full stack against a real container and is deselected here; run it
+# with `pytest -m smoke --no-cov` and a running addon on DASHSNAP_SMOKE_URL.
+addopts = "-m 'not smoke' --cov=custom_components/dashsnap --cov-branch --cov-report=term-missing --cov-fail-under=100"
 
 [tool.coverage.run]
 source = ["custom_components/dashsnap"]

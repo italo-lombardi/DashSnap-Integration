@@ -110,6 +110,54 @@
           "description": "UI language for the captured page, e.g. de or en-GB. Sets the browser locale; for HA pages also the frontend language."
         }
       }
+    },
+    "list_recordings": {
+      "name": "List recordings",
+      "description": "List recordings stored by DashSnap. Optionally filter by format, target slug, or age.",
+      "fields": {
+        "format": {
+          "name": "Format",
+          "description": "Only list this format (webm or png)."
+        },
+        "slug": {
+          "name": "Target slug",
+          "description": "Only list recordings whose filename slug matches (e.g. lovelace_0)."
+        },
+        "older_than_days": {
+          "name": "Older than (days)",
+          "description": "Only list recordings captured more than this many days ago (based on the capture timestamp in the filename)."
+        }
+      }
+    },
+    "delete_recordings": {
+      "name": "Delete recordings",
+      "description": "Delete recordings stored by DashSnap. Combine filters or set Delete all; use Dry run to preview. With no filter and without Delete all, the service refuses to run.",
+      "fields": {
+        "name": {
+          "name": "Filename",
+          "description": "Exact recording filename to delete, e.g. 20260720_124216_example_com.webm. Errors if the file does not exist."
+        },
+        "slug": {
+          "name": "Target slug",
+          "description": "Delete all recordings whose filename slug matches (e.g. lovelace_0)."
+        },
+        "older_than_days": {
+          "name": "Older than (days)",
+          "description": "Delete recordings captured more than this many days ago (based on the capture timestamp in the filename)."
+        },
+        "format": {
+          "name": "Format",
+          "description": "Only delete recordings of this format (webm or png)."
+        },
+        "delete_all": {
+          "name": "Delete all",
+          "description": "Delete every recording. Required when no other filter is given."
+        },
+        "dry_run": {
+          "name": "Dry run",
+          "description": "Preview only — return what would be deleted without removing anything."
+        }
+      }
     }
   }
 }

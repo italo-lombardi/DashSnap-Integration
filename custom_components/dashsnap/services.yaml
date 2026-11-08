@@ -160,3 +160,87 @@ record_ha:
       advanced: true
       selector:
         text:
+
+list_recordings:
+  name: List recordings
+  description: List recordings stored by DashSnap. Returns name, size, capture time, format and slug for each. Optionally filter by format, target slug, or age.
+  fields:
+    format:
+      name: Format
+      description: Only list this format.
+      required: false
+      selector:
+        select:
+          options:
+            - webm
+            - png
+    slug:
+      name: Target slug
+      description: Only list recordings whose filename slug matches (e.g. lovelace_0). Letters, digits and underscore, up to 40 chars.
+      required: false
+      example: lovelace_0
+      selector:
+        text:
+    older_than_days:
+      name: Older than (days)
+      description: Only list recordings captured more than this many days ago (based on the capture timestamp in the filename).
+      required: false
+      selector:
+        number:
+          min: 0
+          max: 3650
+          unit_of_measurement: days
+
+delete_recordings:
+  name: Delete recordings
+  description: >-
+    Delete recordings stored by DashSnap. Combine filters (name, slug, older_than_days, format) to narrow what is removed,
+    or set "Delete all" to remove every recording. Use "Dry run" first to preview what would be deleted without removing anything.
+    With no filter and without "Delete all", the service refuses to run.
+  fields:
+    name:
+      name: Filename
+      description: Exact recording filename to delete, e.g. 20260720_124216_example_com.webm. If the file does not exist the service errors.
+      required: false
+      example: 20260720_124216_example_com.webm
+      selector:
+        text:
+    slug:
+      name: Target slug
+      description: Delete all recordings whose filename slug matches (e.g. lovelace_0). Letters, digits and underscore, up to 40 chars.
+      required: false
+      example: lovelace_0
+      selector:
+        text:
+    older_than_days:
+      name: Older than (days)
+      description: Delete recordings captured more than this many days ago (based on the capture timestamp in the filename).
+      required: false
+      selector:
+        number:
+          min: 0
+          max: 3650
+          unit_of_measurement: days
+    format:
+      name: Format
+      description: Only delete recordings of this format.
+      required: false
+      selector:
+        select:
+          options:
+            - webm
+            - png
+    delete_all:
+      name: Delete all
+      description: Delete every recording. Ignored safely when combined with other filters. Required when no other filter is given.
+      required: false
+      default: false
+      selector:
+        boolean:
+    dry_run:
+      name: Dry run
+      description: Preview only — return the list of recordings that would be deleted without removing anything.
+      required: false
+      default: false
+      selector:
+        boolean:

@@ -110,6 +110,54 @@
           "description": "擷取頁面所使用的介面語言，例如 de 或 en-GB。設定瀏覽器的地區設定；若為 HA 頁面，同時也會設定前端語言。"
         }
       }
+    },
+    "list_recordings": {
+      "name": "列出錄製檔",
+      "description": "列出由 DashSnap 儲存的錄製檔。可選擇依格式、目標 slug 或檔齡篩選。",
+      "fields": {
+        "format": {
+          "name": "格式",
+          "description": "僅列出此格式（webm 或 png）。"
+        },
+        "slug": {
+          "name": "目標 slug",
+          "description": "僅列出檔名 slug 相符的錄製檔（例如 lovelace_0）。"
+        },
+        "older_than_days": {
+          "name": "早於（天數）",
+          "description": "僅列出擷取於這麼多天前的錄製檔（依檔名中的擷取時間戳記判斷）。"
+        }
+      }
+    },
+    "delete_recordings": {
+      "name": "刪除錄製檔",
+      "description": "刪除由 DashSnap 儲存的錄製檔。可組合多個篩選條件或設定「全部刪除」；使用「試執行」可預覽。若未提供任何篩選條件且未設定「全部刪除」，此服務將拒絕執行。",
+      "fields": {
+        "name": {
+          "name": "檔名",
+          "description": "要刪除的確切錄製檔檔名，例如 20260720_124216_example_com.webm。若檔案不存在則會發生錯誤。"
+        },
+        "slug": {
+          "name": "目標 slug",
+          "description": "刪除所有檔名 slug 相符的錄製檔（例如 lovelace_0）。"
+        },
+        "older_than_days": {
+          "name": "早於（天數）",
+          "description": "刪除擷取於這麼多天前的錄製檔（依檔名中的擷取時間戳記判斷）。"
+        },
+        "format": {
+          "name": "格式",
+          "description": "僅刪除此格式的錄製檔（webm 或 png）。"
+        },
+        "delete_all": {
+          "name": "全部刪除",
+          "description": "刪除每一個錄製檔。未提供其他篩選條件時為必填。"
+        },
+        "dry_run": {
+          "name": "試執行",
+          "description": "僅預覽 — 傳回將被刪除的項目，但不實際移除任何內容。"
+        }
+      }
     }
   }
 }

@@ -110,6 +110,54 @@
           "description": "Užfiksuoto puslapio sąsajos kalba, pvz., de arba en-GB. Nustato naršyklės lokalę; HA puslapiams – taip pat ir sąsajos kalbą."
         }
       }
+    },
+    "list_recordings": {
+      "name": "Peržiūrėti įrašus",
+      "description": "Peržiūrėkite DashSnap saugomus įrašus. Pasirinktinai filtruokite pagal formatą, taikinio „slug“ arba amžių.",
+      "fields": {
+        "format": {
+          "name": "Formatas",
+          "description": "Rodyti tik šio formato įrašus (webm arba png)."
+        },
+        "slug": {
+          "name": "Taikinio „slug“",
+          "description": "Rodyti tik tuos įrašus, kurių failo pavadinimo „slug“ sutampa (pvz., lovelace_0)."
+        },
+        "older_than_days": {
+          "name": "Senesni nei (dienų)",
+          "description": "Rodyti tik tuos įrašus, kurie užfiksuoti anksčiau nei prieš tiek dienų (pagal fiksavimo laiko žymą failo pavadinime)."
+        }
+      }
+    },
+    "delete_recordings": {
+      "name": "Ištrinti įrašus",
+      "description": "Ištrinkite DashSnap saugomus įrašus. Derinkite filtrus arba nustatykite „Ištrinti viską”; naudokite bandomąją peržiūrą, kad pamatytumėte rezultatą iš anksto. Be jokio filtro ir be „Ištrinti viską” paslauga atsisako vykdyti veiksmą.",
+      "fields": {
+        "name": {
+          "name": "Failo pavadinimas",
+          "description": "Tikslus ištrinamo įrašo failo pavadinimas, pvz., 20260720_124216_example_com.webm. Klaida, jei failo nėra."
+        },
+        "slug": {
+          "name": "Taikinio „slug“",
+          "description": "Ištrinti visus įrašus, kurių failo pavadinimo „slug“ sutampa (pvz., lovelace_0)."
+        },
+        "older_than_days": {
+          "name": "Senesni nei (dienų)",
+          "description": "Ištrinti įrašus, kurie užfiksuoti anksčiau nei prieš tiek dienų (pagal fiksavimo laiko žymą failo pavadinime)."
+        },
+        "format": {
+          "name": "Formatas",
+          "description": "Ištrinti tik šio formato įrašus (webm arba png)."
+        },
+        "delete_all": {
+          "name": "Ištrinti viską",
+          "description": "Ištrinti kiekvieną įrašą. Būtina, kai nenurodytas joks kitas filtras."
+        },
+        "dry_run": {
+          "name": "Bandomoji peržiūra",
+          "description": "Tik peržiūra – grąžina, kas būtų ištrinta, nieko nepašalinant."
+        }
+      }
     }
   }
 }

@@ -110,6 +110,54 @@
           "description": "Jezik sučelja za snimljenu stranicu, npr. de ili en-GB. Postavlja lokalizaciju preglednika; za HA stranice i jezik sučelja."
         }
       }
+    },
+    "list_recordings": {
+      "name": "Popis snimaka",
+      "description": "Prikažite popis snimaka koje je pohranio DashSnap. Po želji filtrirajte po formatu, slugu cilja ili starosti.",
+      "fields": {
+        "format": {
+          "name": "Format",
+          "description": "Prikaži samo ovaj format (webm ili png)."
+        },
+        "slug": {
+          "name": "Slug cilja",
+          "description": "Prikaži samo snimke čiji se slug u nazivu datoteke podudara (npr. lovelace_0)."
+        },
+        "older_than_days": {
+          "name": "Starije od (dana)",
+          "description": "Prikaži samo snimke snimljene prije više od ovoliko dana (na temelju vremenske oznake snimanja u nazivu datoteke)."
+        }
+      }
+    },
+    "delete_recordings": {
+      "name": "Izbriši snimke",
+      "description": "Izbrišite snimke koje je pohranio DashSnap. Kombinirajte filtre ili postavite Izbriši sve; upotrijebite Probno izvođenje za pregled. Bez filtra i bez opcije Izbriši sve usluga odbija izvođenje.",
+      "fields": {
+        "name": {
+          "name": "Naziv datoteke",
+          "description": "Točan naziv datoteke snimke za brisanje, npr. 20260720_124216_example_com.webm. Javlja pogrešku ako datoteka ne postoji."
+        },
+        "slug": {
+          "name": "Slug cilja",
+          "description": "Izbriši sve snimke čiji se slug u nazivu datoteke podudara (npr. lovelace_0)."
+        },
+        "older_than_days": {
+          "name": "Starije od (dana)",
+          "description": "Izbriši snimke snimljene prije više od ovoliko dana (na temelju vremenske oznake snimanja u nazivu datoteke)."
+        },
+        "format": {
+          "name": "Format",
+          "description": "Izbriši samo snimke ovog formata (webm ili png)."
+        },
+        "delete_all": {
+          "name": "Izbriši sve",
+          "description": "Izbriši svaku snimku. Obavezno kada nije zadan nijedan drugi filtar."
+        },
+        "dry_run": {
+          "name": "Probno izvođenje",
+          "description": "Samo pregled — vraća što bi bilo izbrisano bez stvarnog uklanjanja."
+        }
+      }
     }
   }
 }

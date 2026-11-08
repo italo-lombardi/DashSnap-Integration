@@ -110,6 +110,54 @@
           "description": "Język interfejsu przechwytywanej strony, np. de lub en-GB. Ustawia język regionalny przeglądarki; w przypadku stron HA również język interfejsu."
         }
       }
+    },
+    "list_recordings": {
+      "name": "Wyświetl nagrania",
+      "description": "Wyświetl nagrania zapisane przez DashSnap. Opcjonalnie filtruj według formatu, slugu celu lub wieku.",
+      "fields": {
+        "format": {
+          "name": "Format",
+          "description": "Wyświetl tylko ten format (webm lub png)."
+        },
+        "slug": {
+          "name": "Slug celu",
+          "description": "Wyświetl tylko nagrania, których slug w nazwie pliku pasuje (np. lovelace_0)."
+        },
+        "older_than_days": {
+          "name": "Starsze niż (dni)",
+          "description": "Wyświetl tylko nagrania przechwycone więcej niż tyle dni temu (na podstawie znacznika czasu przechwycenia w nazwie pliku)."
+        }
+      }
+    },
+    "delete_recordings": {
+      "name": "Usuń nagrania",
+      "description": "Usuń nagrania zapisane przez DashSnap. Połącz filtry lub zaznacz opcję Usuń wszystkie; użyj Przebiegu próbnego, aby zobaczyć podgląd. Bez filtra i bez opcji Usuń wszystkie usługa odmówi uruchomienia.",
+      "fields": {
+        "name": {
+          "name": "Nazwa pliku",
+          "description": "Dokładna nazwa pliku nagrania do usunięcia, np. 20260720_124216_example_com.webm. Zgłasza błąd, jeśli plik nie istnieje."
+        },
+        "slug": {
+          "name": "Slug celu",
+          "description": "Usuń wszystkie nagrania, których slug w nazwie pliku pasuje (np. lovelace_0)."
+        },
+        "older_than_days": {
+          "name": "Starsze niż (dni)",
+          "description": "Usuń nagrania przechwycone więcej niż tyle dni temu (na podstawie znacznika czasu przechwycenia w nazwie pliku)."
+        },
+        "format": {
+          "name": "Format",
+          "description": "Usuń tylko nagrania w tym formacie (webm lub png)."
+        },
+        "delete_all": {
+          "name": "Usuń wszystkie",
+          "description": "Usuń każde nagranie. Wymagane, gdy nie podano żadnego innego filtra."
+        },
+        "dry_run": {
+          "name": "Przebieg próbny",
+          "description": "Tylko podgląd — zwraca to, co zostałoby usunięte, bez usuwania czegokolwiek."
+        }
+      }
     }
   }
 }

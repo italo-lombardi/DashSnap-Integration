@@ -76,8 +76,10 @@ jobs:
         run: pip install -r requirements_test.txt
       - name: Start DashSnap addon
         run: |
-          # ponytail: clone default branch until DashSnap 0.1.17 is tagged; then pin --branch v0.1.17 so CI stops chasing addon main
-          git clone --depth 1 https://github.com/italo-lombardi/DashSnap.git /tmp/dashsnap
+          # ponytail: clone the addon FEATURE branch pre-merge — the /recordings endpoints
+          # are not on addon main yet (DashSnap PR #60). Switch to --branch v0.1.17 once #60
+          # is merged + tagged, so CI pins a release instead of a moving branch.
+          git clone --depth 1 --branch feat/recordings-list-delete https://github.com/italo-lombardi/DashSnap.git /tmp/dashsnap
           cd /tmp/dashsnap
           echo '{}' > options.json   # compose bind-mounts this path; absent -> Docker makes a dir
           docker compose up -d --build

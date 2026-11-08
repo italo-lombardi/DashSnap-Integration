@@ -340,6 +340,24 @@ async def test_list_recordings_network_error_raises(hass: HomeAssistant):
             )
 
 
+async def test_recordings_non_json_response_raises(hass: HomeAssistant):
+    """A non-JSON body (e.g. an addon too old for /recordings, 404 HTML) is surfaced clearly."""
+    await _setup_integration(hass)
+    resp = AsyncMock()
+    resp.status = 404
+    resp.json = AsyncMock(side_effect=ValueError("not json"))
+    cm = MagicMock()
+    cm.__aenter__ = AsyncMock(return_value=resp)
+    cm.__aexit__ = AsyncMock(return_value=False)
+    session = MagicMock()
+    session.request = MagicMock(return_value=cm)
+    with patch("custom_components.dashsnap.services.async_get_clientsession", return_value=session):
+        with pytest.raises(HomeAssistantError, match="Unexpected non-JSON response"):
+            await hass.services.async_call(
+                DOMAIN, SERVICE_LIST_RECORDINGS, {}, blocking=True, return_response=True
+            )
+
+
 async def test_delete_slug_and_format_passthrough(hass: HomeAssistant):
     """slug + format branches in the delete handler reach the wire."""
     await _setup_integration(hass)

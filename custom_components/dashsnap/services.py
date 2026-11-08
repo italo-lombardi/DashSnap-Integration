@@ -170,7 +170,15 @@ async def _request_recordings(hass: HomeAssistant, method: str, base: str, param
         url = f"{url}?{urlencode(params)}"
     timeout = aiohttp.ClientTimeout(total=RECORDINGS_TIMEOUT)
     async with session.request(method, url, timeout=timeout) as resp:
-        return await resp.json(content_type=None)
+        try:
+            return await resp.json(content_type=None)
+        except (aiohttp.ContentTypeError, ValueError) as err:
+            # A non-JSON body means we hit something other than the recordings API
+            # (e.g. an addon too old for /recordings, returning a 404 HTML page).
+            raise HomeAssistantError(
+                f"Unexpected non-JSON response from DashSnap at {url} "
+                f"(HTTP {resp.status}); is the addon new enough for /recordings?"
+            ) from err
 
 
 async def _call_recordings(hass: HomeAssistant, method: str, params: dict) -> dict:

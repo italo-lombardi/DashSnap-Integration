@@ -110,6 +110,54 @@
           "description": "Limba interfeței pentru pagina capturată, de exemplu de sau en-GB. Setează localizarea browserului; pentru paginile HA, și limba interfeței."
         }
       }
+    },
+    "list_recordings": {
+      "name": "Listează înregistrările",
+      "description": "Listați înregistrările stocate de DashSnap. Opțional, filtrați după format, slug-ul țintei sau vechime.",
+      "fields": {
+        "format": {
+          "name": "Format",
+          "description": "Listați doar acest format (webm sau png)."
+        },
+        "slug": {
+          "name": "Slug-ul țintei",
+          "description": "Listați doar înregistrările al căror slug din numele fișierului se potrivește (de ex. lovelace_0)."
+        },
+        "older_than_days": {
+          "name": "Mai vechi de (zile)",
+          "description": "Listați doar înregistrările capturate cu mai mult de atâtea zile în urmă (pe baza marcajului temporal al capturii din numele fișierului)."
+        }
+      }
+    },
+    "delete_recordings": {
+      "name": "Șterge înregistrările",
+      "description": "Ștergeți înregistrările stocate de DashSnap. Combinați filtrele sau activați Șterge tot; folosiți Rulare de probă pentru previzualizare. Fără niciun filtru și fără Șterge tot, serviciul refuză să ruleze.",
+      "fields": {
+        "name": {
+          "name": "Nume fișier",
+          "description": "Numele exact al înregistrării de șters, de ex. 20260720_124216_example_com.webm. Generează o eroare dacă fișierul nu există."
+        },
+        "slug": {
+          "name": "Slug-ul țintei",
+          "description": "Ștergeți toate înregistrările al căror slug din numele fișierului se potrivește (de ex. lovelace_0)."
+        },
+        "older_than_days": {
+          "name": "Mai vechi de (zile)",
+          "description": "Ștergeți înregistrările capturate cu mai mult de atâtea zile în urmă (pe baza marcajului temporal al capturii din numele fișierului)."
+        },
+        "format": {
+          "name": "Format",
+          "description": "Ștergeți doar înregistrările de acest format (webm sau png)."
+        },
+        "delete_all": {
+          "name": "Șterge tot",
+          "description": "Ștergeți fiecare înregistrare. Obligatoriu când nu este dat niciun alt filtru."
+        },
+        "dry_run": {
+          "name": "Rulare de probă",
+          "description": "Doar previzualizare — returnează ce ar fi șters, fără a elimina nimic."
+        }
+      }
     }
   }
 }

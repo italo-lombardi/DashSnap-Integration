@@ -60,3 +60,31 @@ jobs:
         run: pip install -r requirements_test.txt
       - name: Run tests with coverage
         run: pytest tests/
+
+  smoke:
+    name: Live smoke
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.14"
+      - name: Install dependencies
+        run: pip install -r requirements_test.txt
+      - name: Start DashSnap addon
+        run: |
+          # Pin the released addon tag that carries the /recordings endpoints.
+          git clone --depth 1 --branch v0.1.17 https://github.com/italo-lombardi/DashSnap.git /tmp/dashsnap
+          cd /tmp/dashsnap
+          echo '{}' > options.json   # compose bind-mounts this path; absent -> Docker makes a dir
+          docker compose up -d --build
+          for i in $(seq 1 60); do curl -sf http://127.0.0.1:8099/health >/dev/null && break; sleep 2; done
+          curl -sf http://127.0.0.1:8099/health >/dev/null || { docker compose logs; exit 1; }
+      - name: Run full-stack smoke
+        run: pytest -m smoke --no-cov -q
+      - name: Teardown addon
+        if: always()
+        run: cd /tmp/dashsnap && docker compose down

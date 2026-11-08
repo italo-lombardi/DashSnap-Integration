@@ -4,6 +4,16 @@ All notable changes to DashSnap Integration.
 
 ## [Unreleased]
 
+## [0.1.3] - 2026-11-08
+
+### Added
+- `list_recordings` service — lists recordings stored by DashSnap (name, size, capture time, format, slug), with optional `format`, `slug`, and `older_than_days` filters. Returns a response (read-only).
+- `delete_recordings` service — deletes recordings by `name` (exact filename), `slug` (target), `older_than_days` (retention, by capture timestamp), or `delete_all`; optional `format` filter and `dry_run` preview. Refuses a filterless call unless `delete_all` is set. Requires DashSnap addon ≥ 0.1.17 (`GET /recordings`, `POST /recordings/delete`).
+- Native translations of both new services for all 29 languages.
+
+### Security
+- Service inputs are validated at the HA trust boundary before any request: filename against `^\d{8}_\d{6}_[A-Za-z0-9_]{1,40}\.(?:webm|png)$`, slug against `^[A-Za-z0-9_]{1,40}$`, `older_than_days` as a non-negative integer, `format` as an enum. The addon independently re-guards path containment and the recording-name allowlist.
+
 ## [0.1.2] - 2026-10-30
 
 ### Fixed

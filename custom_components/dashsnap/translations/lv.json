@@ -110,6 +110,54 @@
           "description": "Tvertās lapas lietotāja saskarnes valoda, piemēram, de vai en-GB. Iestata pārlūka lokalizāciju; HA lapām arī priekšgala valodu."
         }
       }
+    },
+    "list_recordings": {
+      "name": "Uzskaitīt ierakstus",
+      "description": "Uzskaitiet ierakstus, ko saglabājis DashSnap. Pēc izvēles filtrējiet pēc formāta, mērķa identifikatora vai vecuma.",
+      "fields": {
+        "format": {
+          "name": "Formāts",
+          "description": "Uzskaitīt tikai šo formātu (webm vai png)."
+        },
+        "slug": {
+          "name": "Mērķa identifikators",
+          "description": "Uzskaitīt tikai tos ierakstus, kuru faila nosaukuma identifikators sakrīt (piemēram, lovelace_0)."
+        },
+        "older_than_days": {
+          "name": "Vecāks par (dienām)",
+          "description": "Uzskaitīt tikai tos ierakstus, kas tverti pirms vairāk nekā norādītā dienu skaita (pamatojoties uz tveršanas laika zīmogu faila nosaukumā)."
+        }
+      }
+    },
+    "delete_recordings": {
+      "name": "Dzēst ierakstus",
+      "description": "Dzēsiet ierakstus, ko saglabājis DashSnap. Apvienojiet filtrus vai iestatiet Dzēst visus; izmantojiet Izmēģinājuma palaišanu, lai priekšskatītu. Bez filtra un bez Dzēst visus pakalpojums atsakās darboties.",
+      "fields": {
+        "name": {
+          "name": "Faila nosaukums",
+          "description": "Precīzs dzēšamā ieraksta faila nosaukums, piemēram, 20260720_124216_example_com.webm. Kļūda, ja fails nepastāv."
+        },
+        "slug": {
+          "name": "Mērķa identifikators",
+          "description": "Dzēst visus ierakstus, kuru faila nosaukuma identifikators sakrīt (piemēram, lovelace_0)."
+        },
+        "older_than_days": {
+          "name": "Vecāks par (dienām)",
+          "description": "Dzēst ierakstus, kas tverti pirms vairāk nekā norādītā dienu skaita (pamatojoties uz tveršanas laika zīmogu faila nosaukumā)."
+        },
+        "format": {
+          "name": "Formāts",
+          "description": "Dzēst tikai šī formāta ierakstus (webm vai png)."
+        },
+        "delete_all": {
+          "name": "Dzēst visus",
+          "description": "Dzēst katru ierakstu. Nepieciešams, ja nav norādīts neviens cits filtrs."
+        },
+        "dry_run": {
+          "name": "Izmēģinājuma palaišana",
+          "description": "Tikai priekšskatījums — atgriež, kas tiktu dzēsts, neko nenoņemot."
+        }
+      }
     }
   }
 }

@@ -110,6 +110,54 @@
           "description": "Gränssnittsspråk för den infångade sidan, t.ex. de eller en-GB. Ställer in webbläsarens språk; för HA-sidor även gränssnittsspråket."
         }
       }
+    },
+    "list_recordings": {
+      "name": "Lista inspelningar",
+      "description": "Lista inspelningar som lagrats av DashSnap. Filtrera eventuellt efter format, målslug eller ålder.",
+      "fields": {
+        "format": {
+          "name": "Format",
+          "description": "Lista endast detta format (webm eller png)."
+        },
+        "slug": {
+          "name": "Målslug",
+          "description": "Lista endast inspelningar vars filnamnsslug matchar (t.ex. lovelace_0)."
+        },
+        "older_than_days": {
+          "name": "Äldre än (dagar)",
+          "description": "Lista endast inspelningar som fångats för fler än så här många dagar sedan (baserat på infångningstidsstämpeln i filnamnet)."
+        }
+      }
+    },
+    "delete_recordings": {
+      "name": "Radera inspelningar",
+      "description": "Radera inspelningar som lagrats av DashSnap. Kombinera filter eller ange Radera alla; använd Testkörning för att förhandsgranska. Utan filter och utan Radera alla vägrar tjänsten att köra.",
+      "fields": {
+        "name": {
+          "name": "Filnamn",
+          "description": "Exakt filnamn på inspelningen som ska raderas, t.ex. 20260720_124216_example_com.webm. Ger fel om filen inte finns."
+        },
+        "slug": {
+          "name": "Målslug",
+          "description": "Radera alla inspelningar vars filnamnsslug matchar (t.ex. lovelace_0)."
+        },
+        "older_than_days": {
+          "name": "Äldre än (dagar)",
+          "description": "Radera inspelningar som fångats för fler än så här många dagar sedan (baserat på infångningstidsstämpeln i filnamnet)."
+        },
+        "format": {
+          "name": "Format",
+          "description": "Radera endast inspelningar av detta format (webm eller png)."
+        },
+        "delete_all": {
+          "name": "Radera alla",
+          "description": "Radera alla inspelningar. Krävs när inget annat filter anges."
+        },
+        "dry_run": {
+          "name": "Testkörning",
+          "description": "Endast förhandsgranskning — returnerar vad som skulle raderas utan att ta bort något."
+        }
+      }
     }
   }
 }

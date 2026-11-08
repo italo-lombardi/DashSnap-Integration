@@ -110,6 +110,54 @@
           "description": "Idioma de la interfaz para la página capturada, p. ej. de o en-GB. Establece la configuración regional del navegador; para las páginas de HA también el idioma del frontend."
         }
       }
+    },
+    "list_recordings": {
+      "name": "Listar grabaciones",
+      "description": "Lista las grabaciones almacenadas por DashSnap. Opcionalmente, filtre por formato, slug de destino o antigüedad.",
+      "fields": {
+        "format": {
+          "name": "Formato",
+          "description": "Listar solo este formato (webm o png)."
+        },
+        "slug": {
+          "name": "Slug de destino",
+          "description": "Listar solo las grabaciones cuyo slug de nombre de archivo coincida (p. ej. lovelace_0)."
+        },
+        "older_than_days": {
+          "name": "Más antiguas que (días)",
+          "description": "Listar solo las grabaciones capturadas hace más de esta cantidad de días (según la marca de tiempo de captura en el nombre de archivo)."
+        }
+      }
+    },
+    "delete_recordings": {
+      "name": "Eliminar grabaciones",
+      "description": "Elimina las grabaciones almacenadas por DashSnap. Combine filtros o active Eliminar todo; use Simulación para previsualizar. Sin ningún filtro y sin Eliminar todo, el servicio se niega a ejecutarse.",
+      "fields": {
+        "name": {
+          "name": "Nombre de archivo",
+          "description": "Nombre exacto del archivo de grabación a eliminar, p. ej. 20260720_124216_example_com.webm. Da error si el archivo no existe."
+        },
+        "slug": {
+          "name": "Slug de destino",
+          "description": "Eliminar todas las grabaciones cuyo slug de nombre de archivo coincida (p. ej. lovelace_0)."
+        },
+        "older_than_days": {
+          "name": "Más antiguas que (días)",
+          "description": "Eliminar las grabaciones capturadas hace más de esta cantidad de días (según la marca de tiempo de captura en el nombre de archivo)."
+        },
+        "format": {
+          "name": "Formato",
+          "description": "Eliminar solo las grabaciones de este formato (webm o png)."
+        },
+        "delete_all": {
+          "name": "Eliminar todo",
+          "description": "Eliminar todas las grabaciones. Obligatorio cuando no se indica ningún otro filtro."
+        },
+        "dry_run": {
+          "name": "Simulación",
+          "description": "Solo previsualización — devuelve lo que se eliminaría sin borrar nada."
+        }
+      }
     }
   }
 }

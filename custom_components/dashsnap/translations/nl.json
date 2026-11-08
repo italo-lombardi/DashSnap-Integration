@@ -110,6 +110,54 @@
           "description": "UI-taal voor de vastgelegde pagina, bijv. de of en-GB. Stelt de browserlocale in; voor HA-pagina's ook de frontendtaal."
         }
       }
+    },
+    "list_recordings": {
+      "name": "Opnamen weergeven",
+      "description": "Geef de door DashSnap opgeslagen opnamen weer. Filter optioneel op formaat, doel-slug of ouderdom.",
+      "fields": {
+        "format": {
+          "name": "Formaat",
+          "description": "Geef alleen dit formaat weer (webm of png)."
+        },
+        "slug": {
+          "name": "Doel-slug",
+          "description": "Geef alleen opnamen weer waarvan de slug in de bestandsnaam overeenkomt (bijv. lovelace_0)."
+        },
+        "older_than_days": {
+          "name": "Ouder dan (dagen)",
+          "description": "Geef alleen opnamen weer die meer dan dit aantal dagen geleden zijn vastgelegd (op basis van het tijdstempel van de opname in de bestandsnaam)."
+        }
+      }
+    },
+    "delete_recordings": {
+      "name": "Opnamen verwijderen",
+      "description": "Verwijder door DashSnap opgeslagen opnamen. Combineer filters of stel Alles verwijderen in; gebruik Testuitvoering om een voorbeeld te bekijken. Zonder filter en zonder Alles verwijderen weigert de service te draaien.",
+      "fields": {
+        "name": {
+          "name": "Bestandsnaam",
+          "description": "Exacte bestandsnaam van de te verwijderen opname, bijv. 20260720_124216_example_com.webm. Geeft een fout als het bestand niet bestaat."
+        },
+        "slug": {
+          "name": "Doel-slug",
+          "description": "Verwijder alle opnamen waarvan de slug in de bestandsnaam overeenkomt (bijv. lovelace_0)."
+        },
+        "older_than_days": {
+          "name": "Ouder dan (dagen)",
+          "description": "Verwijder opnamen die meer dan dit aantal dagen geleden zijn vastgelegd (op basis van het tijdstempel van de opname in de bestandsnaam)."
+        },
+        "format": {
+          "name": "Formaat",
+          "description": "Verwijder alleen opnamen van dit formaat (webm of png)."
+        },
+        "delete_all": {
+          "name": "Alles verwijderen",
+          "description": "Verwijder elke opname. Vereist wanneer er geen ander filter is opgegeven."
+        },
+        "dry_run": {
+          "name": "Testuitvoering",
+          "description": "Alleen voorbeeld — geeft terug wat verwijderd zou worden zonder iets te verwijderen."
+        }
+      }
     }
   }
 }

@@ -110,6 +110,54 @@
           "description": "UI-sprog for den fangede side, f.eks. de eller en-GB. Angiver browserens lokalitet; for HA-sider også frontend-sproget."
         }
       }
+    },
+    "list_recordings": {
+      "name": "Vis optagelser",
+      "description": "Vis optagelser gemt af DashSnap. Filtrér eventuelt efter format, mål-slug eller alder.",
+      "fields": {
+        "format": {
+          "name": "Format",
+          "description": "Vis kun optagelser i dette format (webm eller png)."
+        },
+        "slug": {
+          "name": "Mål-slug",
+          "description": "Vis kun optagelser hvis filnavns-slug matcher (f.eks. lovelace_0)."
+        },
+        "older_than_days": {
+          "name": "Ældre end (dage)",
+          "description": "Vis kun optagelser optaget for mere end dette antal dage siden (baseret på optagelsestidsstemplet i filnavnet)."
+        }
+      }
+    },
+    "delete_recordings": {
+      "name": "Slet optagelser",
+      "description": "Slet optagelser gemt af DashSnap. Kombinér filtre eller angiv Slet alle; brug Testkørsel for at forhåndsvise. Uden filter og uden Slet alle nægter tjenesten at køre.",
+      "fields": {
+        "name": {
+          "name": "Filnavn",
+          "description": "Nøjagtigt filnavn på optagelsen der skal slettes, f.eks. 20260720_124216_example_com.webm. Fejler hvis filen ikke findes."
+        },
+        "slug": {
+          "name": "Mål-slug",
+          "description": "Slet alle optagelser hvis filnavns-slug matcher (f.eks. lovelace_0)."
+        },
+        "older_than_days": {
+          "name": "Ældre end (dage)",
+          "description": "Slet optagelser optaget for mere end dette antal dage siden (baseret på optagelsestidsstemplet i filnavnet)."
+        },
+        "format": {
+          "name": "Format",
+          "description": "Slet kun optagelser i dette format (webm eller png)."
+        },
+        "delete_all": {
+          "name": "Slet alle",
+          "description": "Slet alle optagelser. Påkrævet når intet andet filter er angivet."
+        },
+        "dry_run": {
+          "name": "Testkørsel",
+          "description": "Kun forhåndsvisning — returnér hvad der ville blive slettet uden at fjerne noget."
+        }
+      }
     }
   }
 }

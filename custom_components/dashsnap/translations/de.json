@@ -110,6 +110,54 @@
           "description": "Sprache der aufgenommenen Seite, z. B. de oder en-GB. Setzt die Browser-Sprache; bei HA-Seiten auch die Sprache der Oberfläche."
         }
       }
+    },
+    "list_recordings": {
+      "name": "Aufnahmen auflisten",
+      "description": "Von DashSnap gespeicherte Aufnahmen auflisten. Optional nach Format, Ziel-Slug oder Alter filtern.",
+      "fields": {
+        "format": {
+          "name": "Format",
+          "description": "Nur dieses Format auflisten (webm oder png)."
+        },
+        "slug": {
+          "name": "Ziel-Slug",
+          "description": "Nur Aufnahmen auflisten, deren Dateinamen-Slug übereinstimmt (z. B. lovelace_0)."
+        },
+        "older_than_days": {
+          "name": "Älter als (Tage)",
+          "description": "Nur Aufnahmen auflisten, die vor mehr als dieser Anzahl von Tagen erstellt wurden (basierend auf dem Aufnahmezeitstempel im Dateinamen)."
+        }
+      }
+    },
+    "delete_recordings": {
+      "name": "Aufnahmen löschen",
+      "description": "Von DashSnap gespeicherte Aufnahmen löschen. Kombinieren Sie Filter oder setzen Sie \"Alle löschen\"; verwenden Sie den Probelauf zur Vorschau. Ohne Filter und ohne \"Alle löschen\" verweigert der Dienst die Ausführung.",
+      "fields": {
+        "name": {
+          "name": "Dateiname",
+          "description": "Genauer Dateiname der zu löschenden Aufnahme, z. B. 20260720_124216_example_com.webm. Fehler, wenn die Datei nicht existiert."
+        },
+        "slug": {
+          "name": "Ziel-Slug",
+          "description": "Alle Aufnahmen löschen, deren Dateinamen-Slug übereinstimmt (z. B. lovelace_0)."
+        },
+        "older_than_days": {
+          "name": "Älter als (Tage)",
+          "description": "Aufnahmen löschen, die vor mehr als dieser Anzahl von Tagen erstellt wurden (basierend auf dem Aufnahmezeitstempel im Dateinamen)."
+        },
+        "format": {
+          "name": "Format",
+          "description": "Nur Aufnahmen dieses Formats löschen (webm oder png)."
+        },
+        "delete_all": {
+          "name": "Alle löschen",
+          "description": "Jede Aufnahme löschen. Erforderlich, wenn kein anderer Filter angegeben ist."
+        },
+        "dry_run": {
+          "name": "Probelauf",
+          "description": "Nur Vorschau — zurückgeben, was gelöscht würde, ohne etwas zu entfernen."
+        }
+      }
     }
   }
 }

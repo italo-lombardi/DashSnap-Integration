@@ -110,6 +110,54 @@
           "description": "A rögzített oldal felületének nyelve, például de vagy en-GB. Beállítja a böngésző területi beállítását; HA oldalaknál a kezelőfelület nyelvét is."
         }
       }
+    },
+    "list_recordings": {
+      "name": "Felvételek listázása",
+      "description": "A DashSnap által tárolt felvételek listázása. Igény szerint szűrhető formátum, cél azonosító vagy kor szerint.",
+      "fields": {
+        "format": {
+          "name": "Formátum",
+          "description": "Csak ezt a formátumot listázza (webm vagy png)."
+        },
+        "slug": {
+          "name": "Cél azonosító",
+          "description": "Csak azokat a felvételeket listázza, amelyek fájlnév-azonosítója egyezik (pl. lovelace_0)."
+        },
+        "older_than_days": {
+          "name": "Ennél régebbi (nap)",
+          "description": "Csak azokat a felvételeket listázza, amelyek ennél több nappal ezelőtt készültek (a fájlnévben lévő rögzítési időbélyeg alapján)."
+        }
+      }
+    },
+    "delete_recordings": {
+      "name": "Felvételek törlése",
+      "description": "A DashSnap által tárolt felvételek törlése. Kombinálj szűrőket, vagy kapcsold be Az összes törlése lehetőséget; a Próbafuttatás segítségével előnézetet kapsz. Szűrő nélkül és Az összes törlése nélkül a szolgáltatás megtagadja a futtatást.",
+      "fields": {
+        "name": {
+          "name": "Fájlnév",
+          "description": "A törlendő felvétel pontos fájlneve, pl. 20260720_124216_example_com.webm. Hibát jelez, ha a fájl nem létezik."
+        },
+        "slug": {
+          "name": "Cél azonosító",
+          "description": "Az összes olyan felvétel törlése, amelynek fájlnév-azonosítója egyezik (pl. lovelace_0)."
+        },
+        "older_than_days": {
+          "name": "Ennél régebbi (nap)",
+          "description": "Azoknak a felvételeknek a törlése, amelyek ennél több nappal ezelőtt készültek (a fájlnévben lévő rögzítési időbélyeg alapján)."
+        },
+        "format": {
+          "name": "Formátum",
+          "description": "Csak az ilyen formátumú felvételeket törli (webm vagy png)."
+        },
+        "delete_all": {
+          "name": "Az összes törlése",
+          "description": "Minden felvétel törlése. Kötelező, ha nincs megadva más szűrő."
+        },
+        "dry_run": {
+          "name": "Próbafuttatás",
+          "description": "Csak előnézet – visszaadja, mi kerülne törlésre, anélkül, hogy bármit eltávolítana."
+        }
+      }
     }
   }
 }

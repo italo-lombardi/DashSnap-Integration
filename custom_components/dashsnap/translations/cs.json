@@ -110,6 +110,54 @@
           "description": "Jazyk rozhraní pro zachycovanou stránku, např. de nebo en-GB. Nastavuje národní prostředí prohlížeče; u stránek HA také jazyk frontendu."
         }
       }
+    },
+    "list_recordings": {
+      "name": "Seznam nahrávek",
+      "description": "Zobrazí seznam nahrávek uložených službou DashSnap. Volitelně lze filtrovat podle formátu, identifikátoru cíle (slug) nebo stáří.",
+      "fields": {
+        "format": {
+          "name": "Formát",
+          "description": "Zobrazí pouze nahrávky tohoto formátu (webm nebo png)."
+        },
+        "slug": {
+          "name": "Identifikátor cíle (slug)",
+          "description": "Zobrazí pouze nahrávky, jejichž identifikátor (slug) v názvu souboru odpovídá (např. lovelace_0)."
+        },
+        "older_than_days": {
+          "name": "Starší než (dny)",
+          "description": "Zobrazí pouze nahrávky pořízené před více než tolika dny (podle časového razítka pořízení v názvu souboru)."
+        }
+      }
+    },
+    "delete_recordings": {
+      "name": "Smazat nahrávky",
+      "description": "Smaže nahrávky uložené službou DashSnap. Kombinujte filtry nebo zapněte možnost Smazat vše; pro náhled použijte Zkušební běh. Bez filtru a bez zapnuté možnosti Smazat vše služba odmítne provedení.",
+      "fields": {
+        "name": {
+          "name": "Název souboru",
+          "description": "Přesný název souboru nahrávky ke smazání, např. 20260720_124216_example_com.webm. Pokud soubor neexistuje, vrátí chybu."
+        },
+        "slug": {
+          "name": "Identifikátor cíle (slug)",
+          "description": "Smaže všechny nahrávky, jejichž identifikátor (slug) v názvu souboru odpovídá (např. lovelace_0)."
+        },
+        "older_than_days": {
+          "name": "Starší než (dny)",
+          "description": "Smaže nahrávky pořízené před více než tolika dny (podle časového razítka pořízení v názvu souboru)."
+        },
+        "format": {
+          "name": "Formát",
+          "description": "Smaže pouze nahrávky tohoto formátu (webm nebo png)."
+        },
+        "delete_all": {
+          "name": "Smazat vše",
+          "description": "Smaže všechny nahrávky. Vyžadováno, pokud není zadán žádný jiný filtr."
+        },
+        "dry_run": {
+          "name": "Zkušební běh",
+          "description": "Pouze náhled – vrátí, co by bylo smazáno, aniž by cokoli odstranil."
+        }
+      }
     }
   }
 }

@@ -110,6 +110,54 @@
           "description": "Jazyk používateľského rozhrania zachytávanej stránky, napr. de alebo en-GB. Nastaví miestne nastavenie prehliadača; pri stránkach HA aj jazyk rozhrania."
         }
       }
+    },
+    "list_recordings": {
+      "name": "Zoznam nahrávok",
+      "description": "Zobrazte zoznam nahrávok uložených službou DashSnap. Voliteľne filtrujte podľa formátu, identifikátora cieľa alebo veku.",
+      "fields": {
+        "format": {
+          "name": "Formát",
+          "description": "Zobrazte iba tento formát (webm alebo png)."
+        },
+        "slug": {
+          "name": "Identifikátor cieľa",
+          "description": "Zobrazte iba nahrávky, ktorých identifikátor v názve súboru sa zhoduje (napr. lovelace_0)."
+        },
+        "older_than_days": {
+          "name": "Staršie ako (dni)",
+          "description": "Zobrazte iba nahrávky zachytené pred viac ako toľkoto dňami (na základe časovej značky zachytenia v názve súboru)."
+        }
+      }
+    },
+    "delete_recordings": {
+      "name": "Odstrániť nahrávky",
+      "description": "Odstráňte nahrávky uložené službou DashSnap. Kombinujte filtre alebo nastavte Odstrániť všetko; na náhľad použite Skúšobný beh. Bez filtra a bez voľby Odstrániť všetko služba odmietne vykonať akciu.",
+      "fields": {
+        "name": {
+          "name": "Názov súboru",
+          "description": "Presný názov súboru nahrávky, ktorú chcete odstrániť, napr. 20260720_124216_example_com.webm. Ak súbor neexistuje, vráti chybu."
+        },
+        "slug": {
+          "name": "Identifikátor cieľa",
+          "description": "Odstráňte všetky nahrávky, ktorých identifikátor v názve súboru sa zhoduje (napr. lovelace_0)."
+        },
+        "older_than_days": {
+          "name": "Staršie ako (dni)",
+          "description": "Odstráňte nahrávky zachytené pred viac ako toľkoto dňami (na základe časovej značky zachytenia v názve súboru)."
+        },
+        "format": {
+          "name": "Formát",
+          "description": "Odstráňte iba nahrávky v tomto formáte (webm alebo png)."
+        },
+        "delete_all": {
+          "name": "Odstrániť všetko",
+          "description": "Odstráňte každú nahrávku. Vyžaduje sa, keď nie je zadaný žiadny iný filter."
+        },
+        "dry_run": {
+          "name": "Skúšobný beh",
+          "description": "Iba náhľad – vráti, čo by sa odstránilo, bez toho, aby sa čokoľvek odstránilo."
+        }
+      }
     }
   }
 }

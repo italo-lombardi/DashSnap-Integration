@@ -110,6 +110,54 @@
           "description": "Yakalanan sayfanın arayüz dili, örneğin de veya en-GB. Tarayıcı yerel ayarını belirler; HA sayfaları için ayrıca ön yüz dilini de ayarlar."
         }
       }
+    },
+    "list_recordings": {
+      "name": "Kayıtları listele",
+      "description": "DashSnap tarafından saklanan kayıtları listeleyin. İsteğe bağlı olarak biçime, hedef adına veya yaşa göre filtreleyin.",
+      "fields": {
+        "format": {
+          "name": "Biçim",
+          "description": "Yalnızca bu biçimi listeleyin (webm veya png)."
+        },
+        "slug": {
+          "name": "Hedef adı",
+          "description": "Yalnızca dosya adı eki eşleşen kayıtları listeleyin (örn. lovelace_0)."
+        },
+        "older_than_days": {
+          "name": "Şundan eski (gün)",
+          "description": "Yalnızca bu kadar gün önce yakalanan kayıtları listeleyin (dosya adındaki yakalama zaman damgasına göre)."
+        }
+      }
+    },
+    "delete_recordings": {
+      "name": "Kayıtları sil",
+      "description": "DashSnap tarafından saklanan kayıtları silin. Filtreleri birleştirin veya Tümünü sil seçeneğini ayarlayın; önizleme için Deneme çalıştırmasını kullanın. Filtre olmadan ve Tümünü sil ayarlanmadan hizmet çalışmayı reddeder.",
+      "fields": {
+        "name": {
+          "name": "Dosya adı",
+          "description": "Silinecek tam kayıt dosyası adı, örn. 20260720_124216_example_com.webm. Dosya mevcut değilse hata verir."
+        },
+        "slug": {
+          "name": "Hedef adı",
+          "description": "Dosya adı eki eşleşen tüm kayıtları silin (örn. lovelace_0)."
+        },
+        "older_than_days": {
+          "name": "Şundan eski (gün)",
+          "description": "Bu kadar gün önce yakalanan kayıtları silin (dosya adındaki yakalama zaman damgasına göre)."
+        },
+        "format": {
+          "name": "Biçim",
+          "description": "Yalnızca bu biçimdeki kayıtları silin (webm veya png)."
+        },
+        "delete_all": {
+          "name": "Tümünü sil",
+          "description": "Her kaydı silin. Başka bir filtre verilmediğinde gereklidir."
+        },
+        "dry_run": {
+          "name": "Deneme çalıştırması",
+          "description": "Yalnızca önizleme — hiçbir şey kaldırmadan nelerin silineceğini döndürür."
+        }
+      }
     }
   }
 }

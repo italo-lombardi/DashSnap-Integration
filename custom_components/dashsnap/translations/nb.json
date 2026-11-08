@@ -110,6 +110,54 @@
           "description": "Grensesnittspråk for siden som tas opp, f.eks. de eller en-GB. Angir nettleserens språkinnstilling; for HA-sider også frontend-språket."
         }
       }
+    },
+    "list_recordings": {
+      "name": "List opp opptak",
+      "description": "List opp opptak lagret av DashSnap. Filtrer eventuelt etter format, mål-slug eller alder.",
+      "fields": {
+        "format": {
+          "name": "Format",
+          "description": "List kun opp dette formatet (webm eller png)."
+        },
+        "slug": {
+          "name": "Mål-slug",
+          "description": "List kun opp opptak der filnavnets slug samsvarer (f.eks. lovelace_0)."
+        },
+        "older_than_days": {
+          "name": "Eldre enn (dager)",
+          "description": "List kun opp opptak som er tatt opp for mer enn så mange dager siden (basert på opptakstidsstempelet i filnavnet)."
+        }
+      }
+    },
+    "delete_recordings": {
+      "name": "Slett opptak",
+      "description": "Slett opptak lagret av DashSnap. Kombiner filtre eller sett Slett alle; bruk Tørrkjøring for forhåndsvisning. Uten filter og uten Slett alle nekter tjenesten å kjøre.",
+      "fields": {
+        "name": {
+          "name": "Filnavn",
+          "description": "Nøyaktig filnavn på opptaket som skal slettes, f.eks. 20260720_124216_example_com.webm. Gir feil hvis filen ikke finnes."
+        },
+        "slug": {
+          "name": "Mål-slug",
+          "description": "Slett alle opptak der filnavnets slug samsvarer (f.eks. lovelace_0)."
+        },
+        "older_than_days": {
+          "name": "Eldre enn (dager)",
+          "description": "Slett opptak som er tatt opp for mer enn så mange dager siden (basert på opptakstidsstempelet i filnavnet)."
+        },
+        "format": {
+          "name": "Format",
+          "description": "Slett kun opptak av dette formatet (webm eller png)."
+        },
+        "delete_all": {
+          "name": "Slett alle",
+          "description": "Slett alle opptak. Påkrevd når det ikke er angitt noe annet filter."
+        },
+        "dry_run": {
+          "name": "Tørrkjøring",
+          "description": "Kun forhåndsvisning — returner hva som ville blitt slettet uten å fjerne noe."
+        }
+      }
     }
   }
 }

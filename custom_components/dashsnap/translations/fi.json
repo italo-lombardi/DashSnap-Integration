@@ -110,6 +110,54 @@
           "description": "Kaapatun sivun käyttöliittymän kieli, esim. de tai en-GB. Asettaa selaimen kieliasetuksen; HA-sivuilla myös käyttöliittymän kielen."
         }
       }
+    },
+    "list_recordings": {
+      "name": "Luettele tallenteet",
+      "description": "Luettele DashSnapin tallentamat tallenteet. Voit halutessasi suodattaa muodon, kohteen slugin tai iän mukaan.",
+      "fields": {
+        "format": {
+          "name": "Muoto",
+          "description": "Luettele vain tämän muotoiset tallenteet (webm tai png)."
+        },
+        "slug": {
+          "name": "Kohteen slug",
+          "description": "Luettele vain tallenteet, joiden tiedostonimen slug täsmää (esim. lovelace_0)."
+        },
+        "older_than_days": {
+          "name": "Vanhempi kuin (päivää)",
+          "description": "Luettele vain tallenteet, jotka on kaapattu enemmän kuin näin monta päivää sitten (perustuu tiedostonimessä olevaan kaappausaikaleimaan)."
+        }
+      }
+    },
+    "delete_recordings": {
+      "name": "Poista tallenteet",
+      "description": "Poista DashSnapin tallentamat tallenteet. Yhdistä suodattimia tai valitse Poista kaikki; käytä Koekäyttöä esikatseluun. Ilman suodatinta ja ilman Poista kaikki -valintaa palvelu ei suorita poistoa.",
+      "fields": {
+        "name": {
+          "name": "Tiedostonimi",
+          "description": "Poistettavan tallenteen tarkka tiedostonimi, esim. 20260720_124216_example_com.webm. Antaa virheen, jos tiedostoa ei ole."
+        },
+        "slug": {
+          "name": "Kohteen slug",
+          "description": "Poista kaikki tallenteet, joiden tiedostonimen slug täsmää (esim. lovelace_0)."
+        },
+        "older_than_days": {
+          "name": "Vanhempi kuin (päivää)",
+          "description": "Poista tallenteet, jotka on kaapattu enemmän kuin näin monta päivää sitten (perustuu tiedostonimessä olevaan kaappausaikaleimaan)."
+        },
+        "format": {
+          "name": "Muoto",
+          "description": "Poista vain tämän muotoiset tallenteet (webm tai png)."
+        },
+        "delete_all": {
+          "name": "Poista kaikki",
+          "description": "Poista jokainen tallenne. Vaaditaan, kun muuta suodatinta ei ole annettu."
+        },
+        "dry_run": {
+          "name": "Koekäyttö",
+          "description": "Vain esikatselu – palauttaa, mitä poistettaisiin, poistamatta mitään."
+        }
+      }
     }
   }
 }

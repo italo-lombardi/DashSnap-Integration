@@ -110,6 +110,54 @@
           "description": "Idioma de la interfície per a la pàgina capturada, p. ex. de o en-GB. Estableix la configuració regional del navegador; per a les pàgines de HA també l'idioma de la interfície."
         }
       }
+    },
+    "list_recordings": {
+      "name": "Llista els enregistraments",
+      "description": "Llisteu els enregistraments emmagatzemats per DashSnap. Opcionalment, filtreu per format, slug de destinació o antiguitat.",
+      "fields": {
+        "format": {
+          "name": "Format",
+          "description": "Llista només aquest format (webm o png)."
+        },
+        "slug": {
+          "name": "Slug de destinació",
+          "description": "Llista només els enregistraments el slug del nom de fitxer dels quals coincideixi (p. ex. lovelace_0)."
+        },
+        "older_than_days": {
+          "name": "Més antics de (dies)",
+          "description": "Llista només els enregistraments capturats fa més d'aquest nombre de dies (segons la marca de temps de captura del nom de fitxer)."
+        }
+      }
+    },
+    "delete_recordings": {
+      "name": "Elimina enregistraments",
+      "description": "Elimineu els enregistraments emmagatzemats per DashSnap. Combineu filtres o activeu Elimina-ho tot; utilitzeu Simulació per a previsualitzar. Sense cap filtre i sense Elimina-ho tot, el servei es nega a executar-se.",
+      "fields": {
+        "name": {
+          "name": "Nom de fitxer",
+          "description": "Nom de fitxer exacte de l'enregistrament que voleu eliminar, p. ex. 20260720_124216_example_com.webm. Dona error si el fitxer no existeix."
+        },
+        "slug": {
+          "name": "Slug de destinació",
+          "description": "Elimina tots els enregistraments el slug del nom de fitxer dels quals coincideixi (p. ex. lovelace_0)."
+        },
+        "older_than_days": {
+          "name": "Més antics de (dies)",
+          "description": "Elimina els enregistraments capturats fa més d'aquest nombre de dies (segons la marca de temps de captura del nom de fitxer)."
+        },
+        "format": {
+          "name": "Format",
+          "description": "Elimina només els enregistraments d'aquest format (webm o png)."
+        },
+        "delete_all": {
+          "name": "Elimina-ho tot",
+          "description": "Elimina tots els enregistraments. Necessari quan no s'indica cap altre filtre."
+        },
+        "dry_run": {
+          "name": "Simulació",
+          "description": "Només previsualització — retorna què s'eliminaria sense eliminar res."
+        }
+      }
     }
   }
 }

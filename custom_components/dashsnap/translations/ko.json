@@ -110,6 +110,54 @@
           "description": "캡처할 페이지의 UI 언어입니다(예: de 또는 en-GB). 브라우저 로케일을 설정하며, HA 페이지의 경우 프런트엔드 언어도 함께 설정합니다."
         }
       }
+    },
+    "list_recordings": {
+      "name": "녹화 목록 보기",
+      "description": "DashSnap에 저장된 녹화 목록을 표시합니다. 형식, 대상 슬러그 또는 보관 기간으로 선택적으로 필터링할 수 있습니다.",
+      "fields": {
+        "format": {
+          "name": "형식",
+          "description": "이 형식(webm 또는 png)만 목록에 표시합니다."
+        },
+        "slug": {
+          "name": "대상 슬러그",
+          "description": "파일 이름 슬러그가 일치하는 녹화만 목록에 표시합니다(예: lovelace_0)."
+        },
+        "older_than_days": {
+          "name": "경과 일수(일)",
+          "description": "이 일수보다 더 오래전에 캡처된 녹화만 목록에 표시합니다(파일 이름의 캡처 타임스탬프 기준)."
+        }
+      }
+    },
+    "delete_recordings": {
+      "name": "녹화 삭제",
+      "description": "DashSnap에 저장된 녹화를 삭제합니다. 필터를 조합하거나 모두 삭제를 설정하세요. 모의 실행으로 미리 확인할 수 있습니다. 필터가 없고 모두 삭제도 설정하지 않으면 서비스가 실행을 거부합니다.",
+      "fields": {
+        "name": {
+          "name": "파일 이름",
+          "description": "삭제할 녹화의 정확한 파일 이름입니다(예: 20260720_124216_example_com.webm). 파일이 존재하지 않으면 오류가 발생합니다."
+        },
+        "slug": {
+          "name": "대상 슬러그",
+          "description": "파일 이름 슬러그가 일치하는 모든 녹화를 삭제합니다(예: lovelace_0)."
+        },
+        "older_than_days": {
+          "name": "경과 일수(일)",
+          "description": "이 일수보다 더 오래전에 캡처된 녹화를 삭제합니다(파일 이름의 캡처 타임스탬프 기준)."
+        },
+        "format": {
+          "name": "형식",
+          "description": "이 형식(webm 또는 png)의 녹화만 삭제합니다."
+        },
+        "delete_all": {
+          "name": "모두 삭제",
+          "description": "모든 녹화를 삭제합니다. 다른 필터가 지정되지 않은 경우 필수입니다."
+        },
+        "dry_run": {
+          "name": "모의 실행",
+          "description": "미리 보기 전용 — 실제로 삭제하지 않고 삭제될 항목을 반환합니다."
+        }
+      }
     }
   }
 }

@@ -45,7 +45,25 @@ SMOKE_RECORD_URL = os.environ.get(
     "DASHSNAP_SMOKE_RECORD_URL", "http://www.infoshare.it/hp/?n=dashsnap-smoke"
 )
 
-pytestmark = [pytest.mark.smoke, pytest.mark.usefixtures("socket_enabled")]
+pytestmark = pytest.mark.smoke
+
+
+@pytest.fixture(autouse=True)
+def _allow_sockets():
+    """Enable real sockets when pytest-socket is active, no-op otherwise.
+
+    The HA test plugin pulls in pytest-socket, which disables sockets globally;
+    this smoke needs real network I/O. But a bare CI env may not have the plugin
+    (then there is nothing to re-enable), so don't hard-require the socket_enabled
+    fixture — enable conditionally.
+    """
+    try:
+        import pytest_socket
+
+        pytest_socket.enable_socket()
+    except Exception:  # noqa: BLE001
+        pass
+    yield
 
 
 @pytest.fixture(autouse=True)

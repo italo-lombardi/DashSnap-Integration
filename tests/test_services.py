@@ -161,9 +161,7 @@ async def test_list_recordings_success(hass: HomeAssistant):
         ],
     }
     session = _request_session(payload)
-    with patch(
-        "custom_components.dashsnap.services.async_get_clientsession", return_value=session
-    ):
+    with patch("custom_components.dashsnap.services.async_get_clientsession", return_value=session):
         result = await hass.services.async_call(
             DOMAIN, SERVICE_LIST_RECORDINGS, {}, blocking=True, return_response=True
         )
@@ -177,9 +175,7 @@ async def test_list_recordings_success(hass: HomeAssistant):
 async def test_list_recordings_filters_passthrough(hass: HomeAssistant):
     await _setup_integration(hass)
     session = _request_session({"ok": True, "recordings": []})
-    with patch(
-        "custom_components.dashsnap.services.async_get_clientsession", return_value=session
-    ):
+    with patch("custom_components.dashsnap.services.async_get_clientsession", return_value=session):
         await hass.services.async_call(
             DOMAIN,
             SERVICE_LIST_RECORDINGS,
@@ -197,9 +193,7 @@ async def test_delete_by_name_success(hass: HomeAssistant):
     await _setup_integration(hass)
     name = "20260720_124216_example_com.webm"
     session = _request_session({"ok": True, "deleted": [name], "count": 1, "dry_run": False})
-    with patch(
-        "custom_components.dashsnap.services.async_get_clientsession", return_value=session
-    ):
+    with patch("custom_components.dashsnap.services.async_get_clientsession", return_value=session):
         result = await hass.services.async_call(
             DOMAIN,
             SERVICE_DELETE_RECORDINGS,
@@ -217,9 +211,7 @@ async def test_delete_by_name_success(hass: HomeAssistant):
 async def test_delete_all_maps_to_wire_all(hass: HomeAssistant):
     await _setup_integration(hass)
     session = _request_session({"ok": True, "deleted": [], "count": 0, "dry_run": False})
-    with patch(
-        "custom_components.dashsnap.services.async_get_clientsession", return_value=session
-    ):
+    with patch("custom_components.dashsnap.services.async_get_clientsession", return_value=session):
         await hass.services.async_call(
             DOMAIN,
             SERVICE_DELETE_RECORDINGS,
@@ -234,9 +226,7 @@ async def test_delete_all_maps_to_wire_all(hass: HomeAssistant):
 async def test_delete_dry_run_passthrough(hass: HomeAssistant):
     await _setup_integration(hass)
     session = _request_session({"ok": True, "deleted": [], "count": 0, "dry_run": True})
-    with patch(
-        "custom_components.dashsnap.services.async_get_clientsession", return_value=session
-    ):
+    with patch("custom_components.dashsnap.services.async_get_clientsession", return_value=session):
         await hass.services.async_call(
             DOMAIN,
             SERVICE_DELETE_RECORDINGS,
@@ -253,9 +243,7 @@ async def test_delete_no_filter_omits_all_and_dry_run(hass: HomeAssistant):
     """delete_all/dry_run default False must NOT be sent — addon enforces refuse-wipe."""
     await _setup_integration(hass)
     session = _request_session({"ok": False, "error": "refuse_wipe"})
-    with patch(
-        "custom_components.dashsnap.services.async_get_clientsession", return_value=session
-    ):
+    with patch("custom_components.dashsnap.services.async_get_clientsession", return_value=session):
         with pytest.raises(HomeAssistantError, match="Refusing to delete"):
             await hass.services.async_call(
                 DOMAIN, SERVICE_DELETE_RECORDINGS, {}, blocking=True, return_response=True
@@ -269,9 +257,7 @@ async def test_delete_not_found_slug_branches(hass: HomeAssistant):
     await _setup_integration(hass)
     name = "20260720_124216_example_com.webm"
     session = _request_session({"ok": False, "error": "not_found", "name": name})
-    with patch(
-        "custom_components.dashsnap.services.async_get_clientsession", return_value=session
-    ):
+    with patch("custom_components.dashsnap.services.async_get_clientsession", return_value=session):
         with pytest.raises(HomeAssistantError, match=f"Recording not found: {name}"):
             await hass.services.async_call(
                 DOMAIN,
@@ -286,9 +272,7 @@ async def test_delete_invalid_name_slug_branches(hass: HomeAssistant):
     await _setup_integration(hass)
     name = "20260720_124216_example_com.webm"
     session = _request_session({"ok": False, "error": "invalid_name", "name": name})
-    with patch(
-        "custom_components.dashsnap.services.async_get_clientsession", return_value=session
-    ):
+    with patch("custom_components.dashsnap.services.async_get_clientsession", return_value=session):
         with pytest.raises(HomeAssistantError, match="Invalid recording name"):
             await hass.services.async_call(
                 DOMAIN,
@@ -305,9 +289,7 @@ async def test_delete_bad_name_rejected_at_boundary(hass: HomeAssistant):
 
     await _setup_integration(hass)
     session = _request_session({"ok": True, "deleted": [], "count": 0})
-    with patch(
-        "custom_components.dashsnap.services.async_get_clientsession", return_value=session
-    ):
+    with patch("custom_components.dashsnap.services.async_get_clientsession", return_value=session):
         with pytest.raises(vol.Invalid):
             await hass.services.async_call(
                 DOMAIN,
@@ -351,9 +333,7 @@ async def test_list_recordings_network_error_raises(hass: HomeAssistant):
     await _setup_integration(hass)
     session = MagicMock()
     session.request = MagicMock(side_effect=Exception("connection refused"))
-    with patch(
-        "custom_components.dashsnap.services.async_get_clientsession", return_value=session
-    ):
+    with patch("custom_components.dashsnap.services.async_get_clientsession", return_value=session):
         with pytest.raises(HomeAssistantError, match="Could not reach DashSnap"):
             await hass.services.async_call(
                 DOMAIN, SERVICE_LIST_RECORDINGS, {}, blocking=True, return_response=True
@@ -364,9 +344,7 @@ async def test_delete_slug_and_format_passthrough(hass: HomeAssistant):
     """slug + format branches in the delete handler reach the wire."""
     await _setup_integration(hass)
     session = _request_session({"ok": True, "deleted": [], "count": 0, "dry_run": False})
-    with patch(
-        "custom_components.dashsnap.services.async_get_clientsession", return_value=session
-    ):
+    with patch("custom_components.dashsnap.services.async_get_clientsession", return_value=session):
         await hass.services.async_call(
             DOMAIN,
             SERVICE_DELETE_RECORDINGS,
@@ -383,9 +361,7 @@ async def test_delete_unknown_error_slug_falls_through(hass: HomeAssistant):
     """An error slug not in the known set surfaces via the generic message."""
     await _setup_integration(hass)
     session = _request_session({"ok": False, "error": "kaboom"})
-    with patch(
-        "custom_components.dashsnap.services.async_get_clientsession", return_value=session
-    ):
+    with patch("custom_components.dashsnap.services.async_get_clientsession", return_value=session):
         with pytest.raises(HomeAssistantError, match="DashSnap error: kaboom"):
             await hass.services.async_call(
                 DOMAIN,

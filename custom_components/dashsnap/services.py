@@ -162,9 +162,7 @@ _ERROR_MESSAGES = {
 }
 
 
-async def _request_recordings(
-    hass: HomeAssistant, method: str, base: str, params: dict
-) -> dict:
+async def _request_recordings(hass: HomeAssistant, method: str, base: str, params: dict) -> dict:
     """Single HTTP attempt to the recordings API. Returns parsed JSON (any status)."""
     session = async_get_clientsession(hass)
     url = f"{base}/recordings/delete" if method == "post" else f"{base}/recordings"

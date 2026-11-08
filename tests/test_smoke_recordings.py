@@ -134,9 +134,7 @@ async def test_live_recordings_glue(monkeypatch):
         assert nf["ok"] is False and nf["error"] == "not_found"
 
         # 8. invalid_name for a malformed name.
-        inv = await services._request_recordings(
-            None, "post", SMOKE_URL, {"name": "badname.txt"}
-        )
+        inv = await services._request_recordings(None, "post", SMOKE_URL, {"name": "badname.txt"})
         assert inv["ok"] is False and inv["error"] == "invalid_name"
     finally:
         if name is not None:

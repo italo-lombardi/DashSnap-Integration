@@ -90,9 +90,12 @@ class DashSnapConfigFlow(ConfigFlow, domain=DOMAIN):
         if token:
             url = await _supervisor_addon_url(self.hass, token)
             if url:
-                ok, _, canonical = await _health(self.hass, url)
+                ok, _, _ = await _health(self.hass, url)
                 if ok:
-                    return canonical
+                    # Trust the Supervisor-reported IP; do NOT let /health self_urls
+                    # override it. On a multi-network addon self_urls[0] can be a
+                    # non-hassio address HA Core cannot reach after a restart.
+                    return url
         for candidate in _PROBE_URLS:
             ok, _, canonical = await _health(self.hass, candidate, PROBE_TIMEOUT)
             if ok:

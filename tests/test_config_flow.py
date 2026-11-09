@@ -277,17 +277,52 @@ async def test_autodetect_via_supervisor_addon(hass: HomeAssistant):
     assert "172.30.33.11" in result["data"][CONF_BASE_URL]
 
 
-async def test_autodetect_supervisor_info_exception_uses_hostname(hass: HomeAssistant):
-    """/addons/{slug}/info raises → fall back to list hostname."""
+async def test_autodetect_supervisor_ip_not_overridden_by_self_urls(hass: HomeAssistant):
+    """Supervisor-reported IP wins over /health self_urls.
+
+    On a multi-network addon, self_urls[0] can be a non-hassio address HA Core
+    cannot reach after a restart; recovery must persist the Supervisor IP it
+    actually probed, not the addon's self-reported address.
+    """
     session = MagicMock()
 
     def _get(url, **kwargs):
         if "/info" in url:
+            return _ok_resp({"data": {"ip_address": "172.30.33.11"}})
+        if "/addons" in url:
+            return _ok_resp({"data": {"addons": [{"slug": "c1b14015_dashsnap"}]}})
+        if "/health" in url:
+            # addon self-reports a DIFFERENT (unreachable) address
+            return _ok_resp({"ok": True, "self_urls": ["http://10.0.0.9:8099"]})
+        if "/targets" in url:
+            return _ok_resp({"ok": True, "targets": []})
+        return _raising_cm()
+
+    session.get = _get
+
+    with (
+        patch(
+            "custom_components.dashsnap.config_flow.async_get_clientsession", return_value=session
+        ),
+        patch.dict("os.environ", {"SUPERVISOR_TOKEN": "fake-token"}),
+    ):
+        result = await hass.config_entries.flow.async_init(
+            DOMAIN, context={"source": config_entries.SOURCE_USER}
+        )
+    assert result["type"] == FlowResultType.CREATE_ENTRY
+    assert result["data"][CONF_BASE_URL] == "http://172.30.33.11:8099"
+    assert "10.0.0.9" not in result["data"][CONF_BASE_URL]
+
+
+async def test_autodetect_supervisor_info_exception_uses_hostname(hass: HomeAssistant):
+    """/addons/{slug}/info raises → fall back to slug-derived host (info hostname unavailable)."""
+    session = MagicMock()
+
+    def _get(url, **kwargs):
+        if "/info" in url:  # must precede /addons: the info URL also contains /addons
             return _raising_cm()
         if "/addons" in url:
-            return _ok_resp(
-                {"data": {"addons": [{"slug": "c1b14015_dashsnap", "hostname": "the-host"}]}}
-            )
+            return _ok_resp({"data": {"addons": [{"slug": "c1b14015_dashsnap"}]}})
         if "/health" in url:
             return _ok_resp({"ok": True})
         if "/targets" in url:

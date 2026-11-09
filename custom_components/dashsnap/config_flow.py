@@ -140,6 +140,27 @@ async def _supervisor_addon_url(hass: HomeAssistant, token: str) -> str | None:
     return f"http://{host}:8099"
 
 
+async def _supervisor_addon_stopped(hass: HomeAssistant, token: str) -> bool | None:
+    """True if the DashSnap addon exists and is not started, False if started,
+    None if Supervisor is unavailable or the addon is not found."""
+    session = async_get_clientsession(hass)
+    headers = {"Authorization": f"Bearer {token}"}
+    try:
+        async with session.get(
+            "http://supervisor/addons", headers=headers, timeout=HEALTH_TIMEOUT
+        ) as resp:
+            data = await resp.json(content_type=None)
+    except Exception:  # noqa: BLE001
+        return None
+    addon = next(
+        (a for a in data.get("data", {}).get("addons", []) if "dashsnap" in a.get("slug", "")),
+        None,
+    )
+    if not addon:
+        return None
+    return addon.get("state") != "started"
+
+
 class DashSnapOptionsFlow(OptionsFlow):
     async def async_step_init(self, user_input: dict[str, Any] | None = None) -> ConfigFlowResult:
         errors: dict[str, str] = {}

@@ -644,3 +644,55 @@ async def test_health_empty_self_urls_falls_back_to_probed(hass: HomeAssistant):
         )
     assert result["type"] == FlowResultType.CREATE_ENTRY
     assert result["data"][CONF_BASE_URL] == _GOOD_URL
+
+
+# ---------------------------------------------------------------------------
+# _supervisor_addon_stopped
+# ---------------------------------------------------------------------------
+
+
+async def _run_stopped(hass, get_fn):
+    from custom_components.dashsnap.config_flow import _supervisor_addon_stopped
+
+    session = MagicMock()
+    session.get = get_fn
+    with patch(
+        "custom_components.dashsnap.config_flow.async_get_clientsession", return_value=session
+    ):
+        return await _supervisor_addon_stopped(hass, "tok")
+
+
+async def test_supervisor_addon_stopped_true(hass: HomeAssistant):
+    """state != 'started' → True (addon stopped)."""
+
+    def _get(url, **kwargs):
+        return _ok_resp({"data": {"addons": [{"slug": "c1b14015_dashsnap", "state": "stopped"}]}})
+
+    assert await _run_stopped(hass, _get) is True
+
+
+async def test_supervisor_addon_stopped_false_when_started(hass: HomeAssistant):
+    """state == 'started' → False."""
+
+    def _get(url, **kwargs):
+        return _ok_resp({"data": {"addons": [{"slug": "c1b14015_dashsnap", "state": "started"}]}})
+
+    assert await _run_stopped(hass, _get) is False
+
+
+async def test_supervisor_addon_stopped_none_when_absent(hass: HomeAssistant):
+    """No dashsnap addon in list → None."""
+
+    def _get(url, **kwargs):
+        return _ok_resp({"data": {"addons": [{"slug": "other_thing", "state": "started"}]}})
+
+    assert await _run_stopped(hass, _get) is None
+
+
+async def test_supervisor_addon_stopped_none_on_supervisor_error(hass: HomeAssistant):
+    """Supervisor call raises → None."""
+
+    def _get(url, **kwargs):
+        return _raising_cm()
+
+    assert await _run_stopped(hass, _get) is None

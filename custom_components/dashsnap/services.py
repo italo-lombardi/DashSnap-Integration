@@ -7,13 +7,20 @@ import os
 from urllib.parse import urlencode
 
 import aiohttp
+from homeassistant.components import persistent_notification
 from homeassistant.core import HomeAssistant, ServiceCall, SupportsResponse
 from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers import config_validation as cv
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 import voluptuous as vol
 
-from .config_flow import _PROBE_URLS, PROBE_TIMEOUT, _health, _supervisor_addon_url
+from .config_flow import (
+    _PROBE_URLS,
+    PROBE_TIMEOUT,
+    _health,
+    _supervisor_addon_stopped,
+    _supervisor_addon_url,
+)
 from .const import (
     ATTR_DELAY,
     ATTR_DELETE_ALL,
@@ -133,16 +140,43 @@ async def _rediscover(hass: HomeAssistant) -> str | None:
     return None
 
 
+async def _unreachable_error(hass: HomeAssistant, err: object) -> HomeAssistantError:
+    """Log + raise a user-facing error when DashSnap is unreachable and recovery
+    failed. Posts a persistent notification so script/automation-triggered
+    failures (which otherwise only hit the logbook) are visible, and names the
+    'addon stopped' case when Supervisor reports it."""
+    token = os.environ.get("SUPERVISOR_TOKEN")
+    stopped = None
+    if token:
+        # failure path only — one extra Supervisor call here is fine
+        stopped = await _supervisor_addon_stopped(hass, token)
+    if stopped:
+        msg = (
+            "DashSnap could not be reached because the DashSnap app appears to be "
+            "stopped. Start it in Settings → Apps → DashSnap, then retry."
+        )
+    else:
+        msg = f"Could not reach DashSnap: {err}"
+    _LOGGER.error(msg)
+    persistent_notification.async_create(
+        hass, msg, title="DashSnap unreachable", notification_id="dashsnap_unreachable"
+    )
+    return HomeAssistantError(msg)
+
+
 async def _call_app(hass: HomeAssistant, endpoint: str, params: dict) -> dict:
     session = async_get_clientsession(hass)
     url = f"{_base_url(hass)}{endpoint}?{urlencode(params)}"
     try:
         async with session.post(url, timeout=aiohttp.ClientTimeout(total=RECORD_TIMEOUT)) as resp:
             data = await resp.json(content_type=None)
-    except (aiohttp.ClientConnectionError, aiohttp.ServerDisconnectedError) as err:
+    except aiohttp.ClientError as err:
+        # Any client-side failure (connection refused/reset, or a bogus HTTP
+        # response from whatever now owns the stale IP — ClientResponseError
+        # "0, message=''") means the pinned URL is wrong; try to re-discover.
         new_url = await _rediscover(hass)
         if new_url is None:
-            raise HomeAssistantError(f"Could not reach DashSnap: {err}") from err
+            raise await _unreachable_error(hass, err) from err
         url = f"{new_url}{endpoint}?{urlencode(params)}"
         try:
             async with session.post(
@@ -150,9 +184,9 @@ async def _call_app(hass: HomeAssistant, endpoint: str, params: dict) -> dict:
             ) as resp:
                 data = await resp.json(content_type=None)
         except Exception as retry_err:  # noqa: BLE001
-            raise HomeAssistantError(f"Could not reach DashSnap: {retry_err}") from retry_err
+            raise await _unreachable_error(hass, retry_err) from retry_err
     except Exception as err:  # noqa: BLE001
-        raise HomeAssistantError(f"Could not reach DashSnap: {err}") from err
+        raise await _unreachable_error(hass, err) from err
     if not data.get("ok", False):
         raise HomeAssistantError(f"Recording failed: {data.get('error', data)}")
     return data
@@ -189,16 +223,20 @@ async def _call_recordings(hass: HomeAssistant, method: str, params: dict) -> di
     """Call the list/delete recordings API with one rediscover-retry, then branch on error slug."""
     try:
         data = await _request_recordings(hass, method, _base_url(hass), params)
-    except (aiohttp.ClientConnectionError, aiohttp.ServerDisconnectedError) as err:
+    except aiohttp.ClientError as err:
         new_url = await _rediscover(hass)
         if new_url is None:
-            raise HomeAssistantError(f"Could not reach DashSnap: {err}") from err
+            raise await _unreachable_error(hass, err) from err
         try:
             data = await _request_recordings(hass, method, new_url, params)
+        except HomeAssistantError:
+            raise
         except Exception as retry_err:  # noqa: BLE001
-            raise HomeAssistantError(f"Could not reach DashSnap: {retry_err}") from retry_err
+            raise await _unreachable_error(hass, retry_err) from retry_err
+    except HomeAssistantError:
+        raise
     except Exception as err:  # noqa: BLE001
-        raise HomeAssistantError(f"Could not reach DashSnap: {err}") from err
+        raise await _unreachable_error(hass, err) from err
 
     if not data.get("ok", False):
         slug = data.get("error", "")

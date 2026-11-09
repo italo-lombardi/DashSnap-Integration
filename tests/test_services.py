@@ -816,6 +816,64 @@ async def test_connection_error_triggers_rediscover_and_retries(hass: HomeAssist
     assert call_count == 2
 
 
+async def test_response_error_status0_triggers_rediscover(hass: HomeAssistant):
+    """ClientResponseError (status 0, 'message=\"\"') → rediscover → retry succeeds.
+
+    A stale container IP that now answers with a bogus HTTP response raises
+    ClientResponseError, which is NOT a ClientConnectionError. Recovery must
+    still fire (regression: the narrow catch let this fall through and raise).
+    """
+    from types import SimpleNamespace
+
+    import aiohttp
+
+    await _setup_integration(hass)
+
+    call_count = 0
+
+    def _post_side_effect(url, **kwargs):
+        nonlocal call_count
+        call_count += 1
+        if call_count == 1:
+            err = aiohttp.ClientResponseError(
+                request_info=SimpleNamespace(real_url="http://172.30.33.10:8099/record"),
+                history=(),
+                status=0,
+                message="",
+            )
+            cm = MagicMock()
+            cm.__aenter__ = AsyncMock(side_effect=err)
+            cm.__aexit__ = AsyncMock(return_value=False)
+            return cm
+        return _mock_post_resp(ok=True)
+
+    session = MagicMock()
+    session.post = MagicMock(side_effect=_post_side_effect)
+
+    health_resp = MagicMock()
+    health_resp.json = AsyncMock(return_value={"ok": True, "self_urls": []})
+    health_cm = MagicMock()
+    health_cm.__aenter__ = AsyncMock(return_value=health_resp)
+    health_cm.__aexit__ = AsyncMock(return_value=False)
+    session.get = MagicMock(return_value=health_cm)
+
+    with (
+        patch("custom_components.dashsnap.services.async_get_clientsession", return_value=session),
+        patch(
+            "custom_components.dashsnap.config_flow.async_get_clientsession", return_value=session
+        ),
+    ):
+        result = await hass.services.async_call(
+            DOMAIN,
+            SERVICE_RECORD,
+            {ATTR_URL: "https://example.com"},
+            blocking=True,
+            return_response=True,
+        )
+    assert result["ok"] is True
+    assert call_count == 2
+
+
 async def test_connection_error_rediscover_fails_raises(hass: HomeAssistant):
     """ClientConnectionError → rediscover finds nothing → raises."""
     import aiohttp
@@ -850,6 +908,63 @@ async def test_connection_error_rediscover_fails_raises(hass: HomeAssistant):
                 blocking=True,
                 return_response=True,
             )
+
+
+async def test_unreachable_addon_stopped_message_and_notification(hass: HomeAssistant):
+    """Recovery fails + Supervisor says addon stopped → stopped-specific error + persistent notification."""
+    import aiohttp
+    from pytest_homeassistant_custom_component.common import (
+        async_get_persistent_notifications,
+    )
+
+    await _setup_integration(hass)
+
+    def _post_raises(url, **kwargs):
+        cm = MagicMock()
+        cm.__aenter__ = AsyncMock(side_effect=aiohttp.ClientConnectionError("gone"))
+        cm.__aexit__ = AsyncMock(return_value=False)
+        return cm
+
+    session = MagicMock()
+    session.post = MagicMock(side_effect=_post_raises)
+
+    def _get(url, **kwargs):
+        # /addons list → addon present but stopped; everything else unreachable
+        if url.rstrip("/").endswith("/addons"):
+            resp = MagicMock()
+            resp.json = AsyncMock(
+                return_value={
+                    "data": {"addons": [{"slug": "c1b14015_dashsnap", "state": "stopped"}]}
+                }
+            )
+            cm = MagicMock()
+            cm.__aenter__ = AsyncMock(return_value=resp)
+            cm.__aexit__ = AsyncMock(return_value=False)
+            return cm
+        cm = MagicMock()
+        cm.__aenter__ = AsyncMock(side_effect=aiohttp.ClientConnectionError("x"))
+        cm.__aexit__ = AsyncMock(return_value=False)
+        return cm
+
+    session.get = MagicMock(side_effect=_get)
+
+    with (
+        patch("custom_components.dashsnap.services.async_get_clientsession", return_value=session),
+        patch(
+            "custom_components.dashsnap.config_flow.async_get_clientsession", return_value=session
+        ),
+        patch.dict("os.environ", {"SUPERVISOR_TOKEN": "tok"}),
+    ):
+        with pytest.raises(HomeAssistantError, match="appears to be .*stopped"):
+            await hass.services.async_call(
+                DOMAIN,
+                SERVICE_RECORD,
+                {ATTR_URL: "https://example.com"},
+                blocking=True,
+                return_response=True,
+            )
+    notifications = async_get_persistent_notifications(hass)
+    assert "dashsnap_unreachable" in notifications
 
 
 async def test_server_disconnected_triggers_rediscover(hass: HomeAssistant):
@@ -1073,3 +1188,48 @@ async def test_rediscover_supervisor_returns_no_dashsnap_addon(hass: HomeAssista
             return_response=True,
         )
     assert result["ok"] is True
+
+
+async def test_recordings_retry_non_json_passes_through(hass: HomeAssistant):
+    """Recordings: first attempt ClientError → rediscover → retry hits a non-JSON
+    body → the HomeAssistantError propagates unchanged (not relabelled as unreachable)."""
+    import aiohttp
+
+    await _setup_integration(hass)
+
+    call = 0
+
+    def _request(method, url, **kwargs):
+        nonlocal call
+        call += 1
+        cm = MagicMock()
+        if call == 1:
+            cm.__aenter__ = AsyncMock(side_effect=aiohttp.ClientConnectionError("gone"))
+        else:
+            resp = AsyncMock()
+            resp.status = 404
+            resp.json = AsyncMock(side_effect=ValueError("not json"))
+            cm.__aenter__ = AsyncMock(return_value=resp)
+        cm.__aexit__ = AsyncMock(return_value=False)
+        return cm
+
+    session = MagicMock()
+    session.request = MagicMock(side_effect=_request)
+
+    health_resp = MagicMock()
+    health_resp.json = AsyncMock(return_value={"ok": True, "self_urls": []})
+    health_cm = MagicMock()
+    health_cm.__aenter__ = AsyncMock(return_value=health_resp)
+    health_cm.__aexit__ = AsyncMock(return_value=False)
+    session.get = MagicMock(return_value=health_cm)
+
+    with (
+        patch("custom_components.dashsnap.services.async_get_clientsession", return_value=session),
+        patch(
+            "custom_components.dashsnap.config_flow.async_get_clientsession", return_value=session
+        ),
+    ):
+        with pytest.raises(HomeAssistantError, match="Unexpected non-JSON response"):
+            await hass.services.async_call(
+                DOMAIN, SERVICE_LIST_RECORDINGS, {}, blocking=True, return_response=True
+            )

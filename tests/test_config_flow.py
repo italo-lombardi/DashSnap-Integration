@@ -244,6 +244,10 @@ async def test_autodetect_via_supervisor_addon(hass: HomeAssistant):
     session = MagicMock()
 
     def _get(url, **kwargs):
+        if "/info" in url:
+            return _ok_resp(
+                {"data": {"ip_address": "172.30.33.11", "hostname": "c1b14015-dashsnap"}}
+            )
         if "/addons" in url:
             return _ok_resp(
                 {
@@ -270,14 +274,78 @@ async def test_autodetect_via_supervisor_addon(hass: HomeAssistant):
             DOMAIN, context={"source": config_entries.SOURCE_USER}
         )
     assert result["type"] == FlowResultType.CREATE_ENTRY
-    assert "c1b14015-dashsnap" in result["data"][CONF_BASE_URL]
+    assert "172.30.33.11" in result["data"][CONF_BASE_URL]
 
 
-async def test_autodetect_supervisor_no_hostname_uses_slug(hass: HomeAssistant):
-    """Addon without hostname → slug used as fallback."""
+async def test_autodetect_supervisor_info_exception_uses_hostname(hass: HomeAssistant):
+    """/addons/{slug}/info raises → fall back to list hostname."""
     session = MagicMock()
 
     def _get(url, **kwargs):
+        if "/info" in url:
+            return _raising_cm()
+        if "/addons" in url:
+            return _ok_resp(
+                {"data": {"addons": [{"slug": "c1b14015_dashsnap", "hostname": "the-host"}]}}
+            )
+        if "/health" in url:
+            return _ok_resp({"ok": True})
+        if "/targets" in url:
+            return _ok_resp({"ok": True, "targets": []})
+        return _raising_cm()
+
+    session.get = _get
+
+    with (
+        patch(
+            "custom_components.dashsnap.config_flow.async_get_clientsession", return_value=session
+        ),
+        patch.dict("os.environ", {"SUPERVISOR_TOKEN": "fake-token"}),
+    ):
+        result = await hass.config_entries.flow.async_init(
+            DOMAIN, context={"source": config_entries.SOURCE_USER}
+        )
+    assert result["type"] == FlowResultType.CREATE_ENTRY
+    assert "c1b14015-dashsnap" in result["data"][CONF_BASE_URL]
+
+
+async def test_autodetect_supervisor_unassigned_ip_uses_hostname(hass: HomeAssistant):
+    """ip_address 0.0.0.0 (host network / not started) → skip IP, use hostname."""
+    session = MagicMock()
+
+    def _get(url, **kwargs):
+        if "/info" in url:
+            return _ok_resp({"data": {"ip_address": "0.0.0.0", "hostname": "fallback-host"}})
+        if "/addons" in url:
+            return _ok_resp({"data": {"addons": [{"slug": "c1b14015_dashsnap"}]}})
+        if "/health" in url:
+            return _ok_resp({"ok": True})
+        if "/targets" in url:
+            return _ok_resp({"ok": True, "targets": []})
+        return _raising_cm()
+
+    session.get = _get
+
+    with (
+        patch(
+            "custom_components.dashsnap.config_flow.async_get_clientsession", return_value=session
+        ),
+        patch.dict("os.environ", {"SUPERVISOR_TOKEN": "fake-token"}),
+    ):
+        result = await hass.config_entries.flow.async_init(
+            DOMAIN, context={"source": config_entries.SOURCE_USER}
+        )
+    assert result["type"] == FlowResultType.CREATE_ENTRY
+    assert "fallback-host" in result["data"][CONF_BASE_URL]
+
+
+async def test_autodetect_supervisor_no_hostname_uses_slug(hass: HomeAssistant):
+    """Addon without hostname or ip → slug used as fallback."""
+    session = MagicMock()
+
+    def _get(url, **kwargs):
+        if "/info" in url:
+            return _ok_resp({"data": {}})
         if "/addons" in url:
             return _ok_resp({"data": {"addons": [{"slug": "dashsnap_app"}]}})
         if "/health" in url:

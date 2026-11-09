@@ -102,21 +102,39 @@ class DashSnapConfigFlow(ConfigFlow, domain=DOMAIN):
 
 async def _supervisor_addon_url(hass: HomeAssistant, token: str) -> str | None:
     session = async_get_clientsession(hass)
+    headers = {"Authorization": f"Bearer {token}"}
     try:
         async with session.get(
-            "http://supervisor/addons",
-            headers={"Authorization": f"Bearer {token}"},
-            timeout=HEALTH_TIMEOUT,
+            "http://supervisor/addons", headers=headers, timeout=HEALTH_TIMEOUT
         ) as resp:
             data = await resp.json(content_type=None)
     except Exception:  # noqa: BLE001
         return None
-    for addon in data.get("data", {}).get("addons", []):
-        slug = addon.get("slug", "")
-        if "dashsnap" in slug:
-            host = addon.get("hostname") or slug.replace("_", "-")
-            return f"http://{host}:8099"
-    return None
+    slug = next(
+        (
+            a.get("slug", "")
+            for a in data.get("data", {}).get("addons", [])
+            if "dashsnap" in a.get("slug", "")
+        ),
+        None,
+    )
+    if not slug:
+        return None
+    # /addons/{slug}/info exposes the live container ip_address on the hassio
+    # bridge; use it because the addon hostname does not resolve from HA Core on
+    # every install. Fall back to hostname where the IP is unavailable.
+    try:
+        async with session.get(
+            f"http://supervisor/addons/{slug}/info", headers=headers, timeout=HEALTH_TIMEOUT
+        ) as resp:
+            info = (await resp.json(content_type=None)).get("data", {})
+    except Exception:  # noqa: BLE001
+        info = {}
+    ip = info.get("ip_address")
+    if ip in (None, "", "0.0.0.0"):
+        ip = None
+    host = ip or info.get("hostname") or slug.replace("_", "-")
+    return f"http://{host}:8099"
 
 
 class DashSnapOptionsFlow(OptionsFlow):

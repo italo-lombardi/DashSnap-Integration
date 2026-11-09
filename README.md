@@ -22,7 +22,7 @@ DashSnap is a headless Chromium recorder that captures any URL to `.webm` video 
 
 - **`dashsnap.record_ha`** — record a Home Assistant page by path; the base URL is resolved automatically from the DashSnap target config
 - **`dashsnap.record`** — record any full URL (Grafana, public pages, anything)
-- **Auto-detection** — finds a local DashSnap instance automatically on setup using `self_urls` from `/health`; self-heals if the addon IP changes after a container restart
+- **Auto-detection** — finds a local DashSnap instance automatically on setup. On Home Assistant OS it resolves the app's live container IP from the Supervisor API, so it self-heals when the app IP changes after a container restart. If recovery can't reach DashSnap, update the base URL manually (see Configuration).
 - **Multi-target** — pass an optional `target` name to select which DashSnap target to use
 - **Returns the output file path** from both services (usable in scripts and automations)
 - **29 languages** — UI translated into zh-Hans, zh-Hant, ru, ja, ko, uk, cs, sk, hu, ro, bg, hr, fi, el, tr, lt, lv, ca and all original 11
@@ -79,6 +79,8 @@ The integration auto-detects a running DashSnap instance on the local network. I
 | Docker Compose (same network) | `http://dashsnap:8099` |
 | Docker on host | `http://host.docker.internal:8099` |
 | LAN IP | `http://192.168.1.50:8099` |
+
+> **If DashSnap becomes unreachable after a restart:** on Home Assistant OS the integration normally re-detects the app's new IP on its own. If calls keep failing with *"Could not reach DashSnap"*, open **Settings → Apps → DashSnap**, read the app's current IP from its info page, then set it in the integration's **Configure** dialog (`http://<ip>:8099`). The URL is health-checked before it is saved.
 
 ---
 

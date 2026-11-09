@@ -114,16 +114,20 @@ async def _rediscover(hass: HomeAssistant) -> str | None:
                 candidates.insert(0, sup_url)
 
         for candidate in candidates:
-            ok, _, canonical = await _health(hass, candidate, PROBE_TIMEOUT)
+            ok, _, _ = await _health(hass, candidate, PROBE_TIMEOUT)
             if ok:
+                # Persist the candidate that worked (Supervisor-reported IP first),
+                # NOT /health self_urls: on a multi-network addon self_urls[0] can be
+                # a non-hassio address HA Core cannot reach, which would re-pin a
+                # stale URL and defeat recovery.
                 hass.config_entries.async_update_entry(
-                    entry, data={**entry.data, "base_url": canonical}
+                    entry, data={**entry.data, "base_url": candidate}
                 )
-                hass.data[DOMAIN][entry.entry_id] = {"base_url": canonical}
+                hass.data[DOMAIN][entry.entry_id] = {"base_url": candidate}
                 _LOGGER.warning(
-                    "DashSnap URL updated to %s after connection was refused or reset", canonical
+                    "DashSnap URL updated to %s after connection was refused or reset", candidate
                 )
-                return canonical
+                return candidate
     finally:
         _rediscovering = False
     return None

@@ -4,6 +4,14 @@ All notable changes to DashSnap Integration.
 
 ## [Unreleased]
 
+## [0.1.4] - 2026-11-09
+
+### Fixed
+- Auto-recovery now resolves the app's current container IP from the Supervisor API (`/addons/{slug}/info` → `ip_address`) instead of the app hostname. On Home Assistant OS the app hostname does not resolve from HA Core, so after a container restart changed the app's IP, recovery previously found no reachable candidate and every service call failed with `Could not reach DashSnap` until the base URL was edited by hand. Recovery now re-pins the live IP automatically on the next call.
+
+### Changed
+- If automatic recovery still cannot reach DashSnap (e.g. Supervisor unavailable, or DashSnap running on host/bridge networking with no assigned IP), update the base URL manually in the integration's **Configure** dialog. The app's current IP is shown in **Settings → Apps → DashSnap** on its info page.
+
 ## [0.1.3] - 2026-11-08
 
 ### Added

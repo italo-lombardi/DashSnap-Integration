@@ -913,8 +913,8 @@ async def test_connection_error_rediscover_fails_raises(hass: HomeAssistant):
 async def test_unreachable_addon_stopped_message_and_notification(hass: HomeAssistant):
     """Recovery fails + Supervisor says addon stopped → stopped-specific error + persistent notification."""
     import aiohttp
-    from homeassistant.components.persistent_notification import (
-        _async_get_or_create_notifications,
+    from pytest_homeassistant_custom_component.common import (
+        async_get_persistent_notifications,
     )
 
     await _setup_integration(hass)
@@ -963,7 +963,7 @@ async def test_unreachable_addon_stopped_message_and_notification(hass: HomeAssi
                 blocking=True,
                 return_response=True,
             )
-    notifications = _async_get_or_create_notifications(hass)
+    notifications = async_get_persistent_notifications(hass)
     assert "dashsnap_unreachable" in notifications
 
 

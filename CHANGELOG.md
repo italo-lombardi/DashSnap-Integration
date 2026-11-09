@@ -11,7 +11,7 @@ All notable changes to DashSnap Integration.
 - Auto-recovery now also triggers on `ClientResponseError` (e.g. a stale IP that now answers with a bogus HTTP response — `0, message=''`), not only connection-refused/reset errors. Previously that response slipped past the recovery catch and raised immediately, so the self-heal never ran.
 
 ### Added
-- When DashSnap is unreachable and auto-recovery fails, a persistent notification is raised (so failures from scripts/automations, which otherwise only hit the logbook, are visible). If the Supervisor reports the DashSnap app is stopped, the message says so and points to Settings → Apps → DashSnap.
+- When a DashSnap service call cannot reach the app (and auto-recovery either fails or does not apply), a persistent notification is raised (so failures from scripts/automations, which otherwise only hit the logbook, are visible). If the Supervisor reports the DashSnap app is stopped, the message says so and points to Settings → Apps → DashSnap.
 
 ### Changed
 - If automatic recovery still cannot reach DashSnap (e.g. Supervisor unavailable, or DashSnap running on host/bridge networking with no assigned IP), update the base URL manually in the integration's **Configure** dialog. The app's current IP is shown in **Settings → Apps → DashSnap** on its info page.

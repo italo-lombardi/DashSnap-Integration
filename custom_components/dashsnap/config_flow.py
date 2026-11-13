@@ -37,6 +37,11 @@ async def _health(
             data = await resp.json(content_type=None)
     except Exception:  # noqa: BLE001
         return False, "cannot_connect", base_url
+    if not isinstance(data, dict):
+        # A non-dict 200 (null/list/scalar) is a stale-IP squatter, not our addon.
+        # Return a clean "unhealthy" so the rediscover probe loop tries the next
+        # candidate instead of the raw AttributeError that .get would raise.
+        return False, "app_unhealthy", base_url
     if data.get("ok"):
         self_urls = [
             u

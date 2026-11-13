@@ -47,6 +47,7 @@ from .const import (
     SERVICE_RECORD,
     SERVICE_RECORD_HA,
     SLUG_RE,
+    SOCK_CONNECT_TIMEOUT,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -167,26 +168,30 @@ async def _unreachable_error(hass: HomeAssistant, err: object) -> HomeAssistantE
 async def _call_app(hass: HomeAssistant, endpoint: str, params: dict) -> dict:
     session = async_get_clientsession(hass)
     url = f"{_base_url(hass)}{endpoint}?{urlencode(params)}"
+    timeout = aiohttp.ClientTimeout(total=RECORD_TIMEOUT, sock_connect=SOCK_CONNECT_TIMEOUT)
     try:
-        async with session.post(url, timeout=aiohttp.ClientTimeout(total=RECORD_TIMEOUT)) as resp:
+        async with session.post(url, timeout=timeout) as resp:
             data = await resp.json(content_type=None)
     except aiohttp.ClientError as err:
-        # Any client-side failure (connection refused/reset, or a bogus HTTP
-        # response from whatever now owns the stale IP — ClientResponseError
-        # "0, message=''") means the pinned URL is wrong; try to re-discover.
+        # Any client-side failure (connection refused/reset, sock_connect timeout
+        # against a wedged renderer, or a bogus HTTP response from whatever now
+        # owns the stale IP — ClientResponseError "0, message=''") means the
+        # pinned URL is wrong; try to re-discover.
         new_url = await _rediscover(hass)
         if new_url is None:
             raise await _unreachable_error(hass, err) from err
         url = f"{new_url}{endpoint}?{urlencode(params)}"
         try:
-            async with session.post(
-                url, timeout=aiohttp.ClientTimeout(total=RECORD_TIMEOUT)
-            ) as resp:
+            async with session.post(url, timeout=timeout) as resp:
                 data = await resp.json(content_type=None)
         except Exception as retry_err:  # noqa: BLE001
             raise await _unreachable_error(hass, retry_err) from retry_err
     except Exception as err:  # noqa: BLE001
         raise await _unreachable_error(hass, err) from err
+    if not isinstance(data, dict):
+        # A 200 with a non-dict body (null/list/scalar) is not our addon — most
+        # likely a stale-IP squatter. Treat like unreachable so recovery can run.
+        raise await _unreachable_error(hass, f"unexpected response body: {data!r}")
     if not data.get("ok", False):
         raise HomeAssistantError(f"Recording failed: {data.get('error', data)}")
     return data
@@ -206,7 +211,7 @@ async def _request_recordings(hass: HomeAssistant, method: str, base: str, param
     url = f"{base}/recordings/delete" if method == "post" else f"{base}/recordings"
     if params:
         url = f"{url}?{urlencode(params)}"
-    timeout = aiohttp.ClientTimeout(total=RECORDINGS_TIMEOUT)
+    timeout = aiohttp.ClientTimeout(total=RECORDINGS_TIMEOUT, sock_connect=SOCK_CONNECT_TIMEOUT)
     async with session.request(method, url, timeout=timeout) as resp:
         try:
             return await resp.json(content_type=None)
@@ -238,6 +243,8 @@ async def _call_recordings(hass: HomeAssistant, method: str, params: dict) -> di
     except Exception as err:  # noqa: BLE001
         raise await _unreachable_error(hass, err) from err
 
+    if not isinstance(data, dict):
+        raise await _unreachable_error(hass, f"unexpected response body: {data!r}")
     if not data.get("ok", False):
         slug = data.get("error", "")
         template = _ERROR_MESSAGES.get(slug)

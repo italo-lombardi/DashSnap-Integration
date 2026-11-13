@@ -4,6 +4,12 @@ All notable changes to DashSnap Integration.
 
 ## [Unreleased]
 
+## [0.1.5] - 2026-11-13
+
+### Fixed
+- Service calls no longer block for the full 15-minute record timeout when the DashSnap app is wedged. A `sock_connect` cap (10s) is now applied alongside the long total timeout, so a renderer whose socket is still listening but whose app has hung fails the connect phase quickly, triggering auto-recovery instead of stalling the caller. The long total is preserved so a legitimately long capture still completes once connected.
+- A non-dict JSON body on an otherwise-successful (HTTP 200) response is now handled gracefully instead of raising a raw `AttributeError`. A stale IP that is reclaimed by a different service and answers `200` with `null`, a list, or a scalar previously crashed the service call with an uncaught traceback and no recovery; the record/list/delete paths now surface a clean "could not reach DashSnap" error, and the config/recovery health probe treats such a response as unhealthy and continues to the next candidate.
+
 ## [0.1.4] - 2026-11-09
 
 ### Fixed

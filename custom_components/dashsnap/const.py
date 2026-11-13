@@ -41,3 +41,9 @@ HEALTH_TIMEOUT = 10
 RECORD_TIMEOUT = 900
 # Listing/deleting is a cheap directory op on the addon; don't tie it up for 15 min.
 RECORDINGS_TIMEOUT = 30
+# Connect-phase cap: a dead/wedged renderer that still has a socket in LISTEN
+# accepts the TCP connection but never answers. Without this, a hung app blocks
+# the caller for the full RECORD_TIMEOUT (15 min). Fail the connect in 5s so it
+# surfaces as a ClientError -> rediscover, while the long total still allows a
+# legitimately long capture once connected.
+SOCK_CONNECT_TIMEOUT = 5

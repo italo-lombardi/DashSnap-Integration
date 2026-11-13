@@ -1190,9 +1190,74 @@ async def test_rediscover_supervisor_returns_no_dashsnap_addon(hass: HomeAssista
     assert result["ok"] is True
 
 
+async def test_record_sock_connect_timeout_set(hass: HomeAssistant):
+    """/record and /record/ha requests carry a short sock_connect cap so a wedged
+    renderer (socket open, app hung) fails fast instead of blocking RECORD_TIMEOUT."""
+    from custom_components.dashsnap.const import RECORD_TIMEOUT, SOCK_CONNECT_TIMEOUT
+
+    await _setup_integration(hass)
+    with patch(
+        "custom_components.dashsnap.services.async_get_clientsession",
+        return_value=_patched_session(ok=True),
+    ) as mock_sess:
+        session = mock_sess.return_value
+        await hass.services.async_call(
+            DOMAIN,
+            SERVICE_RECORD,
+            {ATTR_URL: "https://example.com"},
+            blocking=True,
+            return_response=True,
+        )
+    timeout = session.post.call_args.kwargs["timeout"]
+    assert timeout.total == RECORD_TIMEOUT
+    assert timeout.sock_connect == SOCK_CONNECT_TIMEOUT
+
+
+async def test_record_non_dict_body_raises_unreachable(hass: HomeAssistant):
+    """A 200 with a non-dict JSON body (stale-IP squatter) surfaces as unreachable,
+    not a raw AttributeError from .get on a list/scalar."""
+    resp = AsyncMock()
+    resp.json = AsyncMock(return_value=[1, 2, 3])  # non-dict
+    cm = MagicMock()
+    cm.__aenter__ = AsyncMock(return_value=resp)
+    cm.__aexit__ = AsyncMock(return_value=False)
+    session = MagicMock()
+    session.post = MagicMock(return_value=cm)
+    # rediscover health probes also fail so we hit the final error, not a retry loop
+    health_cm = MagicMock()
+    health_cm.__aenter__ = AsyncMock(side_effect=Exception("x"))
+    health_cm.__aexit__ = AsyncMock(return_value=False)
+    session.get = MagicMock(return_value=health_cm)
+
+    await _setup_integration(hass)
+    with patch("custom_components.dashsnap.services.async_get_clientsession", return_value=session):
+        with pytest.raises(HomeAssistantError, match="Could not reach DashSnap"):
+            await hass.services.async_call(
+                DOMAIN,
+                SERVICE_RECORD,
+                {ATTR_URL: "https://example.com"},
+                blocking=True,
+                return_response=True,
+            )
+
+
+async def test_recordings_non_dict_body_raises_unreachable(hass: HomeAssistant):
+    """list/delete: a non-dict JSON body surfaces as unreachable, not AttributeError."""
+    session = _request_session(None)  # resp.json() -> None
+    health_cm = MagicMock()
+    health_cm.__aenter__ = AsyncMock(side_effect=Exception("x"))
+    health_cm.__aexit__ = AsyncMock(return_value=False)
+    session.get = MagicMock(return_value=health_cm)
+
+    await _setup_integration(hass)
+    with patch("custom_components.dashsnap.services.async_get_clientsession", return_value=session):
+        with pytest.raises(HomeAssistantError, match="Could not reach DashSnap"):
+            await hass.services.async_call(
+                DOMAIN, SERVICE_LIST_RECORDINGS, {}, blocking=True, return_response=True
+            )
+
+
 async def test_recordings_retry_non_json_passes_through(hass: HomeAssistant):
-    """Recordings: first attempt ClientError → rediscover → retry hits a non-JSON
-    body → the HomeAssistantError propagates unchanged (not relabelled as unreachable)."""
     import aiohttp
 
     await _setup_integration(hass)

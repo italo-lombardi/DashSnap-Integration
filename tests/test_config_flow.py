@@ -696,3 +696,18 @@ async def test_supervisor_addon_stopped_none_on_supervisor_error(hass: HomeAssis
         return _raising_cm()
 
     assert await _run_stopped(hass, _get) is None
+
+
+async def test_health_non_dict_body_is_unhealthy(hass: HomeAssistant):
+    """A 200 /health with a non-dict JSON body (null/list) returns app_unhealthy,
+    not a raw AttributeError — so the rediscover probe loop can try the next candidate."""
+    from custom_components.dashsnap.config_flow import _health
+
+    session = MagicMock()
+    session.get = MagicMock(return_value=_ok_resp([1, 2, 3]))  # non-dict body
+    with patch(
+        "custom_components.dashsnap.config_flow.async_get_clientsession", return_value=session
+    ):
+        ok, reason, _ = await _health(hass, "http://dashsnap:8099")
+    assert ok is False
+    assert reason == "app_unhealthy"
